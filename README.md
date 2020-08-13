@@ -1,8 +1,8 @@
 ### Introduction
 
-**Larapi Components** offers you to do modern API development in Laravel.
+**Larapi** offers you to do modern API development in Laravel.
 
-Larapi Components comes included with...
+Larapi comes included with...
 * A modern exception handler for APIs.
 * A Controller class that gives sorting, filtering, eager loading and pagination for your endpoints.
 * A Repository class for requesting entities from your database.
