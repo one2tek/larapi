@@ -1,17 +1,21 @@
 {
-    "name": "gentritabazi01/larapi-components",
+    "name": "one2tek/larapi",
     "description": "Larapi components",
-    "homepage": "https://github.com/gentritabazi01/larapi-components",
+    "homepage": "https://github.com/one2tek/larapi",
     "license": "MIT",
     "authors": [
         {
             "name": "Gentrit Abazi",
             "email": "gentritabazi01@gmail.com"
+        },
+        {
+            "name": "Veton Muhaxhiri",
+            "email": "vetonm6@gmail.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Gentritabazi01\\LarapiComponents\\": "src/"
+            "one2tek\\larapi\\": "src/"
         },
         "files": [
             "src/Helpers.php"
