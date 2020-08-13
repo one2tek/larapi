@@ -1,6 +1,6 @@
 <?php
 
-namespace Gentritabazi01\LarapiComponents\Database;
+namespace one2tek\larapi\Database;
 
 use DB;
 use InvalidArgumentException;

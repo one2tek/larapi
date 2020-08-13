@@ -1,10 +1,10 @@
 <?php
 
-namespace Gentritabazi01\LarapiComponents\Database;
+namespace one2tek\larapi\Database;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
-use Gentritabazi01\LarapiComponents\Database\EloquentBuilderTrait;
+use one2tek\larapi\Database\EloquentBuilderTrait;
 
 abstract class Repository
 {
