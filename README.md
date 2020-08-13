@@ -127,7 +127,7 @@ Below you can find how to filter all users that have first name "Gentrit".
 				{
 					"column": "first_name",
 					"operator": "eq",
-					"value": "Gentrit"
+					"value": "John"
 				}
 			]
 		}
