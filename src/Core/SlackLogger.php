@@ -28,7 +28,7 @@ class SlackLogger
                         $record['extra']['Request URL'] = asset(request()->getPathInfo());
                     }
                     $record['extra']['Method'] = request()->getMethod();
-                    if (strlen(json_encode(request()->all()))) {
+                    if (strlen(json_encode(request()->all())) > 2) {
                         $record['extra']['Parameters'] = json_encode(request()->all());
                     }
                     if (isset($_SERVER['HTTP_ORIGIN'])) {
