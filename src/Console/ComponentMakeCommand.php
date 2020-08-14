@@ -50,6 +50,9 @@ class ComponentMakeCommand extends Command
             'WasCreated',
             'WasUpdated',
             'WasDeleted'
+        ],
+        'Exceptions' => [
+            'NotFoundException'
         ]
     ];
 
@@ -151,6 +154,8 @@ class ComponentMakeCommand extends Command
 
         $stub = str_replace('DummyVariable', $class, $stub);
         $stub = str_replace('dummyVariable', lcfirst($class), $stub);
+        $stub = str_replace('dummyvariable', strtolower($class), $stub);
+        $stub = str_replace('DummyName', ucfirst($name), $stub);
 
         return str_replace('DummyClass', $this->argument('name'). ucfirst($shortFileName), $stub);
     }
@@ -192,10 +197,21 @@ class ComponentMakeCommand extends Command
     }
 
     /**
-     * Handle.
+     * Execute the console command.
+     *
+     * @return mixed
      */
     public function handle()
     {
         $this->fire();
+
+        $this->info(
+            "Routes: ". PHP_EOL.
+            "$". "router->get('/". strtolower($this->argument('name')). "', '". ucfirst($this->argument('name')). "Controller@getAll');". PHP_EOL.
+            "$". "router->get('/". strtolower($this->argument('name')). "/{id}', '". ucfirst($this->argument('name')). "Controller@getById');". PHP_EOL.
+            "$". "router->post('/". strtolower($this->argument('name')). "', '". ucfirst($this->argument('name')). "Controller@create');". PHP_EOL.
+            "$". "router->put('/". strtolower($this->argument('name')). "/{id}', '". ucfirst($this->argument('name')). "Controller@update');". PHP_EOL.
+            "$". "router->delete('/". strtolower($this->argument('name')). "/{id}', '". ucfirst($this->argument('name')). "Controller@delete');". PHP_EOL
+        );
     }
 }
