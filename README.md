@@ -1,13 +1,21 @@
 ### Introduction
 
-**Larapi Components** offers you to do modern API development in Laravel.
+### [Parent repository](https://github.com/esbenp/larapi)
+
+We have updated to Laravel 7 with some extra features.
 
 Larapi Components comes included with...
 * A modern exception handler for APIs.
 * A Controller class that gives sorting, filtering, eager loading and pagination for your endpoints.
 * A Repository class for requesting entities from your database.
 
-### [Check how to use in your app](https://github.com/gentritabazi01/larapi)
+### Global scopes
+
+**Without global scopes**
+
+`/books?exludeGlobalScopes[]=not_delivered`
+
+If we have a global scope named "not_delivered" this call with remove the global scope
 
 ### Create Controller, Service, Repository & Model with one Command.
 ```php artisan component:make {parent} {name}```
