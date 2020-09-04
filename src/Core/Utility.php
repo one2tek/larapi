@@ -1,6 +1,6 @@
 <?php
 
-namespace one2tek\larapi\Core;
+namespace Gentritabazi01\LarapiComponents\Core;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Collection;

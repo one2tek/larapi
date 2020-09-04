@@ -1,6 +1,6 @@
 <?php
 
-namespace one2tek\larapi\Core;
+namespace Gentritabazi01\LarapiComponents\Core;
 
 use InvalidArgumentException;
 use Illuminate\Support\Collection;
@@ -119,7 +119,7 @@ class Architect
 
     private function createModeResolver($mode)
     {
-        $class = 'one2tek\larapi\Core\Architect\ModeResolver\\';
+        $class = 'Gentritabazi01\LarapiComponents\Core\ModeResolver\\';
         switch ($mode) {
             default:
             case 'embed':

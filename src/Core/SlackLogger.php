@@ -1,6 +1,6 @@
 <?php
 
-namespace one2tek\larapiComponents\Core;
+namespace Gentritabazi01\LarapiComponents\Core;
 
 use Monolog\Logger;
 use Monolog\Handler\SlackWebhookHandler;

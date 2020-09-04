@@ -1,24 +1,22 @@
 <?php
 
-namespace one2tek\larapi\Controllers;
+namespace Gentritabazi01\LarapiComponents\Controllers;
 
 use JsonSerializable;
 use InvalidArgumentException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
-use one2tek\larapi\Core\Architect;
+use Gentritabazi01\LarapiComponents\Core\Architect;
 use Illuminate\Http\Request;
 
 abstract class LaravelController extends Controller
 {
-    
     /**
      * Defaults
      * @var array
      */
-    protected $defaults = [
-    ];
+    protected $defaults = [];
 
     /**
      * Create a json response.
@@ -73,6 +71,22 @@ abstract class LaravelController extends Controller
     }
 
     /**
+     * Pare selects.
+     *
+     * @param  array  $selects
+     *
+     * @return array
+     */
+    protected function parseSelects(array $selects)
+    {
+        if (count($selects)) {
+            return explode(',', $selects[0]);
+        }
+
+        return [];
+    }
+
+    /**
      * Parse include strings into resource and modes.
      *
      * @param  array  $includes
@@ -87,14 +101,20 @@ abstract class LaravelController extends Controller
         ];
 
         foreach ($includes as $include) {
-            $explode = explode(':', $include);
+            $explode = explode('-', $include);
+            $explode2 = explode(':', $include);
 
             if (!isset($explode[1])) {
                 $explode[1] = $this->defaults['mode'];
             }
 
             $return['includes'][] = $explode[0];
-            $return['modes'][$explode[0]] = $explode[1];
+
+            if (strpos($include, ':') !== false) {
+                $return['modes'][$explode2[0]] = $explode[1];
+            } else {
+                $return['modes'][$explode[0]] = $explode[1];
+            }
         }
 
         return $return;
@@ -117,6 +137,28 @@ abstract class LaravelController extends Controller
             $explode = explode(':', $withCount);
 
             $return['withCount'][] = $explode[0];
+        }
+
+        return $return;
+    }
+    
+     /**
+     * Parse exludeGlobalScopes into resource.
+     *
+     * @param  array  $exludeGlobalScopes
+     *
+     * @return array The parsed resources
+     */
+    protected function parseExludeGlobalScopes(array $exludeGlobalScopes)
+    {
+        $return = [
+            'exludeGlobalScopes' => []
+        ];
+
+        foreach ($exludeGlobalScopes as $exludeGlobalScope) {
+            $explode = explode(':', $exludeGlobalScope);
+
+            $return['exludeGlobalScopes'][] = $explode[0];
         }
 
         return $return;
@@ -168,8 +210,10 @@ abstract class LaravelController extends Controller
         }
 
         $this->defaults = array_merge([
+            'selects' => [],
             'includes' => [],
             'withCount' => [],
+            'exludeGlobalScopes' => [],
             'sort' => [],
             'limit' => null,
             'page' => null,
@@ -178,8 +222,10 @@ abstract class LaravelController extends Controller
             'start' => null
         ], $this->defaults);
 
+        $selects = $this->parseSelects($request->get('select', $this->defaults['selects']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
         $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
+        $exludeGlobalScopes = $this->parseExludeGlobalScopes($request->get('exludeGlobalScopes', $this->defaults['exludeGlobalScopes']));
         $sort = $this->parseSort($request->get('sort', $this->defaults['sort']));
         $limit = $request->get('limit', $this->defaults['limit']);
         $page = $request->get('page', $this->defaults['page']);
@@ -187,8 +233,10 @@ abstract class LaravelController extends Controller
         $start = $request->get('start', $this->defaults['start']);
 
         $data = [
+            'selects' => $selects,
             'includes' => $includes['includes'],
             'withCount' => $withCount['withCount'],
+            'exludeGlobalScopes' => $exludeGlobalScopes['exludeGlobalScopes'],
             'modes' => $includes['modes'],
             'sort' => $sort,
             'limit' => $limit,
@@ -202,6 +250,9 @@ abstract class LaravelController extends Controller
         return $data;
     }
 
+    /**
+     * Validate resource options.
+     */
     private function validateResourceOptions(array $data)
     {
         if ($data['page'] !== null && $data['limit'] === null) {

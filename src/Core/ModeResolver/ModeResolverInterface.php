@@ -1,6 +1,6 @@
 <?php
 
-namespace one2tek\larapi\Core\Architect\ModeResolver;
+namespace Gentritabazi01\LarapiComponents\Core\ModeResolver;
 
 interface ModeResolverInterface
 {

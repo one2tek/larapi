@@ -1,6 +1,6 @@
 <?php
 
-namespace one2tek\larapi\Database;
+namespace Gentritabazi01\LarapiComponents\Database;
 
 use DB;
 use InvalidArgumentException;
@@ -17,6 +17,16 @@ trait EloquentBuilderTrait
 
         extract($options);
 
+        if (isset($selects)) {
+            if (!is_array($selects)) {
+                throw new InvalidArgumentException('Selects should be an array.');
+            }
+
+            if (count($selects)) {
+                $queryBuilder->select(array_unique($selects));
+            }
+        }
+
         if (isset($includes)) {
             if (!is_array($includes)) {
                 throw new InvalidArgumentException('Includes should be an array.');
@@ -31,6 +41,14 @@ trait EloquentBuilderTrait
             }
 
             $queryBuilder->withCount($withCount);
+        }
+        
+        if (isset($exludeGlobalScopes)) {
+            if (!is_array($exludeGlobalScopes)) {
+                throw new InvalidArgumentException('exludeGlobalScopes should be an array.');
+            }
+
+            $this->applyWithouGlobalScopes($queryBuilder, $exludeGlobalScopes);
         }
 
         if (isset($filter_groups)) {
@@ -78,6 +96,11 @@ trait EloquentBuilderTrait
         }
     }
 
+    protected function applyWithouGlobalScopes(Builder $queryBuilder, array $exludeGlobalScopes = [])
+    {
+        $queryBuilder->withoutGlobalScopes($exludeGlobalScopes);
+    }
+    
     protected function applyFilter(Builder $queryBuilder, array $filter, $or = false)
     {
         $column = $filter['column'];
@@ -198,7 +221,7 @@ trait EloquentBuilderTrait
             case 'or-in':
                 if (stripos($column, '.')) {
                     $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
-                        $q->orWhereIn($lastColumn, $value);
+                        $q->whereIn($lastColumn, $value);
                     });
                 } else {
                     $queryBuilder->orWhereIn($column, $value);

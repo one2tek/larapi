@@ -1,6 +1,6 @@
 <?php
 
-namespace one2tek\larapi\Providers;
+namespace Gentritabazi01\LarapiComponents\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;

@@ -1,10 +1,10 @@
 <?php
 
-namespace one2tek\larapi\Providers;
+namespace Gentritabazi01\LarapiComponents\Providers;
 
-use one2tek\larapi\Routes\Router;
+use Gentritabazi01\LarapiComponents\Routes\Router;
 use Illuminate\Support\ServiceProvider as BaseProvider;
-use one2tek\larapi\Console\ComponentMakeCommand;
+use Gentritabazi01\LarapiComponents\Console\ComponentMakeCommand;
 
 class LaravelServiceProvider extends BaseProvider
 {

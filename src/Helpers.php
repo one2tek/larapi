@@ -24,12 +24,30 @@ if (!function_exists('renderException')) {
             case 405:
                 $title = strlen($e->getMessage()) ? $e->getMessage() : 'Method Not Allowed.';
                 break;
+            case 500:
+                $title = (app()->environment('production')) ? 'Whoops, looks like something went wrong.' : $e->getMessage();
+                break;
+            case 503:
+                $title = 'The server is currently unable to handle the request due to a temporary overloading or maintenance of the server.';
+                break;
             default:
                 $title = $e->getMessage();
                 break;
         }
 
         switch ($status) {
+            case 404:
+                $json = [
+                    'status' => $status,
+                    'errors' => [
+                        [
+                            'title' => 404,
+                            'detail' => $title,
+                        ]
+                    ]
+                ];
+                break;
+                
             case 422:
                 $decoded = json_decode($e->getMessage(), true);
         
@@ -52,7 +70,7 @@ if (!function_exists('renderException')) {
             default:
                 $json = [
                     'status' => $status,
-                    'message' => (app()->environment('production') && $status == 500) ? 'Whoops, looks like something went wrong.' : $title,
+                    'message' => $title,
                     'exception' => (app()->environment('production')) ? '' : (string) $e,
                     'line' => (app()->environment('production')) ? '' : $e->getLine(),
                     'file' => (app()->environment('production')) ? '' : $e->getFile()

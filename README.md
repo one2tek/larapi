@@ -1,8 +1,8 @@
 ### Introduction
-test
+
 **Larapi Components** offers you to do modern API development in Laravel.
 
-Larapi comes included with...
+Larapi Components comes included with...
 * A modern exception handler for APIs.
 * A Controller class that gives sorting, filtering, eager loading and pagination for your endpoints.
 * A Repository class for requesting entities from your database.
@@ -22,13 +22,13 @@ Will return a collection of 5 `Book`s eager loaded with `Author`.
 
 **IDs mode**
 
-`/books?includes[]=author:ids`
+`/books?includes[]=author-ids`
 
 Will return a collection of `Book`s eager loaded with the ID of their `Author`
 
 **Sideload mode**
 
-`/books?includes[]=author:sideload`
+`/books?includes[]=author-sideload`
 
 Will return a collection of `Book`s and a eager loaded collection of their
 `Author`s in the root scope.
@@ -127,7 +127,7 @@ Below you can find how to filter all users that have first name "Gentrit".
 				{
 					"column": "first_name",
 					"operator": "eq",
-					"value": "John"
+					"value": "Gentrit"
 				}
 			]
 		}

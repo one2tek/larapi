@@ -4,14 +4,14 @@ namespace DummyNamespace;
 
 use Infrastructure\Database\Eloquent\Model;
 
-class DummyClass extends Model
+class DummyName extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'my_table';
+    protected $table = 'dummyvariable';
 
     /**
      * The attributes that are mass assignable.

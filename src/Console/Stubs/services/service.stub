@@ -4,7 +4,7 @@ namespace DummyNamespace;
 
 use DummyPath\Repositories\DummyVariableRepository;
 use Illuminate\Events\Dispatcher;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use DummyPath\Exceptions\DummyVariableNotFoundException;
 use DummyPath\Events\DummyVariableWasCreated;
 use DummyPath\Events\DummyVariableWasUpdated;
 use DummyPath\Events\DummyVariableWasDeleted;
@@ -70,7 +70,7 @@ class DummyClass
         $dummyVariable = $this->dummyVariableRepository->getById($dummyVariableId);
         
         if (is_null($dummyVariable)) {
-            throw new NotFoundHttpException('The DummyVariable was not found.');
+            throw new DummyVariableNotFoundException;
         }
  
         return $dummyVariable;

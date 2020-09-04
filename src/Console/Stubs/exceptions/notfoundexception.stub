@@ -1,0 +1,13 @@
+<?php
+
+namespace DummyNamespace;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+class DummyClass extends NotFoundHttpException
+{
+    public function __construct()
+    {
+        parent::__construct('The dummyvariable was not found.');
+    }
+}

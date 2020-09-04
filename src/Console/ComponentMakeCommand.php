@@ -1,6 +1,6 @@
 <?php
 
-namespace one2tek\larapi\Console;
+namespace Gentritabazi01\LarapiComponents\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
