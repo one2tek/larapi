@@ -1,6 +1,6 @@
 <?php
 
-namespace Gentritabazi01\LarapiComponents\Routes;
+namespace one2tek\larapi\Routes;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;

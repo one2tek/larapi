@@ -1,11 +1,11 @@
 <?php
 
-namespace Gentritabazi01\LarapiComponents\Core\ModeResolver;
+namespace one2tek\larapi\Core\ModeResolver;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Gentritabazi01\LarapiComponents\Core\ModeResolver\ModeResolverInterface;
-use Gentritabazi01\LarapiComponents\Core\Utility;
+use one2tek\larapi\Core\ModeResolver\ModeResolverInterface;
+use one2tek\larapi\Core\Utility;
 
 class IdsModeResolver implements ModeResolverInterface
 {

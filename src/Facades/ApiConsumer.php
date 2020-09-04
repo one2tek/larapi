@@ -1,6 +1,6 @@
 <?php
 
-namespace Gentritabazi01\LarapiComponents\Facades;
+namespace one2tek\larapi\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

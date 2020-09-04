@@ -1,8 +1,8 @@
 <?php
 
-namespace Gentritabazi01\LarapiComponents\Core\ModeResolver;
+namespace one2tek\larapi\Core\ModeResolver;
 
-use Gentritabazi01\LarapiComponents\Core\ModeResolver\ModeResolverInterface;
+use one2tek\larapi\Core\ModeResolver\ModeResolverInterface;
 
 class EmbedModeResolver implements ModeResolverInterface
 {

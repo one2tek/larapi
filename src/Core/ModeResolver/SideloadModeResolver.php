@@ -1,12 +1,12 @@
 <?php
 
-namespace Gentritabazi01\LarapiComponents\Core\ModeResolver;
+namespace one2tek\larapi\Core\ModeResolver;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Collection;
-use Gentritabazi01\LarapiComponents\Core\ModeResolver\IdsModeResolver;
-use Gentritabazi01\LarapiComponents\Core\ModeResolver\ModeResolverInterface;
-use Gentritabazi01\LarapiComponents\Core\Utility;
+use one2tek\larapi\Core\ModeResolver\IdsModeResolver;
+use one2tek\larapi\Core\ModeResolver\ModeResolverInterface;
+use one2tek\larapi\Core\Utility;
 
 class SideloadModeResolver implements ModeResolverInterface
 {

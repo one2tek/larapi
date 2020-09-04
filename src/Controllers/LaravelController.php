@@ -1,13 +1,13 @@
 <?php
 
-namespace Gentritabazi01\LarapiComponents\Controllers;
+namespace one2tek\larapi\Controllers;
 
 use JsonSerializable;
 use InvalidArgumentException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
-use Gentritabazi01\LarapiComponents\Core\Architect;
+use one2tek\larapi\Core\Architect;
 use Illuminate\Http\Request;
 
 abstract class LaravelController extends Controller
@@ -142,13 +142,13 @@ abstract class LaravelController extends Controller
         return $return;
     }
     
-     /**
-     * Parse exludeGlobalScopes into resource.
-     *
-     * @param  array  $exludeGlobalScopes
-     *
-     * @return array The parsed resources
-     */
+    /**
+    * Parse exludeGlobalScopes into resource.
+    *
+    * @param  array  $exludeGlobalScopes
+    *
+    * @return array The parsed resources
+    */
     protected function parseExludeGlobalScopes(array $exludeGlobalScopes)
     {
         $return = [
