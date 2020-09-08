@@ -234,6 +234,12 @@ abstract class Repository
     protected function createBaseBuilder(array $options = [])
     {
         $query = $this->createQueryBuilder();
+        
+        if ($options['scope']) {
+            foreach ($options['scope'] as $scope) {
+                $query = $query->$scope();
+            }
+        }
 
         $this->applyResourceOptions($query, $options);
 
