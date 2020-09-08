@@ -9,4 +9,6 @@ return [
     'protection_middleware' => [
         'auth:api'
     ],
+    
+    'join-columns' => [],
 ];
