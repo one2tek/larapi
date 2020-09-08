@@ -4,8 +4,12 @@
 
 **Larapi** comes included with...
 * A modern exception handler for APIs.
-* A Controller class that gives sorting, filtering, eager loading and pagination for your endpoints.
+* A Controller class that gives response, parse data for your endpoints.
 * A Repository class for requesting entities from your database.
+* Sorting.
+* Filtering.
+* Eager loading.
+* Pagination.
 
 ### Scopes
 
