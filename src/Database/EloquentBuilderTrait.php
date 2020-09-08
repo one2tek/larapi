@@ -189,7 +189,7 @@ trait EloquentBuilderTrait
 
         switch ($method) {
             case 'where':
-                if (stripos($column, '.')) {
+                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
                     $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
                         $q->where($lastColumn, $operator, $value);
                     });
@@ -199,7 +199,7 @@ trait EloquentBuilderTrait
                 break;
         
             case 'orWhere':
-                if (stripos($column, '.')) {
+                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
                     $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
                         $q->where($lastColumn, $operator, $value);
                     });
@@ -209,7 +209,7 @@ trait EloquentBuilderTrait
                 break;
                 
             case 'in':
-                if (stripos($column, '.')) {
+                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
                     $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
                         $q->whereIn($lastColumn, $value);
                     });
@@ -219,7 +219,7 @@ trait EloquentBuilderTrait
                 break;
 
             case 'or-in':
-                if (stripos($column, '.')) {
+                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
                     $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
                         $q->whereIn($lastColumn, $value);
                     });
@@ -229,7 +229,7 @@ trait EloquentBuilderTrait
                 break;
                 
             case 'or-bt':
-                if (stripos($column, '.')) {
+                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
                     $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
                         $q->whereBetween($lastColumn, $value);
                     });
@@ -239,7 +239,7 @@ trait EloquentBuilderTrait
                 break;
                 
             case 'bt':
-                if (stripos($column, '.')) {
+                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
                     $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
                         $q->whereBetween($lastColumn, $value);
                     });
