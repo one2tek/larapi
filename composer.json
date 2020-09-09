@@ -1,6 +1,6 @@
 {
     "name": "one2tek/larapi",
-    "description": "Larapi components",
+    "description": "Modern API development in Laravel.",
     "homepage": "https://github.com/one2tek/larapi",
     "license": "MIT",
     "authors": [
