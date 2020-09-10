@@ -11,6 +11,18 @@
 * Eager loading.
 * Pagination.
 
+### Installation
+1. Go to your **Controller.php** and extends **LaravelController**.
+![Controller.php](https://i.imgur.com/gjsq1Kz.png)
+2. Create a Base **Repository** class like below.
+![Repository.php](https://i.imgur.com/CU4cwCm.png)
+3. Example **Repository** for **Users**.
+![UsersRepository.php](https://i.imgur.com/iXqsVly.png)
+4. Example **Controller or Service** for **Users**.
+![UsersController.php](https://i.imgur.com/dSYZXyt.png)
+
+**Include Scopes**
+
 ### Scopes
 
 **Include Scopes**
