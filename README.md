@@ -21,8 +21,6 @@
 4. Example **Controller or Service** for **Users**.
 ![UsersController.php](https://i.imgur.com/dSYZXyt.png)
 
-**Include Scopes**
-
 ### Scopes
 
 **Include Scopes**
