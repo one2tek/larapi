@@ -10,6 +10,8 @@
 * Filtering.
 * Eager loading.
 * Pagination.
+* Selecting columns dynamically.
+* Selecting scopes dynamically.
 
 ### Installation
 1. Go to your **Controller.php** and extends **LaravelController**.
