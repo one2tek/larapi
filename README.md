@@ -23,6 +23,8 @@
 4. Example **Controller or Service** for **Users**.
 ![UsersController.php](https://i.imgur.com/dSYZXyt.png)
 
+### [Check how to use in real application](https://github.com/gentritabazi01/Larapi)
+
 ### Scopes
 
 **Include Scopes**
