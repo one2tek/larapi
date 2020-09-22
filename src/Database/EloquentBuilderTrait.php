@@ -43,6 +43,20 @@ trait EloquentBuilderTrait
             $queryBuilder->withCount($withCount);
         }
         
+        if (isset($withs)) {
+            foreach ($withs as $with) {
+                $queryBuilder->with([$with['name'] => function ($query) use ($with) {
+                    if (count($with['select'] ?? [])) {
+                        $query->select($with['select']);
+                    }
+
+                    if (count($with['group_by'] ?? [])) {
+                        $query->groupBy($with['group_by']);
+                    }
+                }]);
+            }
+        }
+        
         if (isset($exludeGlobalScopes)) {
             if (!is_array($exludeGlobalScopes)) {
                 throw new InvalidArgumentException('exludeGlobalScopes should be an array.');
