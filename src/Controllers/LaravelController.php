@@ -213,6 +213,7 @@ abstract class LaravelController extends Controller
             'selects' => [],
             'includes' => [],
             'withCount' => [],
+            'withs' => [],
             'exludeGlobalScopes' => [],
             'scope' => [],
             'sort' => [],
@@ -226,6 +227,7 @@ abstract class LaravelController extends Controller
         $selects = $this->parseSelects($request->get('select', $this->defaults['selects']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
         $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
+        $withs = $request->get('with', $this->defaults['withs']);
         $exludeGlobalScopes = $this->parseExludeGlobalScopes($request->get('exludeGlobalScopes', $this->defaults['exludeGlobalScopes']));
         $scope = $request->get('scope', $this->defaults['scope']);
         $sort = $this->parseSort($request->get('sort', $this->defaults['sort']));
@@ -238,6 +240,7 @@ abstract class LaravelController extends Controller
             'selects' => $selects,
             'includes' => $includes['includes'],
             'withCount' => $withCount['withCount'],
+            'withs' => $withs,
             'exludeGlobalScopes' => $exludeGlobalScopes['exludeGlobalScopes'],
             'modes' => $includes['modes'],
             'scope' => $scope,
