@@ -224,11 +224,19 @@ trait EloquentBuilderTrait
                 
             case 'in':
                 if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
-                        $q->whereIn($lastColumn, $value);
+                    $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value, $not) {
+                        if ($not) {
+                            $q->whereNotIn($lastColumn, $value);
+                        } else {
+                            $q->whereIn($lastColumn, $value);
+                        }
                     });
                 } else {
-                    $queryBuilder->whereIn($column, $value);
+                    if ($not) {
+                        $queryBuilder->whereNotIn($column, $value);
+                    } else {
+                        $queryBuilder->whereIn($column, $value);
+                    }
                 }
                 break;
 
