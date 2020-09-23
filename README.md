@@ -63,6 +63,28 @@ Will return a collection of `Book`s eager loaded with the ID of their `Author`
 Will return a collection of `Book`s and a eager loaded collection of their
 `Author`s in the root scope.
 
+### Advanced Eager loading
+
+Yf you want to get the relationships in a more advanced way then look at the code below.
+
+```json
+{
+	"with": [
+		{
+			"name": "relation_name",
+			"select": ["column1", "column2", "column3"],
+			"group_by": ["column1"],
+			"sort": [
+				{
+					"key": "column2",
+					"direction": "DESC"
+				}
+			]
+		}
+	]
+}
+```
+
 ### Pagination
 
 Two parameters are available: `limit` and `page`. `limit` will determine the number of
