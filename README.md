@@ -65,7 +65,7 @@ Will return a collection of `Book`s and a eager loaded collection of their
 
 ### Advanced Eager loading
 
-Yf you want to get the relationships in a more advanced way then look at the code below.
+If you want to get the relationships in a more advanced way then look at the code below.
 
 ```json
 {
