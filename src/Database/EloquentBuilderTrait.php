@@ -53,6 +53,12 @@ trait EloquentBuilderTrait
                     if (count($with['group_by'] ?? [])) {
                         $query->groupBy($with['group_by']);
                     }
+
+                    if (count($with['sort'] ?? [])) {
+                        foreach ($with['sort'] as $sort) {
+                            $query->orderBy($sort['key'], $sort['direction']);
+                        }
+                    }
                 }]);
             }
         }
