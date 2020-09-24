@@ -75,9 +75,7 @@ abstract class Repository
                 } else {
                     if (!is_a($query, 'Illuminate\Database\Eloquent\Collection')) {
                         if ($query->relationLoaded($relationName)) {
-                            foreach ($query->$relationName as $relation) {
-                                $relation->setAppends([$appendName]);
-                            }
+                            $query->$relationName->each->setAppends([$appendName]);
                         }
                     }
                 }
