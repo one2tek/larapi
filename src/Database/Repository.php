@@ -2,7 +2,6 @@
 
 namespace one2tek\larapi\Database;
 
-use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use one2tek\larapi\Database\EloquentBuilderTrait;
