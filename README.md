@@ -69,6 +69,11 @@ Imagine you want to retrieve all blog posts that have at least one comment.
 
 `/posts?has[]=comments`
 
+Nested has statements may also be constructed using "dot" notation. For example, you may retrieve all posts that have at least one comment and vote:
+
+`/posts?has[]=comments.votes`
+
+
 ### Advanced Eager loading
 
 If you want to get the relationships in a more advanced way then look at the code below.
