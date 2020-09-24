@@ -67,7 +67,7 @@ Will return a collection of `Book`s and a eager loaded collection of their
 
 Imagine you want to retrieve all blog posts that have at least one comment.
 
-`posts?has[]=comments`
+`/posts?has[]=comments`
 
 ### Advanced Eager loading
 
