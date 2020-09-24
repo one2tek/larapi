@@ -63,6 +63,12 @@ trait EloquentBuilderTrait
             }
         }
         
+        if (isset($has)) {
+            foreach ($has as $relation) {
+                $queryBuilder->has($relation);
+            }
+        }
+        
         if (isset($exludeGlobalScopes)) {
             if (!is_array($exludeGlobalScopes)) {
                 throw new InvalidArgumentException('exludeGlobalScopes should be an array.');
