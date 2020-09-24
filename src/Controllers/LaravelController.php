@@ -222,7 +222,8 @@ abstract class LaravelController extends Controller
             'page' => null,
             'mode' => 'embed',
             'filter_groups' => [],
-            'start' => null
+            'start' => null,
+            'append' => [],
         ], $this->defaults);
 
         $selects = $this->parseSelects($request->get('select', $this->defaults['selects']));
@@ -237,6 +238,7 @@ abstract class LaravelController extends Controller
         $page = $request->get('page', $this->defaults['page']);
         $filter_groups = $this->parseFilterGroups($request->get('filter_groups', $this->defaults['filter_groups']));
         $start = $request->get('start', $this->defaults['start']);
+        $append = $request->get('append', $this->defaults['append']);
 
         $data = [
             'selects' => $selects,
@@ -252,6 +254,7 @@ abstract class LaravelController extends Controller
             'page' => $page,
             'filter_groups' => $filter_groups,
             'start' => $start,
+            'append' => $append
         ];
 
         $this->validateResourceOptions($data);
