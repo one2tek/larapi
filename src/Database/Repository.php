@@ -2,6 +2,7 @@
 
 namespace one2tek\larapi\Database;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use one2tek\larapi\Database\EloquentBuilderTrait;
@@ -26,9 +27,9 @@ abstract class Repository
 
     /**
      * Get all resources.
-     * 
+     *
      * @param  array  $options
-     * 
+     *
      * @return Collection
      */
     public function get(array $options = [])
@@ -40,24 +41,56 @@ abstract class Repository
 
     /**
      * Get a resource by its primary key.
-     * 
+     *
      * @param  mixed  $id
      * @param  array  $options
-     * 
+     *
      * @return Collection
      */
     public function getById($id, array $options = [])
     {
         $query = $this->createBaseBuilder($options);
 
-        return $query->find($id);
+        $query = $query->find($id);
+
+        $this->appendAttributes($query, $options);
+
+        return $query;
+    }
+
+    /**
+     * Append attributes.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection $query
+     */
+    public function appendAttributes($query, $options = [])
+    {
+        if ($options['append'] ?? false) {
+            foreach ($options['append'] as $append) {
+                $appendName = explode('.', $append);
+                $appendName = end($appendName);
+                $relationName = str_replace('.'. $appendName, '', $append);
+                
+                if (!stripos($append, '.')) {
+                    $query = $query->append($appendName);
+                } else {
+                    if (!is_a($query, 'Illuminate\Database\Eloquent\Collection')) {
+                        if ($query->relationLoaded($relationName)) {
+                            foreach ($query->$relationName as $relation) {
+                                $relation->setAppends([$appendName]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
      * Get all resources ordered by recentness.
-     * 
+     *
      * @param  array  $options
-     * 
+     *
      * @return Collection
      */
     public function getRecent(array $options = [])
@@ -71,11 +104,11 @@ abstract class Repository
 
     /**
      * Get all resources by a where clause ordered by recentness.
-     * 
+     *
      * @param  string  $column
      * @param  mixed  $value
      * @param  array   $options
-     * 
+     *
      * @return Collection
      */
     public function getRecentWhere($column, $value, array $options = [])
@@ -91,9 +124,9 @@ abstract class Repository
 
     /**
      * Get latest resource.
-     * 
+     *
      * @param  array  $options
-     * 
+     *
      * @return Collection
      */
     public function getLatest(array $options = [])
@@ -107,11 +140,11 @@ abstract class Repository
 
     /**
      * Get latest resource by a where clause.
-     * 
+     *
      * @param  string  $column
      * @param  mixed  $value
      * @param  array   $options
-     * 
+     *
      * @return Collection
      */
     public function getLatestWhere($column, $value, array $options = [])
@@ -127,11 +160,11 @@ abstract class Repository
 
     /**
      * Get resources by a where clause.
-     * 
+     *
      * @param  string  $column
      * @param  mixed  $value
      * @param  array  $options
-     * 
+     *
      * @return Collection
      */
     public function getWhere($column, $value, array $options = [])
@@ -145,10 +178,10 @@ abstract class Repository
 
     /**
      * Get resources by multiple where clauses.
-     * 
+     *
      * @param  array   $clauses
      * @param  array  $options
-     * 
+     *
      * @return Collection
      */
     public function getWhereArray(array $clauses, array $options = [])
@@ -162,11 +195,11 @@ abstract class Repository
 
     /**
      * Get resources where a column value exists in array.
-     * 
+     *
      * @param  string  $column
      * @param  array   $values
      * @param  array  $options
-     * 
+     *
      * @return Collection
      */
     public function getWhereIn($column, array $values, array $options = [])
@@ -180,9 +213,9 @@ abstract class Repository
 
     /**
      * Delete a resource by its primary key.
-     * 
+     *
      * @param  mixed  $id
-     * 
+     *
      * @return void
      */
     public function delete($id)
@@ -195,10 +228,10 @@ abstract class Repository
 
     /**
      * Delete resources by a where clause.
-     * 
+     *
      * @param  string  $column
      * @param  mixed  $value
-     * 
+     *
      * @return void
      */
     public function deleteWhere($column, $value)
@@ -211,9 +244,9 @@ abstract class Repository
 
     /**
      * Delete resources by multiple where clauses.
-     * 
+     *
      * @param  array  $clauses
-     * 
+     *
      * @return void
      */
     public function deleteWhereArray(array $clauses)
@@ -226,9 +259,9 @@ abstract class Repository
 
     /**
      * Creates a new query builder with options set.
-     * 
+     *
      * @param  array  $options
-     * 
+     *
      * @return Builder
      */
     protected function createBaseBuilder(array $options = [])
@@ -252,7 +285,7 @@ abstract class Repository
 
     /**
      * Creates a new query builder.
-     * 
+     *
      * @return Builder
      */
     protected function createQueryBuilder()
@@ -262,9 +295,9 @@ abstract class Repository
 
     /**
      * Get primary key name of the underlying model.
-     * 
+     *
      * @param  Builder  $query
-     * 
+     *
      * @return string
      */
     protected function getPrimaryKey($query)
@@ -274,10 +307,10 @@ abstract class Repository
 
     /**
      * Order query by the specified sorting property.
-     * 
+     *
      * @param  Builder  $query
      * @param  array   $options
-     * 
+     *
      * @return void
      */
     protected function defaultSort($query, array $options = [])
@@ -290,7 +323,7 @@ abstract class Repository
 
     /**
      * Get the name of the "created at" column.
-     * 
+     *
      * @return string
      */
     protected function getCreatedAtColumn()
