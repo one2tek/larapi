@@ -63,6 +63,11 @@ Will return a collection of `Book`s eager loaded with the ID of their `Author`
 Will return a collection of `Book`s and a eager loaded collection of their
 `Author`s in the root scope.
 
+### Querying Relationship Existence
+
+Imagine you want to retrieve all blog posts that have at least one comment.
+`posts?has[]=comment`
+
 ### Advanced Eager loading
 
 If you want to get the relationships in a more advanced way then look at the code below.
