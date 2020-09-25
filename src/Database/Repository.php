@@ -64,6 +64,10 @@ abstract class Repository
      */
     public function appendAttributes($query, $options = [])
     {
+        if (is_null($query)) {
+            return;
+        }
+        
         if ($options['append'] ?? false) {
             foreach ($options['append'] as $append) {
                 $appendName = explode('.', $append);
