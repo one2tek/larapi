@@ -2,6 +2,7 @@
 
 namespace one2tek\larapi\Database;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use one2tek\larapi\Database\EloquentBuilderTrait;
@@ -73,6 +74,7 @@ abstract class Repository
                 $appendName = explode('.', $append);
                 $appendName = end($appendName);
                 $relationName = str_replace('.'. $appendName, '', $append);
+                $appendName = Str::snake($appendName);
                 
                 if (!stripos($append, '.')) {
                     $query = $query->append($appendName);
