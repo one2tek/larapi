@@ -96,10 +96,6 @@ trait EloquentBuilderTrait
         if (isset($start)) {
             $queryBuilder->offset($start);
         } elseif (isset($page)) {
-            if (!isset($limit)) {
-                throw new InvalidArgumentException('A limit is required when using page.');
-            }
-
             $queryBuilder->offset($page * $limit);
         }
 
