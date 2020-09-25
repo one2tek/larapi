@@ -144,19 +144,19 @@ trait EloquentBuilderTrait
         switch ($operator) {
             // String contains
             case 'ct':
-                $operator = 'like';
+                $operator = $not ? 'NOT LIKE' : 'LIKE';
                 $value = "%$value%";
                 break;
 
             // Starts with
             case 'sw':
-                $operator = 'like';
+                $operator = $not ? 'NOT LIKE' : 'LIKE';
                 $value = "$value%";
                 break;
                 
              // Ends with
              case 'ew':
-                $operator = 'like';
+                $operator = $not ? 'NOT LIKE' : 'LIKE';
                 $value = "%$value";
                 break;
 
@@ -250,31 +250,31 @@ trait EloquentBuilderTrait
 
             case 'or-in':
                 if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
+                    $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $value) {
                         $q->whereIn($lastColumn, $value);
                     });
                 } else {
                     $queryBuilder->orWhereIn($column, $value);
                 }
                 break;
-                
-            case 'or-bt':
-                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
-                        $q->whereBetween($lastColumn, $value);
-                    });
-                } else {
-                    $queryBuilder->orWhereBetween($column, $value);
-                }
-                break;
-                
+                        
             case 'bt':
                 if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
+                    $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $value) {
                         $q->whereBetween($lastColumn, $value);
                     });
                 } else {
                     $queryBuilder->whereBetween($column, $value);
+                }
+                break;
+                
+             case 'or-bt':
+                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
+                    $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $value) {
+                        $q->whereBetween($lastColumn, $value);
+                    });
+                } else {
+                    $queryBuilder->orWhereBetween($column, $value);
                 }
                 break;
         }
