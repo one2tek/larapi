@@ -25,17 +25,25 @@
 
 ### [Check how to use in real application](https://github.com/gentritabazi01/Larapi)
 
+### Selects
+
+**Specifying A Select Clause**
+
+You may not always want to select all columns from a database table. Using the select method, you can specify a custom select clause for the query:
+
+`{base_url}/users?select[]=id,first_name`
+
 ### Scopes
 
 **Include Scopes**
 
-`/books?scope[]=delivered`
+`{base_url}/books?scope[]=delivered`
 
 If we have a scope named "***delivered***" this call will include the scope.
 
 **Without global scopes**
 
-`/books?exludeGlobalScopes[]=not_delivered`
+`{base_url}/books?exludeGlobalScopes[]=not_delivered`
 
 If we have a global scope named "**not_delivered**" this call with remove the global scope.
 
@@ -46,19 +54,19 @@ If we have a global scope named "**not_delivered**" this call with remove the gl
 
 **Simple eager load**
 
-`/books?includes[]=author`
+`{base_url}/books?includes[]=author`
 
 Will return a collection of 5 `Book`s eager loaded with `Author`.
 
 **IDs mode**
 
-`/books?includes[]=author-ids`
+`{base_url}/books?includes[]=author-ids`
 
 Will return a collection of `Book`s eager loaded with the ID of their `Author`
 
 **Sideload mode**
 
-`/books?includes[]=author-sideload`
+`{base_url}/books?includes[]=author-sideload`
 
 Will return a collection of `Book`s and a eager loaded collection of their
 `Author`s in the root scope.
@@ -67,11 +75,11 @@ Will return a collection of `Book`s and a eager loaded collection of their
 
 Imagine you want to retrieve all blog posts that have at least one comment.
 
-`/posts?has[]=comments`
+`{base_url}/posts?has[]=comments`
 
 Nested **has** statements may also be constructed using **"dot"** notation. For example, you may retrieve all posts that have at least one comment and vote:
 
-`/posts?has[]=comments.votes`
+`{base_url}/posts?has[]=comments.votes`
 
 
 ### Advanced Eager loading
