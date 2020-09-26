@@ -222,7 +222,6 @@ abstract class LaravelController extends Controller
             'page' => null,
             'mode' => 'embed',
             'filter_groups' => [],
-            'start' => null,
             'append' => [],
         ], $this->defaults);
 
@@ -237,7 +236,6 @@ abstract class LaravelController extends Controller
         $limit = $request->get('limit', $this->defaults['limit']);
         $page = $request->get('page', $this->defaults['page']);
         $filter_groups = $this->parseFilterGroups($request->get('filter_groups', $this->defaults['filter_groups']));
-        $start = $request->get('start', $this->defaults['start']);
         $append = $request->get('append', $this->defaults['append']);
 
         $data = [
@@ -253,7 +251,6 @@ abstract class LaravelController extends Controller
             'limit' => $limit,
             'page' => $page,
             'filter_groups' => $filter_groups,
-            'start' => $start,
             'append' => $append
         ];
 
