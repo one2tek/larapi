@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 abstract class LaravelController extends Controller
 {
     /**
-     * Defaults
+     * Defaults.
+     *
      * @var array
      */
     protected $defaults = [];
@@ -22,7 +23,7 @@ abstract class LaravelController extends Controller
      * Create a json response.
      *
      * @param  mixed  $data
-     * @param  integer $statusCode
+     * @param  integer  $statusCode
      * @param  array  $headers
      *
      * @return Illuminate\Http\JsonResponse
@@ -39,9 +40,9 @@ abstract class LaravelController extends Controller
     /**
      * Parse data using architect.
      *
-     * @param  mixed $data
+     * @param  mixed  $data
      * @param  array  $options
-     * @param  string $key
+     * @param  string  $key
      *
      * @return mixed
      */
@@ -91,7 +92,7 @@ abstract class LaravelController extends Controller
      *
      * @param  array  $includes
      *
-     * @return array The parsed resources and their respective modes
+     * @return array
      */
     protected function parseIncludes(array $includes)
     {
@@ -125,18 +126,14 @@ abstract class LaravelController extends Controller
      *
      * @param  array  $withCounts
      *
-     * @return array The parsed resources
+     * @return array
      */
     protected function parseWithCount(array $withCounts)
     {
-        $return = [
-            'withCount' => []
-        ];
+        $return = [];
 
         foreach ($withCounts as $withCount) {
-            $explode = explode(':', $withCount);
-
-            $return['withCount'][] = $explode[0];
+            $return[] = $withCount;
         }
 
         return $return;
@@ -147,18 +144,14 @@ abstract class LaravelController extends Controller
     *
     * @param  array  $exludeGlobalScopes
     *
-    * @return array The parsed resources
+    * @return array
     */
     protected function parseExludeGlobalScopes(array $exludeGlobalScopes)
     {
-        $return = [
-            'exludeGlobalScopes' => []
-        ];
+        $return = [];
 
         foreach ($exludeGlobalScopes as $exludeGlobalScope) {
-            $explode = explode(':', $exludeGlobalScope);
-
-            $return['exludeGlobalScopes'][] = $explode[0];
+            $return[] = $exludeGlobalScope;
         }
 
         return $return;
@@ -174,6 +167,7 @@ abstract class LaravelController extends Controller
     protected function parseFilterGroups(array $filter_groups)
     {
         $return = [];
+
         $keysNeeded = ['column', 'operator', 'value'];
         foreach ($filter_groups as $group) {
             if (!array_key_exists('filters', $group)) {
@@ -241,10 +235,10 @@ abstract class LaravelController extends Controller
         $data = [
             'selects' => $selects,
             'includes' => $includes['includes'],
-            'withCount' => $withCount['withCount'],
+            'withCount' => $withCount,
             'withs' => $withs,
             'has' => $has,
-            'exludeGlobalScopes' => $exludeGlobalScopes['exludeGlobalScopes'],
+            'exludeGlobalScopes' => $exludeGlobalScopes,
             'modes' => $includes['modes'],
             'scope' => $scope,
             'sort' => $sort,

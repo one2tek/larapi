@@ -59,8 +59,8 @@ class ComponentMakeCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @param Filesystem $files
-     * @param Composer $composer
+     * @param  Filesystem  $files
+     * @param  Composer  $composer
      */
     public function __construct(Filesystem $files)
     {
@@ -110,6 +110,7 @@ class ComponentMakeCommand extends Command
      * Build the directory for the class if necessary.
      *
      * @param  string  $path
+     *
      * @return string
      */
     protected function makeDirectory($path)
@@ -123,6 +124,7 @@ class ComponentMakeCommand extends Command
      * Build the directory for the class if necessary.
      *
      * @param  string  $path
+     *
      * @return string
      */
     protected function makeSubDirectories($path, $fileType)
@@ -146,6 +148,7 @@ class ComponentMakeCommand extends Command
      *
      * @param  string  $stub
      * @param  string  $name
+     *
      * @return string
      */
     protected function replaceClass($stub, $name, $fileName, $shortFileName)
@@ -175,6 +178,7 @@ class ComponentMakeCommand extends Command
      *
      * @param  string  $stub
      * @param  string  $name
+     *
      * @return $this
      */
     protected function replaceNamespace(&$stub, $fileName, $dir)
@@ -189,6 +193,7 @@ class ComponentMakeCommand extends Command
      * Get the full namespace for a given class, without the class name.
      *
      * @param  string  $name
+     *
      * @return string
      */
     protected function getNamespace($name)
