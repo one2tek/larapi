@@ -10,12 +10,13 @@ use one2tek\larapi\Core\Utility;
 class IdsModeResolver implements ModeResolverInterface
 {
     /**
-     * Map through the collection and convert it to a collection
-     * of ids
+     * Map through the collection and convert it to a collection of ids.
+     *
      * @param  string $property
      * @param  object $object
      * @param  array $root
      * @param  string $fullPropertyPath
+     *
      * @return mixed
      */
     public function resolve($property, &$object, &$root, $fullPropertyPath)

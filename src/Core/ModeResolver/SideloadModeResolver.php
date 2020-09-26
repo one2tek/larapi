@@ -19,11 +19,13 @@ class SideloadModeResolver implements ModeResolverInterface
 
     /**
      * Move all relational resources to the root element and
-     * use idsResolver to replace them with a collection of identifiers
-     * @param  string $property The property to resolve
-     * @param  object $object The object which has the property
-     * @param  array $root The root array which will contain the object
-     * @param  string $fullPropertyPath The full dotnotation path to this property
+     * use idsResolver to replace them with a collection of identifiers.
+     *
+     * @param  string  $property
+     * @param  object  $object
+     * @param  array  $root
+     * @param  string  $fullPropertyPath
+     *
      * @return mixed
      */
     public function resolve($property, &$object, &$root, $fullPropertyPath)
@@ -34,10 +36,12 @@ class SideloadModeResolver implements ModeResolverInterface
     }
 
     /**
-     * Add the collection to the root array
-     * @param array $root
-     * @param object $object
-     * @param string $fullPropertyPath
+     * Add the collection to the root array.
+     *
+     * @param  array  $root
+     * @param  object  $object
+     * @param  string  $fullPropertyPath
+     *
      * @return void
      */
     private function addCollectionToRoot(&$root, &$object, $fullPropertyPath)
@@ -76,9 +80,11 @@ class SideloadModeResolver implements ModeResolverInterface
 
     /**
      * If a collection for this resource has already begun (i.e. multiple
-     * resources share this type of resource), then merge with the existing collection
-     * @param  mixed $collection
-     * @param  object $object
+     * resources share this type of resource), then merge with the existing collection.
+     *
+     * @param  mixed  $collection
+     * @param  object  $object
+     *
      * @return void
      */
     private function mergeRootCollection(&$collection, $object)
@@ -95,8 +101,8 @@ class SideloadModeResolver implements ModeResolverInterface
     }
 
     /**
-     * Check if the resource already exists in the root collection by id
-     * TODO: https://github.com/esbenp/laravel-controller/issues/2
+     * Check if the resource already exists in the root collection by id.
+     *
      * @param mixed $collection
      * @param mixed $resource
      */

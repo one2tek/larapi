@@ -8,9 +8,11 @@ use Illuminate\Support\Collection;
 class Utility
 {
     /**
-     * Get a property of an array or object
-     * @param  mixed $objectOrArray object or array
+     * Get a property of an array or object.
+     *
+     * @param  mixed $objectOrArray
      * @param  string $property
+     *
      * @return mixed
      */
     public static function getProperty($objectOrArray, $property)
@@ -23,10 +25,11 @@ class Utility
     }
 
     /**
-     * Set a property of an Eloquent model, normal object or array
+     * Set a property of an Eloquent model, normal object or array.
+     *
      * @param mixed $objectOrArray model, object or array
      * @param string $property
-     * @param void
+     * @param string $value
      */
     public static function setProperty(&$objectOrArray, $property, $value)
     {
@@ -57,8 +60,10 @@ class Utility
     }
 
     /**
-     * Is the variable a primitive type
+     * Is the variable a primitive type.
+     *
      * @param  mixed  $input
+     *
      * @return boolean
      */
     public static function isPrimitive($input)
@@ -67,8 +72,10 @@ class Utility
     }
 
     /**
-     * Is the input a collection of resources?
+     * Check if the input a collection of resources.
+     *
      * @param  mixed  $input
+     *
      * @return boolean
      */
     public static function isCollection($input)
