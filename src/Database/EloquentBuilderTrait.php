@@ -93,9 +93,7 @@ trait EloquentBuilderTrait
             $queryBuilder->limit($limit);
         }
 
-        if (isset($start)) {
-            $queryBuilder->offset($start);
-        } elseif (isset($page)) {
+        if (isset($page)) {
             $queryBuilder->offset($page * $limit);
         }
 
