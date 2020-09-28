@@ -54,7 +54,7 @@ abstract class LaravelController extends Controller
     }
 
     /**
-     * Pare sort.
+     * Parse sort.
      *
      * @param  array  $sort
      *
@@ -72,7 +72,7 @@ abstract class LaravelController extends Controller
     }
 
     /**
-     * Pare selects.
+     * Parse selects.
      *
      * @param  array  $selects
      *
@@ -85,6 +85,22 @@ abstract class LaravelController extends Controller
         }
 
         return [];
+    }
+
+    /**
+     * Parse include.
+     *
+     * @param  array  $include
+     *
+     * @return array
+     */
+    protected function parseInclude($include)
+    {
+        if (is_null($include)) {
+            return null;
+        }
+        
+        return explode(';', $include);
     }
 
     /**
@@ -206,6 +222,7 @@ abstract class LaravelController extends Controller
         $this->defaults = array_merge([
             'selects' => [],
             'includes' => [],
+            'include' => null,
             'withCount' => [],
             'withs' => [],
             'has' => [],
@@ -221,6 +238,7 @@ abstract class LaravelController extends Controller
 
         $selects = $this->parseSelects($request->get('select', $this->defaults['selects']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
+        $include = $this->parseInclude($request->get('include', $this->defaults['include']));
         $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
         $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
@@ -235,6 +253,7 @@ abstract class LaravelController extends Controller
         $data = [
             'selects' => $selects,
             'includes' => $includes['includes'],
+            'include' => $include,
             'withCount' => $withCount,
             'withs' => $withs,
             'has' => $has,

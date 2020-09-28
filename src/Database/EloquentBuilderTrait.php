@@ -34,6 +34,12 @@ trait EloquentBuilderTrait
 
             $queryBuilder->with($includes);
         }
+
+        if (isset($include)) {
+            if (is_array($include)) {
+                $queryBuilder->with($include);
+            }
+        }
         
         if (isset($withCount)) {
             if (!is_array($withCount)) {
