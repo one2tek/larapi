@@ -54,7 +54,7 @@ If we have a global scope named "**not_delivered**" this call with remove the gl
 
 **Simple eager load**
 
-`{base_url}/books?includes[]=author`
+`{base_url}/books?includes[]=author` or `{base_url}/books?include=author`.
 
 Will return a collection of 5 `Book`s eager loaded with `Author`.
 
