@@ -12,6 +12,7 @@
 * Pagination.
 * Selecting columns dynamically.
 * Selecting scopes dynamically.
+* Slack formatter.
 
 ### Installation
 1. Go to your **Controller.php** and extends **LaravelController**.
@@ -286,3 +287,31 @@ Delete `User` rows where `$column=$value`
 ### deleteWhereArray (array $clauses)
 
 Delete `User` rows by multiple where clauses (`[$column1 => $value1, $column2 => $value2]`)
+
+## Slack
+
+If you send errors in slack then the package provides a dynamic way to send more data in slack.
+
+First create class like this:
+
+```
+<?php
+
+namespace Infrastructure\Formatters;
+
+class SlackFormatter
+{
+    public static function data()
+    {
+        $records = [];
+        $records['Date & Time'] = date('Y-m-d H:i:s');
+
+        return $records;
+    }
+}
+```
+
+And set the class path in config file **config/larapi-components.php** like this:
+```
+'slack_formatter' => '\Infrastructure\Formatters\SlackFormatter'
+```

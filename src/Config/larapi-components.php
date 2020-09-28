@@ -11,4 +11,6 @@ return [
     ],
     
     'join-columns' => [],
+
+    'slack_formatter' => '\Infrastructure\Formatters\SlackFormatter'
 ];
