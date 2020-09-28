@@ -97,7 +97,7 @@ abstract class LaravelController extends Controller
     protected function parseInclude($include)
     {
         if (is_null($include)) {
-            return null;
+            return [];
         }
         
         return explode(';', $include);
