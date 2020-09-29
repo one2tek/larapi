@@ -130,21 +130,24 @@ trait EloquentBuilderTrait
     protected function applyFilter(Builder $queryBuilder, array $filter, $or = false)
     {
         $column = $filter['column'];
-        $method = ($or == true) ? 'orWhere' : 'where';
+        $method = 'where';
         $operator = $filter['operator'] ?? 'eq';
         $value = $filter['value'];
-        $not = $filter['not'] ?? null;
-        
+        $not = $filter['not'] ?? false;
         $whiteListFilter = (get_class_vars(get_class($queryBuilder->getModel()))['whiteListFilter']) ?? [];
+        $wantsRelationship = stripos($column, '.');
+        $clauseOperator = true;
+        $lastColumn = explode('.', $column);
+        $lastColumn = end($lastColumn);
+        $relationName = str_replace('.'. $lastColumn, '', $column);
+        $filterRawJoinColumns = isset($this->filterRawJoinColumns) ? $this->filterRawJoinColumns : [];
 
+        // Check if column can filered.
         if (!in_array($column, $whiteListFilter)) {
             throw new InvalidArgumentException('Oops! You cannot filter column '. $column. '.');
         }
 
-        $lastColumn = explode('.', $column);
-        $lastColumn = end($lastColumn);
-        $relations = str_replace('.'. $lastColumn, '', $column);
-        
+        // Check operator.
         switch ($operator) {
             // String contains
             case 'ct':
@@ -191,96 +194,48 @@ trait EloquentBuilderTrait
 
             // In array
             case 'in':
-                if ($or == true) {
-                    $method = 'or-in';
-                } else {
-                    $method = 'in';
-                }
+                $method = $not ? 'whereNotIn' : 'whereIn';
+                $clauseOperator = false;
                 break;
             
             // Between
             case 'bt':
-                if ($or == true) {
-                    $method = 'or-bt';
-                } else {
-                    $method = 'bt';
-                }
+                $method = $not ? 'whereNotBetween' : 'whereBetween';
+                $clauseOperator = false;
                 break;
         }
 
+        // Custom filter.
         $customFilterMethod = $this->hasCustomMethod('filter', $column);
         if ($customFilterMethod) {
             return call_user_func_array([$this, 'filter'. $column], array($queryBuilder, $method, $operator, $value));
         }
 
-        switch ($method) {
-            case 'where':
-                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
-                        $q->where($lastColumn, $operator, $value);
-                    });
+        // Finally apply filter.
+        if ($wantsRelationship && !in_array($column, $filterRawJoinColumns)) {
+            $queryFunction = function ($q) use ($lastColumn, $operator, $value, $method, $clauseOperator) {
+                if ($clauseOperator == false) {
+                    $q->$method($lastColumn, $value);
                 } else {
-                    $queryBuilder->where($column, $operator, $value);
+                    $q->$method($lastColumn, $operator, $value);
                 }
-                break;
-        
-            case 'orWhere':
-                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value) {
-                        $q->where($lastColumn, $operator, $value);
-                    });
-                } else {
-                    $queryBuilder->orWhere($column, $operator, $value);
-                }
-                break;
-                
-            case 'in':
-                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $method, $operator, $value, $not) {
-                        if ($not) {
-                            $q->whereNotIn($lastColumn, $value);
-                        } else {
-                            $q->whereIn($lastColumn, $value);
-                        }
-                    });
-                } else {
-                    if ($not) {
-                        $queryBuilder->whereNotIn($column, $value);
-                    } else {
-                        $queryBuilder->whereIn($column, $value);
-                    }
-                }
-                break;
+            };
 
-            case 'or-in':
-                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $value) {
-                        $q->whereIn($lastColumn, $value);
-                    });
-                } else {
-                    $queryBuilder->orWhereIn($column, $value);
-                }
-                break;
-                        
-            case 'bt':
-                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->whereHas($relations, function ($q) use ($lastColumn, $value) {
-                        $q->whereBetween($lastColumn, $value);
-                    });
-                } else {
-                    $queryBuilder->whereBetween($column, $value);
-                }
-                break;
-                
-             case 'or-bt':
-                if (stripos($column, '.') && !in_array($column, config('larapi-components.join-columns'))) {
-                    $queryBuilder->orWhereHas($relations, function ($q) use ($lastColumn, $value) {
-                        $q->whereBetween($lastColumn, $value);
-                    });
-                } else {
-                    $queryBuilder->orWhereBetween($column, $value);
-                }
-                break;
+            if ($or == true) {
+                $queryBuilder->orWhereHas($relationName, $queryFunction);
+            } else {
+                $queryBuilder->whereHas($relationName, $queryFunction);
+            };
+        } else {
+            if ($or == true) {
+                $method = 'or'. $method;
+            }
+
+            if ($clauseOperator == false) {
+                $queryBuilder->$method($column, $value);
+            } else {
+                $queryBuilder->$method($column, $operator, $value);
+            }
         }
     }
 

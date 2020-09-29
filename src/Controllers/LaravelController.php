@@ -193,6 +193,15 @@ abstract class LaravelController extends Controller
                 if (count(array_intersect_key(array_flip($keysNeeded), $filter)) != count($keysNeeded)) {
                     throw new InvalidArgumentException('You need to pass column, operator and value in filters.');
                 }
+                
+                if (($filter['operator'] == 'in') && (!is_array($filter['value']))) {
+                    throw new InvalidArgumentException('You need to make value as array because you are using \'in\' operator.');
+                }
+
+                if (($filter['operator'] == 'bt') && (!is_array($filter['value']))) {
+                    throw new InvalidArgumentException('You need to make value as array because you are using \'bt\' operator.');
+                }
+
                 if (!isset($filter['not'])) {
                     $filter['not'] = false;
                 }
