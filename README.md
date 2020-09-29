@@ -195,6 +195,7 @@ Below you can find how to filter all users that have first name "Gentrit".
 {
 	"filter_groups": [
 		{
+			"or": false,
 			"filters": [
 				{
 					"column": "first_name",
