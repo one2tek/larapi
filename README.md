@@ -190,6 +190,7 @@ bt | Between
 #### Example filters
 
 Filter all users whose name start with “Gentrit” or ends with “Abazi”.
+
 ```SELECT * FROM `users` WHERE name LIKE "Gentrit%" OR name LIKE "%Abazi"```
 
 ```json
@@ -215,6 +216,7 @@ Filter all users whose name start with “Gentrit” or ends with “Abazi”.
 ```
 
 Filter all users whose name start with “A” and which were born between years 1990 and 2000.
+
 ```SELECT * FROM `users` WHERE (name LIKE "A%") and and (`birth_year` >= 1990 and `birth_year` <= 2000)```
 
 ```json
