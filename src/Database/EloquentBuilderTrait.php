@@ -120,7 +120,7 @@ trait EloquentBuilderTrait
                 foreach ($filters as $filter) {
                     $this->applyFilter($query, $filter, $or);
                 }
-            }
+            });
         }
     }
 
