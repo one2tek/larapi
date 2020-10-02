@@ -116,11 +116,11 @@ trait EloquentBuilderTrait
             $or = $groups['or'];
             $filters = $groups['filters'];
 
-            // $queryBuilder->where(function (Builder $query) use ($filters, $or) {
-            foreach ($filters as $filter) {
-                $this->applyFilter($queryBuilder, $filter, $or);
-            }
-            // });
+            $queryBuilder->where(function (Builder $query) use ($filters, $or) {
+                foreach ($filters as $filter) {
+                    $this->applyFilter($query, $filter, $or);
+                }
+            });
         }
     }
 
@@ -207,14 +207,22 @@ trait EloquentBuilderTrait
                 break;
         }
 
+        // Support or operator.
+        if ($or == true) {
+            $method = 'or'. $method;
+        }
+
         // Custom filter.
         $customFilterMethod = $this->hasCustomMethod('filter', $column);
         if ($customFilterMethod) {
-            return call_user_func_array([$this, 'filter'. $column], array($queryBuilder, $method, $operator, $value));
+            return call_user_func_array([$this, 'filter'. $column], array($queryBuilder, $method, $operator, $value, $clauseOperator, $or));
         }
 
         // Finally apply filter.
         if ($wantsRelationship && !in_array($column, $filterRawJoinColumns)) {
+            // Remove or operator support.
+            $method = str_replace('or', '', $method);
+
             $queryFunction = function ($q) use ($lastColumn, $operator, $value, $method, $clauseOperator) {
                 if ($clauseOperator == false) {
                     $q->$method($lastColumn, $value);
@@ -229,10 +237,6 @@ trait EloquentBuilderTrait
                 $queryBuilder->whereHas($relationName, $queryFunction);
             };
         } else {
-            if ($or == true) {
-                $method = 'or'. $method;
-            }
-
             if ($clauseOperator == false) {
                 $queryBuilder->$method($column, $value);
             } else {
