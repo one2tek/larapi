@@ -254,11 +254,11 @@ You can create Custom filter in Repostory like this:
 ```php
 public function filterAuthorName($queryBuilder, $method, $operator, $value, $clauseOperator, $or)
 {
-    // Remove or from method, because we will use Subquery.
-	$method = str_replace('or', '', $method);
-
-	// Query Function
+	// Query.
 	$queryFunction = function ($q) use ($operator, $value, $method, $clauseOperator) {
+		// Remove or from method, because we will use Subquery.
+		$method = str_replace('or', '', $method);
+
 		if ($clauseOperator == false) {
 			$q->$method(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), $value);
 		} else {
@@ -266,7 +266,7 @@ public function filterAuthorName($queryBuilder, $method, $operator, $value, $cla
 		}
 	};
 
-	// Or Operator.
+	// Execute query.
 	if ($or == true) {
 		$queryBuilder->orWhereHas('author', $queryFunction);
 	} else {
