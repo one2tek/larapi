@@ -187,20 +187,59 @@ lt | Lesser than
 in | In array
 bt | Between
 
-#### Example filter
+#### Example filters
 
-Below you can find how to filter all users that have first name "Gentrit".
+Filter all users whose name start with “Gentrit” or ends with “Abazi”.
+```SELECT * FROM `users` WHERE name LIKE "Gentrit%" OR name LIKE "%Abazi"```
 
 ```json
 {
 	"filter_groups": [
 		{
-			"or": false,
+			"or": true,
 			"filters": [
 				{
-					"column": "first_name",
-					"operator": "eq",
+					"column": "name",
+					"operator": "sw",
 					"value": "Gentrit"
+				},
+				{
+					"column": "name",
+					"operator": "ew",
+					"value": "Abazi"
+				}
+			]
+		}
+	]
+}
+```
+
+Filter all users whose name start with “A” and which were born between years 1990 and 2000.
+```SELECT * FROM `users` WHERE (name LIKE "A%") and and (`birth_year` >= 1990 and `birth_year` <= 2000)```
+
+```json
+{
+	"filter_groups": [
+		{
+			"filters": [
+				{
+					"column": "name",
+					"operator": "sw",
+					"value": "A"
+				}
+			]
+		},
+		{
+			"filters": [
+				{
+					"column": "birth_year",
+					"value": 1990,
+					"operator": "gte"
+				},
+				{
+					"column": "birth_year",
+					"value": 2000,
+					"operator": "lte"
 				}
 			]
 		}
@@ -211,20 +250,26 @@ Below you can find how to filter all users that have first name "Gentrit".
 You can create Custom filter in Repostory like this:
 
 ```php
-public function filterAuthorName($queryBuilder, $method, $operator, $value)
+public function filterAuthorName($queryBuilder, $method, $operator, $value, $clauseOperator, $or)
 {
-     switch ($method) {
-        case 'where':
-            $queryBuilder->whereHas('author', function ($q) use ($operator, $value) {
-                $q->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), $operator, $value);
-            });
-            break;
-        
-        case 'orWhere':
-            $queryBuilder->orWhereHas('author', function ($q) use ($operator, $value) {
-                $q->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), $operator, $value);
-            });
-            break;
+    // Remove or operator support.
+	$method = str_replace('or', '', $method);
+
+	// Query Function
+	$queryFunction = function ($q) use ($operator, $value, $method, $clauseOperator) {
+		if ($clauseOperator == false) {
+			$q->$method(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), $value);
+		} else {
+			$q->$method(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), $operator, $value);
+		}
+	};
+
+	// Or Operator.
+	if ($or == true) {
+		$queryBuilder->orWhereHas('author', $queryFunction);
+	} else {
+		$queryBuilder->whereHas('author', $queryFunction);
+	};
 }
 ```
 
