@@ -116,11 +116,11 @@ trait EloquentBuilderTrait
             $or = $groups['or'];
             $filters = $groups['filters'];
 
-            // $queryBuilder->where(function (Builder $query) use ($filters, $or) {
-            foreach ($filters as $filter) {
-                $this->applyFilter($queryBuilder, $filter, $or);
-            }
-            // });
+            $queryBuilder->where(function (Builder $query) use ($filters, $or) {
+                foreach ($filters as $filter) {
+                    $this->applyFilter($query, $filter, $or);
+                }
+            });
         }
     }
 
