@@ -217,7 +217,7 @@ Filter all users whose name start with “Gentrit” or ends with “Abazi”.
 
 Filter all users whose name start with “A” and which were born between years 1990 and 2000.
 
-```SELECT * FROM `users` WHERE (name LIKE "A%") and and (`birth_year` >= 1990 and `birth_year` <= 2000)```
+```SELECT * FROM `users` WHERE (name LIKE "A%") AND (`birth_year` >= 1990 and `birth_year` <= 2000)```
 
 ```json
 {
@@ -254,7 +254,7 @@ You can create Custom filter in Repostory like this:
 ```php
 public function filterAuthorName($queryBuilder, $method, $operator, $value, $clauseOperator, $or)
 {
-    // Remove or operator support.
+    // Remove or from method, because we will use Subquery.
 	$method = str_replace('or', '', $method);
 
 	// Query Function
