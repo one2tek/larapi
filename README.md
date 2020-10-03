@@ -183,8 +183,8 @@ ew | Ends with
 eq | Equals
 gt | Greater than
 gte| Greater than or equalTo
-lte | Lesser than or equalTo
 lt | Lesser than
+lte | Lesser than or equalTo
 in | In array
 bt | Between
 
