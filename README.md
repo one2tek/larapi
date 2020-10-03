@@ -13,6 +13,7 @@
 * Selecting columns dynamically.
 * Selecting scopes dynamically.
 * Slack formatter.
+* A class for making internal API requests.
 
 ### Installation
 1. Go to your **Controller.php** and extends **LaravelController**.
