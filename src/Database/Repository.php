@@ -40,6 +40,23 @@ abstract class Repository
     }
 
     /**
+     * Get all resources with count.
+     *
+     * @param  array  $options
+     *
+     * @return Collection
+     */
+    public function getWithCount(array $options = [])
+    {
+        $query = $this->createBaseBuilder($options);
+        
+        $totalData = $this->countRows($query);
+        $allRows = $query->get();
+
+        return ['total_data' => $totalData, 'rows' => $allRows];
+    }
+
+    /**
      * Get a resource by its primary key.
      *
      * @param  mixed  $id
@@ -366,5 +383,12 @@ abstract class Repository
                 }
             }
         }
+    }
+    
+    protected function countRows($query)
+    {
+        $totalQuery = clone $query;
+
+        return $totalQuery->offset(0)->limit(PHP_INT_MAX)->count();
     }
 }
