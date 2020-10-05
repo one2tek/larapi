@@ -293,6 +293,10 @@ The examples will use a hypothetical Eloquent model named `User`.
 
 Get all `User` rows
 
+### getWithCount (array $options = [])
+
+Get all `User` rows with Count
+
 ### getById ($id, array $options = [])
 
 Get one `User` by primary key
