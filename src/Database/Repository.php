@@ -44,7 +44,7 @@ abstract class Repository
      *
      * @param  array  $options
      *
-     * @return Collection
+     * @return array
      */
     public function getWithCount(array $options = [])
     {
