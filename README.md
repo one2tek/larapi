@@ -50,6 +50,9 @@ If we have a scope named "***delivered***" this call will include the scope.
 If we have a global scope named "**not_delivered**" this call with remove the global scope.
 
 ### Create Controller, Service, Repository & Model with one Command.
+
+If you want to create Controller, Service, Repository, Model, Exceptions and Events with one Command, then you can use:
+
 ```php artisan component:make {parent} {name}```
 
 ### Eager loading
