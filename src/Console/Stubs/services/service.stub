@@ -24,7 +24,7 @@ class DummyClass
 
     public function getAll($options = [])
     {
-        return $this->dummyVariableRepository->get($options);
+        return $this->dummyVariableRepository->getWithCount($options);
     }
  
     public function getById($dummyVariableId, array $options = [])
