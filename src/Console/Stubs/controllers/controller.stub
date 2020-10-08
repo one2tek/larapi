@@ -2,7 +2,6 @@
 
 namespace DummyNamespace;
 
-use DummyPath\Models\DummyVariable;
 use DummyPath\Services\DummyVariableService;
 use Illuminate\Http\Request;
 use Infrastructure\Http\Controller;
@@ -22,7 +21,7 @@ class DummyClass extends Controller
         $resourceOptions = $this->parseResourceOptions();
     
         $data = $this->dummyVariableService->getAll($resourceOptions, true);
-        $parsedData = $this->parseData($data['rows'], $resourceOptions, 'rows');
+        $parsedData = $this->parseData($data['rows'], $resourceOptions, 'Plural_Dummy_Variable');
         $parsedData['total_data'] = $data['total_data'];
     
         return $this->response($parsedData);
@@ -33,7 +32,7 @@ class DummyClass extends Controller
         $resourceOptions = $this->parseResourceOptions();
     
         $data = $this->dummyVariableService->getById($dummyVariableId, $resourceOptions);
-        $parsedData = $this->parseData($data, $resourceOptions, 'row');
+        $parsedData = $this->parseData($data, $resourceOptions, 'Singular_Dummy_Variable');
     
         return $this->response($parsedData);
     }

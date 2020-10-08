@@ -4,6 +4,7 @@ namespace one2tek\larapi\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class ComponentMakeCommand extends Command
 {
@@ -158,6 +159,8 @@ class ComponentMakeCommand extends Command
         $stub = str_replace('DummyVariable', $class, $stub);
         $stub = str_replace('dummyVariable', lcfirst($class), $stub);
         $stub = str_replace('dummyvariable', strtolower($class), $stub);
+        $stub = str_replace('Singular_Dummy_Variable', Str::singular(strtolower($class)), $stub);
+        $stub = str_replace('Plural_Dummy_Variable', Str::plural(strtolower($class)), $stub);
         $stub = str_replace('DummyName', ucfirst($name), $stub);
 
         return str_replace('DummyClass', $this->argument('name'). ucfirst($shortFileName), $stub);
@@ -210,13 +213,19 @@ class ComponentMakeCommand extends Command
     {
         $this->fire();
 
+        $routePath = $this->argument('name');
+        $routePath = strtolower($routePath);
+        $routePath = Str::plural($routePath);
+        $controllerName = $this->argument('name');
+        $controllerName = ucfirst($controllerName);
+
         $this->info(
             "Routes: ". PHP_EOL.
-            "$". "router->get('/". strtolower($this->argument('name')). "', '". ucfirst($this->argument('name')). "Controller@getAll');". PHP_EOL.
-            "$". "router->get('/". strtolower($this->argument('name')). "/{id}', '". ucfirst($this->argument('name')). "Controller@getById');". PHP_EOL.
-            "$". "router->post('/". strtolower($this->argument('name')). "', '". ucfirst($this->argument('name')). "Controller@create');". PHP_EOL.
-            "$". "router->put('/". strtolower($this->argument('name')). "/{id}', '". ucfirst($this->argument('name')). "Controller@update');". PHP_EOL.
-            "$". "router->delete('/". strtolower($this->argument('name')). "/{id}', '". ucfirst($this->argument('name')). "Controller@delete');". PHP_EOL
+            "$". "router->get('/". $routePath. "', '". $controllerName. "Controller@getAll');". PHP_EOL.
+            "$". "router->get('/". $routePath. "/{id}', '". $controllerName. "Controller@getById');". PHP_EOL.
+            "$". "router->post('/". $routePath. "', '". $controllerName. "Controller@create');". PHP_EOL.
+            "$". "router->put('/". $routePath. "/{id}', '". $controllerName. "Controller@update');". PHP_EOL.
+            "$". "router->delete('/". $routePath. "/{id}', '". $controllerName. "Controller@delete');". PHP_EOL
         );
     }
 }

@@ -38,8 +38,6 @@ class DummyClass
     {
         $dummyVariable = $this->dummyVariableRepository->create($data);
 
-        $dummyVariable->save();
-
         $this->dispatcher->dispatch(new DummyVariableWasCreated($dummyVariable));
 
         return $dummyVariable;
