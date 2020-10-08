@@ -2,7 +2,6 @@
 
 namespace DummyNamespace;
 
-use DummyPath\Models\DummyVariable;
 use DummyPath\Services\DummyVariableService;
 use Illuminate\Http\Request;
 use Infrastructure\Http\Controller;
