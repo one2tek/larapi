@@ -67,6 +67,16 @@ if (!function_exists('renderException')) {
                 ];
                 break;
 
+            case 403:
+                $json = [
+                    'status' => $status,
+                    'errors' => [[
+                        'title' => 'Forbidden.',
+                        'detail' => $title
+                    ]]
+                ];
+                break;
+
             default:
                 $json = [
                     'status' => $status,
