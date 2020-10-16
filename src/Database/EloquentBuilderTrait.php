@@ -74,6 +74,12 @@ trait EloquentBuilderTrait
                 $queryBuilder->has($relation);
             }
         }
+
+        if (isset($doesntHave)) {
+            foreach ($doesntHave as $relation) {
+                $queryBuilder->doesntHave($relation);
+            }
+        }
         
         if (isset($exludeGlobalScopes)) {
             if (!is_array($exludeGlobalScopes)) {
