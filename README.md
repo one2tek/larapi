@@ -86,6 +86,11 @@ Nested **has** statements may also be constructed using **"dot"** notation. For 
 
 `{base_url}/posts?has[]=comments.votes`
 
+### Querying Relationship Absence
+
+When accessing the records for a model, you may wish to limit your results based on the absence of a relationship. For example, imagine you want to retrieve all blog posts that don't have any comments. To do so, you may pass the name of the relationship to the **doesntHave**:
+
+`{base_url}/posts?doesntHave[]=comments`
 
 ### Advanced Eager loading
 
