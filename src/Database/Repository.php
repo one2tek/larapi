@@ -104,7 +104,7 @@ abstract class Repository
                 if (count($appends) == 2) {
                     $relation1 = $appends[0];
                     $relation1InstanceOf = get_class($query->$relation1());
-                    $attributeName = $appends[2];
+                    $attributeName = $appends[1];
 
                     if ($relation1InstanceOf == 'Illuminate\Database\Eloquent\Relations\HasOne') {
                         $query->$relation1->setAppends([$attributeName]);
