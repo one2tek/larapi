@@ -104,7 +104,7 @@ abstract class Repository
                 if (count($appends) == 2) {
                     $relation1 = $appends[0];
                     $relation1InstanceOf = get_class($query->$relation1());
-                    $attributeName = $appends[2];
+                    $attributeName = $appends[1];
 
                     if ($relation1InstanceOf == 'Illuminate\Database\Eloquent\Relations\HasOne') {
                         $query->$relation1->setAppends([$attributeName]);
@@ -118,13 +118,16 @@ abstract class Repository
                 if (count($appends) == 3) {
                     $relation1 = $appends[0];
                     $relation1InstanceOf = get_class($query->$relation1());
+                    $relation1Exists = $query->$relation1()->exists();
                     $relation2 = $appends[1];
-                    $relation2InstanceOf = get_class($query->$relation1->$relation2());
-                    $attributeName = $appends[2];
+                    if ($relation1Exists) {
+                        $relation2InstanceOf = get_class($query->$relation1->$relation2());
+                        $attributeName = $appends[2];
 
-                    if ($relation1InstanceOf == 'Illuminate\Database\Eloquent\Relations\HasOne') {
-                        if ($relation2InstanceOf == 'Illuminate\Database\Eloquent\Relations\BelongsTo') {
-                            $query->$relation1->$relation2->setAppends([$attributeName]);
+                        if ($relation1InstanceOf == 'Illuminate\Database\Eloquent\Relations\HasOne') {
+                            if ($relation2InstanceOf == 'Illuminate\Database\Eloquent\Relations\BelongsTo') {
+                                $query->$relation1->$relation2->setAppends([$attributeName]);
+                            }
                         }
                     }
                 }
