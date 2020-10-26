@@ -30,6 +30,7 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         $middleware = config('larapi-components.protection_middleware');
+        $extraRoutes = config('larapi-components.extra_routes');
 
         $highLevelParts = array_map(function ($namespace) {
             return glob(sprintf('%s%s*', $namespace, DIRECTORY_SEPARATOR), GLOB_ONLYDIR);
@@ -61,6 +62,28 @@ class RouteServiceProvider extends ServiceProvider
                     $router->group([
                         'middleware' => $protected ? $middleware : [],
                         'namespace'  => $namespace,
+                    ], function ($router) use ($path) {
+                        require $path;
+                    });
+                }
+
+                foreach ($extraRoutes as $routeName => $route) {
+                    $path = sprintf('%s/%s.php', $componentRoot, $routeName);
+
+                    if (!file_exists($path)) {
+                        continue;
+                    }
+                    
+                    $namespace = sprintf(
+                        '%s\\%s\\'. $route['namespace'],
+                        $part,
+                        $component
+                    );
+
+                    $router->group([
+                        'middleware' => $route['middleware'],
+                        'namespace' => $namespace,
+                        'prefix' => $route['prefix']
                     ], function ($router) use ($path) {
                         require $path;
                     });
