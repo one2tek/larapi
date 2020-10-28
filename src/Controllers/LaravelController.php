@@ -104,34 +104,39 @@ abstract class LaravelController extends Controller
     }
 
     /**
-     * Parse include strings into resource and modes.
+     * Parse includes.
      *
      * @param  array  $includes
-     *
      * @return array
      */
     protected function parseIncludes(array $includes)
     {
-        $return = [
-            'includes' => [],
-            'modes' => []
-        ];
+        $return = [];
 
         foreach ($includes as $include) {
-            $explode = explode('-', $include);
-            $explode2 = explode(':', $include);
+            $return[] = $include;
+        }
 
-            if (!isset($explode[1])) {
-                $explode[1] = $this->defaults['mode'];
-            }
+        return $return;
+    }
 
-            $return['includes'][] = $explode[0];
+    /**
+     * Parse modes.
+     *
+     * @param  array  $modeIds
+     * @param  array  $modeSideload
+     * @return array
+     */
+    protected function parseModes(array $modeIds, array $modeSideload)
+    {
+        $return = [];
 
-            if (strpos($include, ':') !== false) {
-                $return['modes'][$explode2[0]] = $explode[1];
-            } else {
-                $return['modes'][$explode[0]] = $explode[1];
-            }
+        foreach ($modeIds as $mode1) {
+            $return[$mode1] = 'ids';
+        }
+
+        foreach ($modeSideload as $mode2) {
+            $return[$mode2] = 'sideload';
         }
 
         return $return;
@@ -248,6 +253,7 @@ abstract class LaravelController extends Controller
 
         $selects = $this->parseSelects($request->get('select', $this->defaults['selects']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
+        $modes = $this->parseModes($request->get('modeIds', []), $request->get('modeSideload', []));
         $include = $this->parseInclude($request->get('include', $this->defaults['include']));
         $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
         $withs = $request->get('with', $this->defaults['withs']);
@@ -263,14 +269,14 @@ abstract class LaravelController extends Controller
 
         $data = [
             'selects' => $selects,
-            'includes' => $includes['includes'],
+            'includes' => $includes,
             'include' => $include,
             'withCount' => $withCount,
             'withs' => $withs,
             'has' => $has,
             'doesntHave' => $doesntHave,
             'exludeGlobalScopes' => $exludeGlobalScopes,
-            'modes' => $includes['modes'],
+            'modes' => $modes,
             'scope' => $scope,
             'sort' => $sort,
             'limit' => $limit,

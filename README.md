@@ -65,13 +65,13 @@ Will return a collection of 5 `Book`s eager loaded with `Author`.
 
 **IDs mode**
 
-`{base_url}/books?includes[]=author-ids`
+`{base_url}/books?modeIds[]=author`
 
 Will return a collection of `Book`s eager loaded with the ID of their `Author`
 
 **Sideload mode**
 
-`{base_url}/books?includes[]=author-sideload`
+`{base_url}/books?modeSideload[]=author`
 
 Will return a collection of `Book`s and a eager loaded collection of their
 `Author`s in the root scope.
