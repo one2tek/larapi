@@ -63,9 +63,9 @@ class DummyClass
         $this->dispatcher->dispatch(new DummyVariableWasDeleted($dummyVariable));
     }
  
-    public function getRequestedDummyVariable($dummyVariableId)
+    public function getRequestedDummyVariable($dummyVariableId, $options = [])
     {
-        $dummyVariable = $this->dummyVariableRepository->getById($dummyVariableId);
+        $dummyVariable = $this->dummyVariableRepository->getById($dummyVariableId, $options);
         
         if (is_null($dummyVariable)) {
             throw new DummyVariableNotFoundException;
