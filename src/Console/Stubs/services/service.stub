@@ -29,7 +29,7 @@ class DummyClass
  
     public function getById($dummyVariableId, array $options = [])
     {
-        $dummyVariable = $this->getRequestedDummyVariable($dummyVariableId);
+        $dummyVariable = $this->getRequestedDummyVariable($dummyVariableId, $options);
  
         return $dummyVariable;
     }
