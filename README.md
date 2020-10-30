@@ -33,7 +33,7 @@
 
 You may not always want to select all columns from a database table. Using the select method, you can specify a custom select clause for the query:
 
-`{base_url}/users?select[]=id,first_name`
+`{base_url}/users?select=id,first_name`
 
 ### Scopes
 
