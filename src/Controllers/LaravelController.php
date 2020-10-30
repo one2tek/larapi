@@ -74,17 +74,29 @@ abstract class LaravelController extends Controller
     /**
      * Parse selects.
      *
-     * @param  array  $selects
-     *
+     * @param  string|array  $selects
      * @return array
      */
-    protected function parseSelects(array $selects)
+    protected function parseSelects($selects)
     {
-        if (count($selects)) {
-            return explode(',', $selects[0]);
+        if (is_null($selects)) {
+            return null;
         }
 
-        return [];
+        $return = [];
+        
+        if (is_array($selects)) {
+            foreach ($selects as $select) {
+                $allSelects = explode(',', $select);
+                foreach ($allSelects as $select) {
+                    $return[] = $select;
+                }
+            }
+
+            return $return;
+        }
+        
+        return explode(',', $selects);
     }
 
     /**
@@ -234,7 +246,8 @@ abstract class LaravelController extends Controller
         }
 
         $this->defaults = array_merge([
-            'selects' => [],
+            'selects' => null,
+            'select' => null,
             'includes' => [],
             'include' => null,
             'withCount' => [],
@@ -251,7 +264,8 @@ abstract class LaravelController extends Controller
             'append' => [],
         ], $this->defaults);
 
-        $selects = $this->parseSelects($request->get('select', $this->defaults['selects']));
+        $selects = $this->parseSelects($request->get('selects', $this->defaults['selects']));
+        $select = $this->parseSelects($request->get('select', $this->defaults['select']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
         $modes = $this->parseModes($request->get('modeIds', []), $request->get('modeSideload', []));
         $include = $this->parseInclude($request->get('include', $this->defaults['include']));
@@ -268,6 +282,7 @@ abstract class LaravelController extends Controller
         $append = $request->get('append', $this->defaults['append']);
 
         $data = [
+            'select' => $select,
             'selects' => $selects,
             'includes' => $includes,
             'include' => $include,

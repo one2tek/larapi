@@ -17,14 +17,11 @@ trait EloquentBuilderTrait
 
         extract($options);
 
-        if (isset($selects)) {
-            if (!is_array($selects)) {
-                throw new InvalidArgumentException('Selects should be an array.');
-            }
-
-            if (count($selects)) {
-                $queryBuilder->select(array_unique($selects));
-            }
+        if (isset($selects) && $selects) {
+            $queryBuilder->select($selects);
+        }
+        if (isset($select) && $select) {
+            $queryBuilder->select($select);
         }
 
         if (isset($includes)) {
