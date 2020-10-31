@@ -76,6 +76,12 @@ Will return a collection of `Book`s eager loaded with the ID of their `Author`
 Will return a collection of `Book`s and a eager loaded collection of their
 `Author`s in the root scope.
 
+**Specifying Columns**
+
+`{base_url}/books?include=author:id,first_name`.
+
+Will return a collection of `Book`s eager loaded with `Author` only id and first_name column.
+
 ### Querying Relationship Existence
 
 Imagine you want to retrieve all blog posts that have at least one comment.
