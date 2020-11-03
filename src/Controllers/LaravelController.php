@@ -173,17 +173,17 @@ abstract class LaravelController extends Controller
     }
     
     /**
-    * Parse exludeGlobalScopes into resource.
+    * Parse excludeGlobalScopes into resource.
     *
-    * @param  array  $exludeGlobalScopes
+    * @param  array  $excludeGlobalScopes
     *
     * @return array
     */
-    protected function parseExludeGlobalScopes(array $exludeGlobalScopes)
+    protected function parseexcludeGlobalScopes(array $excludeGlobalScopes)
     {
         $return = [];
 
-        foreach ($exludeGlobalScopes as $exludeGlobalScope) {
+        foreach ($excludeGlobalScopes as $exludeGlobalScope) {
             $return[] = $exludeGlobalScope;
         }
 
@@ -254,7 +254,7 @@ abstract class LaravelController extends Controller
             'withs' => [],
             'has' => [],
             'doesntHave' => [],
-            'exludeGlobalScopes' => [],
+            'excludeGlobalScopes' => [],
             'scope' => [],
             'sort' => [],
             'limit' => null,
@@ -273,7 +273,7 @@ abstract class LaravelController extends Controller
         $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
         $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
-        $exludeGlobalScopes = $this->parseExludeGlobalScopes($request->get('exludeGlobalScopes', $this->defaults['exludeGlobalScopes']));
+        $excludeGlobalScopes = $this->parseexcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
         $scope = $request->get('scope', $this->defaults['scope']);
         $sort = $this->parseSort($request->get('sort', $this->defaults['sort']));
         $limit = $request->get('limit', $this->defaults['limit']);
@@ -290,7 +290,7 @@ abstract class LaravelController extends Controller
             'withs' => $withs,
             'has' => $has,
             'doesntHave' => $doesntHave,
-            'exludeGlobalScopes' => $exludeGlobalScopes,
+            'excludeGlobalScopes' => $excludeGlobalScopes,
             'modes' => $modes,
             'scope' => $scope,
             'sort' => $sort,

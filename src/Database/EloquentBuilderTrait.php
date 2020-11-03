@@ -78,12 +78,12 @@ trait EloquentBuilderTrait
             }
         }
         
-        if (isset($exludeGlobalScopes)) {
-            if (!is_array($exludeGlobalScopes)) {
-                throw new InvalidArgumentException('exludeGlobalScopes should be an array.');
+        if (isset($excludeGlobalScopes)) {
+            if (!is_array($excludeGlobalScopes)) {
+                throw new InvalidArgumentException('excludeGlobalScopes should be an array.');
             }
 
-            $this->applyWithouGlobalScopes($queryBuilder, $exludeGlobalScopes);
+            $this->applyWithouGlobalScopes($queryBuilder, $excludeGlobalScopes);
         }
 
         if (isset($filter_groups)) {
@@ -127,9 +127,9 @@ trait EloquentBuilderTrait
         }
     }
 
-    protected function applyWithouGlobalScopes(Builder $queryBuilder, array $exludeGlobalScopes = [])
+    protected function applyWithouGlobalScopes(Builder $queryBuilder, array $excludeGlobalScopes = [])
     {
-        $queryBuilder->withoutGlobalScopes($exludeGlobalScopes);
+        $queryBuilder->withoutGlobalScopes($excludeGlobalScopes);
     }
     
     protected function applyFilter(Builder $queryBuilder, array $filter, $or = false)
