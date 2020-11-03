@@ -45,7 +45,7 @@ If we have a scope named "***delivered***" this call will include the scope.
 
 **Without global scopes**
 
-`{base_url}/books?exludeGlobalScopes[]=not_delivered`
+`{base_url}/books?excludeGlobalScopes[]=not_delivered`
 
 If we have a global scope named "**not_delivered**" this call with remove the global scope.
 
