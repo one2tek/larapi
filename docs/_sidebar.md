@@ -23,3 +23,7 @@
   - [Modes](including_relationships.md?id=modes)
     - [IDs mode](including_relationships.md?id=ids-mode)
     - [Sideload mode](including_relationships.md?id=sideload-mode)
+
+- Pagination
+  - [Quick start](pagination.md?id=pagination)
+  - [Usage](pagination.md?id=usage)
