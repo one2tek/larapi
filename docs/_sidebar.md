@@ -1,6 +1,7 @@
 - Getting started
   - [Quick start](README.md)
   - [Installation](installation.md)
+  - [Configuration](configuration.md)
 
 - Selecting fields
   - [Quick start](selecting_fields.md?id=selecting-fields)
