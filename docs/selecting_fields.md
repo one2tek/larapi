@@ -1,6 +1,6 @@
 # Selecting fields
 
-Sometimes you'll want to fetch only a couple fields to reduce the overall size of your SQL query. This can be done by specifying some fields request query parameter.
+Sometimes you'll want to fetch only a couple fields to reduce the overall size of your SQL query. This can be done by specifying some fields in request by query parameter.
 
 # Basic usage
 
