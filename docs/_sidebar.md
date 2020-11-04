@@ -27,3 +27,7 @@
 - Pagination
   - [Quick start](pagination.md?id=pagination)
   - [Usage](pagination.md?id=usage)
+
+- Sorting
+  - [Quick start](sorting.md?id=sorting)
+  - [Usage](sorting.md?id=usage)
