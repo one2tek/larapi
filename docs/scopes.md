@@ -4,8 +4,19 @@ Sometimes more advanced filtering options are necessary. This is where scope fil
 
 # Usage
 
-The following scope will now add the `popular` scope to the underlying query:
+The following query parameter will add the `popular` scope:
 
 ```markdown
 {base_url}/users?scope[]=popular
+```
+
+# Remove Global Scopes
+
+Global scopes allow you to add constraints to all queries for a given model.
+What if we want to remove it ?
+
+The following query parameter will remove the `delivered` global scope:
+
+```markdown
+{base_url}/books?excludeGlobalScopes[]=delivered
 ```

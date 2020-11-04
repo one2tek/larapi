@@ -8,5 +8,6 @@
   - [Selecting fields for included relations](selecting_fields.md?id=selecting-fields-for-included-relations)
 
 - Scopes
-- [Quick start](scopes.md?id=scopes)
-- [Usage](scopes.md?id=usage)
+  - [Quick start](scopes.md?id=scopes)
+  - [Usage](scopes.md?id=usage)
+  - [Remove Global Scopes](scopes.md?id=remove-global-scopes)
