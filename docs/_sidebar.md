@@ -1,6 +1,7 @@
 - Getting started
   - [Quick start](README.md)
   - [Installation](installation.md)
+  - [Configuration](configuration.md)
 
 - Selecting fields
   - [Quick start](selecting_fields.md?id=selecting-fields)
@@ -20,3 +21,18 @@
   - [Counting related relations](including_relationships.md?id=counting-related-relations)
   - [Querying Relationship Existence](including_relationships.md?id=querying-relationship-existence)
   - [Querying Relationship Absence](including_relationships.md?id=querying-relationship-absence)
+  - [Modes](including_relationships.md?id=modes)
+    - [IDs mode](including_relationships.md?id=ids-mode)
+    - [Sideload mode](including_relationships.md?id=sideload-mode)
+
+- Pagination
+  - [Quick start](pagination.md?id=pagination)
+  - [Usage](pagination.md?id=usage)
+
+- Sorting
+  - [Quick start](sorting.md?id=sorting)
+  - [Usage](sorting.md?id=usage)
+
+- Filtering
+  - [Quick start](filtering.md?id=filtering)
+  - [Usage](filtering.md?id=usage)
