@@ -31,3 +31,7 @@
 - Sorting
   - [Quick start](sorting.md?id=sorting)
   - [Usage](sorting.md?id=usage)
+
+- Filtering
+  - [Quick start](filtering.md?id=filtering)
+  - [Usage](filtering.md?id=usage)
