@@ -72,6 +72,46 @@ abstract class LaravelController extends Controller
     }
 
     /**
+     * Parse sort by asc.
+     *
+     * @param  array|string  $sortByAsc
+     *
+     * @return array
+     */
+    protected function parseSortByAsc($sortByAsc)
+    {
+        if (is_null($sortByAsc)) {
+            return [];
+        }
+
+        if (is_array($sortByAsc)) {
+            return [];
+        }
+        
+        return explode(',', $sortByAsc);
+    }
+
+    /**
+     * Parse sort by desc.
+     *
+     * @param  array|string  $sortByDesc
+     *
+     * @return array
+     */
+    protected function parseSortByDesc($sortByDesc)
+    {
+        if (is_null($sortByDesc)) {
+            return [];
+        }
+
+        if (is_array($sortByDesc)) {
+            return [];
+        }
+        
+        return explode(',', $sortByDesc);
+    }
+
+    /**
      * Parse selects.
      *
      * @param  string|array  $selects
@@ -246,8 +286,8 @@ abstract class LaravelController extends Controller
         }
 
         $this->defaults = array_merge([
-            'selects' => null,
-            'select' => null,
+            'selects' => [],
+            'select' => [],
             'includes' => [],
             'include' => null,
             'withCount' => [],
@@ -262,6 +302,8 @@ abstract class LaravelController extends Controller
             'mode' => 'embed',
             'filter_groups' => [],
             'append' => [],
+            'sortByDesc' => [],
+            'sortByAsc' => [],
         ], $this->defaults);
 
         $selects = $this->parseSelects($request->get('selects', $this->defaults['selects']));
@@ -280,6 +322,8 @@ abstract class LaravelController extends Controller
         $page = $request->get('page', $this->defaults['page']);
         $filter_groups = $this->parseFilterGroups($request->get('filter_groups', $this->defaults['filter_groups']));
         $append = $request->get('append', $this->defaults['append']);
+        $sortByDesc = $this->parseSortByDesc($request->get('sortByDesc', $this->defaults['sortByDesc']));
+        $sortByAsc = $this->parseSortByAsc($request->get('sortByAsc', $this->defaults['sortByAsc']));
 
         $data = [
             'select' => $select,
@@ -297,7 +341,9 @@ abstract class LaravelController extends Controller
             'limit' => $limit,
             'page' => $page,
             'filter_groups' => $filter_groups,
-            'append' => $append
+            'append' => $append,
+            'sortByDesc' => $sortByDesc,
+            'sortByAsc' => $sortByAsc
         ];
 
         $this->validateResourceOptions($data);

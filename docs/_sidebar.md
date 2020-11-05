@@ -32,7 +32,12 @@
 - Sorting
   - [Quick start](sorting.md?id=sorting)
   - [Usage](sorting.md?id=usage)
+  - [Sort multiple columns](sorting.md?id=sort-multiple)
 
 - Filtering
   - [Quick start](filtering.md?id=filtering)
   - [Usage](filtering.md?id=usage)
+
+- Advanced Usage
+  - [Quick start](advanced_usage.md?id=avanced_usage)
+  - [Usage](advanced_usage.md?id=custom-sort)
