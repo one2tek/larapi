@@ -2,7 +2,6 @@
 
 namespace one2tek\larapi\Database;
 
-use DB;
 use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -110,6 +109,14 @@ trait EloquentBuilderTrait
             $queryBuilder->distinct();
         }
 
+        if (isset($sortByAsc) && $sortByAsc) {
+            $this->applySortByAsc($queryBuilder, $sortByAsc);
+        }
+
+        if (isset($sortByDesc) && $sortByDesc) {
+            $this->applySortByDesc($queryBuilder, $sortByDesc);
+        }
+
         return $queryBuilder;
     }
 
@@ -124,6 +131,30 @@ trait EloquentBuilderTrait
                     $this->applyFilter($query, $filter, $or);
                 }
             });
+        }
+    }
+
+    protected function applySortByAsc(Builder $queryBuilder, array $sortByAsc = [])
+    {
+        foreach ($sortByAsc as $sortByAscKey) {
+            $customSortMethod = $this->hasCustomMethod('sort', $sortByAscKey);
+            if ($customSortMethod) {
+                call_user_func([$this, $customSortMethod], $queryBuilder, 'ASC');
+            } else {
+                $queryBuilder->orderBy($sortByAscKey);
+            }
+        }
+    }
+
+    protected function applySortByDesc(Builder $queryBuilder, array $sortByDesc = [])
+    {
+        foreach ($sortByDesc as $sortByDescKey) {
+            $customSortMethod = $this->hasCustomMethod('sort', $sortByDescKey);
+            if ($customSortMethod) {
+                call_user_func([$this, $customSortMethod], $queryBuilder, 'DESC');
+            } else {
+                $queryBuilder->orderByDesc($sortByDescKey);
+            }
         }
     }
 
