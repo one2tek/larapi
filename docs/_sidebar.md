@@ -44,4 +44,4 @@
 
 - Advanced Usage
   - [Quick start](advanced_usage.md?id=avanced_usage)
-  - [Usage](advanced_usage.md?id=custom-sort)
+  - [Custom Sort](advanced_usage.md?id=custom-sort)
