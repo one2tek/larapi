@@ -13,6 +13,10 @@
   - [Usage](scopes.md?id=usage)
   - [Remove Global Scopes](scopes.md?id=remove-global-scopes)
 
+- Appends
+  - [Quick start](appends.md?id=appends)
+  - [Usage](appends.md?id=usage)
+
 - Including relationships
   - [Quick start](including_relationships.md?id=including-relationships)
   - [Basic usage](including_relationships.md?id=basic-usage)
