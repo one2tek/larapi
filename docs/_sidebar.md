@@ -36,7 +36,7 @@
 - Sorting
   - [Quick start](sorting.md?id=sorting)
   - [Usage](sorting.md?id=usage)
-  - [Sort multiple columns](sorting.md?id=sort-multiple)
+  - [Sort multiple columns](sorting.md?id=sort-multiple-columns)
 
 - Filtering
   - [Quick start](filtering.md?id=filtering)
