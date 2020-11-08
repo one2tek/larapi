@@ -42,6 +42,12 @@
   - [Quick start](filtering.md?id=filtering)
   - [Usage](filtering.md?id=usage)
 
+- Repository
+  - [Quick start](repository.md?id=repository)
+  - [Create repository](repository.md?id=create-repository)
+  - [Default sort](repository.md?id=default-sort)
+  - [Functions](repository.md?id=functions)
+
 - Advanced Usage
   - [Quick start](advanced_usage.md?id=avanced_usage)
   - [Custom Sort](advanced_usage.md?id=custom-sort)
