@@ -36,7 +36,11 @@ abstract class Repository
     {
         $query = $this->createBaseBuilder($options);
 
-        return $query->get();
+        $data = $query->get();
+
+        $this->appendAttributes($data, $options);
+
+        return $data;
     }
 
     /**
@@ -52,6 +56,8 @@ abstract class Repository
         
         $totalData = $this->countRows($query);
         $allRows = $query->get();
+
+        $this->appendAttributes($allRows, $options);
 
         return ['total_data' => $totalData, 'rows' => $allRows];
     }
@@ -148,7 +154,11 @@ abstract class Repository
 
         $query->orderBy($this->getCreatedAtColumn(), 'DESC');
 
-        return $query->get();
+        $data = $query->get();
+
+        $this->appendAttributes($data, $options);
+
+        return $data;
     }
 
     /**
@@ -168,7 +178,11 @@ abstract class Repository
 
         $query->orderBy($this->getCreatedAtColumn(), 'DESC');
 
-        return $query->get();
+        $data = $query->get();
+
+        $this->appendAttributes($data, $options);
+
+        return $data;
     }
 
     /**
@@ -184,7 +198,11 @@ abstract class Repository
 
         $query->orderBy($this->getCreatedAtColumn(), 'DESC');
 
-        return $query->first();
+        $data = $query->first();
+
+        $this->appendAttributes($data, $options);
+
+        return $data;
     }
 
     /**
@@ -204,7 +222,11 @@ abstract class Repository
 
         $query->orderBy($this->getCreatedAtColumn(), 'DESC');
 
-        return $query->first();
+        $data = $query->get();
+        
+        $this->appendAttributes($data, $options);
+
+        return $data;
     }
 
     /**
@@ -222,7 +244,11 @@ abstract class Repository
 
         $query->where($column, $value);
 
-        return $query->get();
+        $data = $query->get();
+        
+        $this->appendAttributes($data, $options);
+
+        return $data;
     }
 
     /**
@@ -239,7 +265,11 @@ abstract class Repository
 
         $this->applyWhereArray($query, $clauses);
 
-        return $query->get();
+        $data = $query->get();
+        
+        $this->appendAttributes($data, $options);
+
+        return $data;
     }
 
     /**
@@ -257,7 +287,11 @@ abstract class Repository
 
         $query->whereIn($column, $values);
 
-        return $query->get();
+        $data = $query->get();
+        
+        $this->appendAttributes($data, $options);
+
+        return $data;
     }
 
     /**
