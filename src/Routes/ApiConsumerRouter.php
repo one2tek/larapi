@@ -5,10 +5,8 @@ namespace one2tek\larapi\Routes;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router as LaravelRouter;
-use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class Router
+class ApiConsumerRouter
 {
     private $app;
 

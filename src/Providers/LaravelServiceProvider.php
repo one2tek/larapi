@@ -2,7 +2,7 @@
 
 namespace one2tek\larapi\Providers;
 
-use one2tek\larapi\Routes\Router;
+use one2tek\larapi\Routes\ApiConsumerRouter;
 use Illuminate\Support\ServiceProvider as BaseProvider;
 use one2tek\larapi\Console\ComponentMakeCommand;
 
@@ -41,7 +41,7 @@ class LaravelServiceProvider extends BaseProvider
         $this->app->singleton('apiconsumer', function () {
             $app = app();
 
-            return new Router($app, $app['request'], $app['router']);
+            return new ApiConsumerRouter($app, $app['request'], $app['router']);
         });
     }
 }
