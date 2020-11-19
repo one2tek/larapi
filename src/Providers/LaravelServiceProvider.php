@@ -16,7 +16,8 @@ class LaravelServiceProvider extends BaseProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__. '../../Config/larapi-components.php', 'larapi-components'
+            __DIR__. '../../Config/larapi.php',
+            'larapi'
         );
     }
 
@@ -28,7 +29,7 @@ class LaravelServiceProvider extends BaseProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__. '/../Config/larapi-components.php' => config_path('larapi-components.php'),
+            __DIR__. '/../Config/larapi.php' => config_path('larapi.php'),
         ]);
         
         if ($this->app->runningInConsole()) {
