@@ -2,7 +2,7 @@
 
 namespace one2tek\larapi\Providers;
 
-use one2tek\larapi\Routes\Router;
+use one2tek\larapi\Routes\ApiConsumerRouter;
 use Illuminate\Support\ServiceProvider as BaseProvider;
 use one2tek\larapi\Console\ComponentMakeCommand;
 
@@ -16,7 +16,8 @@ class LaravelServiceProvider extends BaseProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__. '../../Config/larapi-components.php', 'larapi-components'
+            __DIR__. '../../Config/larapi.php',
+            'larapi'
         );
     }
 
@@ -28,7 +29,7 @@ class LaravelServiceProvider extends BaseProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__. '/../Config/larapi-components.php' => config_path('larapi-components.php'),
+            __DIR__. '/../Config/larapi.php' => config_path('larapi.php'),
         ]);
         
         if ($this->app->runningInConsole()) {
@@ -40,7 +41,7 @@ class LaravelServiceProvider extends BaseProvider
         $this->app->singleton('apiconsumer', function () {
             $app = app();
 
-            return new Router($app, $app['request'], $app['router']);
+            return new ApiConsumerRouter($app, $app['request'], $app['router']);
         });
     }
 }
