@@ -17,7 +17,6 @@ Larapi is a package thats offers you to do modern API development in Laravel wit
 - Pagination.
 - Selecting columns dynamically.
 - Selecting scopes dynamically.
-- Slack formatter.
 - Appends.
 - A class for making internal API requests.
 

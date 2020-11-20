@@ -12,7 +12,6 @@
 * Pagination.
 * Selecting columns dynamically.
 * Selecting scopes dynamically.
-* Slack formatter.
 * Appends.
 * A class for making internal API requests.
 
