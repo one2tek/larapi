@@ -2,7 +2,7 @@
 
 return [
     'exceptions_formatters' => [
-        Throwable::class => one2tek\larapi\ExceptionFormatter::class,
-        SymfonyException\UnprocessableEntityHttpException::class => one2tek\larapi\UnprocessableEntityHttpExceptionFormatter::class
+        Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException::class => one2tek\larapi\ExceptionsFormatters\UnprocessableEntityHttpExceptionFormatter::class,
+        Throwable::class => one2tek\larapi\ExceptionsFormatters\ExceptionFormatter::class
     ]
 ];
