@@ -48,6 +48,11 @@
   - [Default sort](repository.md?id=default-sort)
   - [Functions](repository.md?id=functions)
 
+- Exception Handler
+  - [Quick start](exception_handler.md?id=exception-handler)
+  - [Configure](exception_handler.md?id=configure)
+  - [Formatters](exception_handler.md?id=formatters)
+
 - Advanced Usage
   - [Quick start](advanced_usage.md?id=avanced_usage)
   - [Custom Sort](advanced_usage.md?id=custom-sort)
