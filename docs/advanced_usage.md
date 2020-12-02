@@ -12,3 +12,14 @@ public function sortMyName($queryBuilder, $direction)
     // 
 }
 ```
+
+# Custom Filter
+
+You can create custom filter in your repository like this:
+
+```php
+public function filterName($queryBuilder, $method, $operator, $value, $clauseOperator, $or)
+{
+    // 
+}
+```

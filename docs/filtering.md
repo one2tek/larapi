@@ -2,6 +2,8 @@
 
 Data filtering is very easy with at `Larapi` see the examples below.
 
+For more advanced use cases, [custom filter](advanced_usage?id=custom-filter) can be used.
+
 # Usage
 
 By default, all filters have to be explicitly allowed using `$whiteListFilter` property in specified Model. 
