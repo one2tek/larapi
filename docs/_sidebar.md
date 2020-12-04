@@ -56,3 +56,4 @@
 - Advanced Usage
   - [Quick start](advanced_usage.md?id=avanced_usage)
   - [Custom Sort](advanced_usage.md?id=custom-sort)
+  - [Custom Filter](advanced_usage.md?id=custom-filter)
