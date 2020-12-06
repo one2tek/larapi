@@ -8,7 +8,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 use one2tek\larapi\Core\Architect;
-use Illuminate\Http\Request;
 
 abstract class LaravelController extends Controller
 {
@@ -142,13 +141,17 @@ abstract class LaravelController extends Controller
     /**
      * Parse include.
      *
-     * @param  array  $include
+     * @param  string|array  $include
      *
      * @return array
      */
     protected function parseInclude($include)
     {
-        if (is_null($include)) {
+        if (is_string($include) && is_null($include)) {
+            return [];
+        }
+
+        if (is_array($include) && !count($include)) {
             return [];
         }
         
@@ -289,7 +292,7 @@ abstract class LaravelController extends Controller
             'selects' => [],
             'select' => [],
             'includes' => [],
-            'include' => null,
+            'include' => [],
             'withCount' => [],
             'withs' => [],
             'has' => [],
@@ -309,8 +312,8 @@ abstract class LaravelController extends Controller
         $selects = $this->parseSelects($request->get('selects', $this->defaults['selects']));
         $select = $this->parseSelects($request->get('select', $this->defaults['select']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
-        $modes = $this->parseModes($request->get('modeIds', []), $request->get('modeSideload', []));
         $include = $this->parseInclude($request->get('include', $this->defaults['include']));
+        $modes = $this->parseModes($request->get('modeIds', []), $request->get('modeSideload', []));
         $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
         $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
