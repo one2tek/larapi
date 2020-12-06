@@ -8,7 +8,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 use one2tek\larapi\Core\Architect;
-use Illuminate\Http\Request;
 
 abstract class LaravelController extends Controller
 {
