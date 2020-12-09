@@ -40,7 +40,9 @@
 
 - Filtering
   - [Quick start](filtering.md?id=filtering)
-  - [Usage](filtering.md?id=usage)
+  - [Operators](filtering.md?id=operators)
+  - [Build filter](filtering.md?id=build-filter)
+  - [Example filters](filtering.md?id=example-filters)
 
 - Repository
   - [Quick start](repository.md?id=repository)

@@ -3,11 +3,12 @@
 namespace one2tek\larapi\Controllers;
 
 use JsonSerializable;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
 use one2tek\larapi\Core\Architect;
+use Illuminate\Contracts\Support\Arrayable;
 
 abstract class LaravelController extends Controller
 {
@@ -222,7 +223,7 @@ abstract class LaravelController extends Controller
     *
     * @return array
     */
-    protected function parseexcludeGlobalScopes(array $excludeGlobalScopes)
+    protected function parseExcludeGlobalScopes(array $excludeGlobalScopes)
     {
         $return = [];
 
@@ -231,6 +232,75 @@ abstract class LaravelController extends Controller
         }
 
         return $return;
+    }
+
+    /**
+     * Parse filters.
+     *
+     * @param  array  $filter
+     * @param  bool  $or
+     * @return array
+     */
+    protected function parseFilters(array $filters, $or = false)
+    {
+        if (!count($filters)) {
+            return [];
+        }
+
+        $parsedFilters = [];
+        $allowedOperators = [
+            'ct',
+            'sw',
+            'ew',
+            'eq',
+            'gt',
+            'gte',
+            'lte',
+            'lt',
+            'in',
+            'bt',
+        ];
+
+        foreach ($filters as $column => $part) {
+            $arrayCountValues = is_array($part) ? count($part, COUNT_RECURSIVE) : 0;
+            $operator = 'eq';
+            $not = false;
+            $value = (is_array($part)) ? null : $part;
+            if (is_array($part)) {
+                $operator = key($part) ?? 'eq';
+            }
+            
+            if ($arrayCountValues > 2) {
+                throw new InvalidArgumentException('Filter is not well formed.');
+            }
+
+            if (!in_array($operator, $allowedOperators, )) {
+                throw new InvalidArgumentException('Operator '. $operator. ' is not supported.');
+            }
+
+            if (is_array($part)) {
+                $not = ($arrayCountValues == 2) ? key($part[$operator]) : false;
+                $not = $not ? filter_var($not, FILTER_VALIDATE_BOOLEAN) : false;
+            
+                $value = $part[(string)key($part)];
+                $value = is_array($value) ? array_shift($value) : $value;
+                $value = (Str::contains($value, ',')) ? explode(',', $value) : $value;
+            }
+
+            $parsedFilters[] = [
+                'column' => $column,
+                'operator' => $operator,
+                'not' => $not,
+                'value' => $value
+            ];
+        }
+        
+        return [
+            [
+                'filters' => $parsedFilters,
+                'or' => $or
+            ]
+        ];
     }
 
     /**
@@ -304,6 +374,8 @@ abstract class LaravelController extends Controller
             'page' => null,
             'mode' => 'embed',
             'filter_groups' => [],
+            'filterByAnd' => [],
+            'filterByOr' => [],
             'append' => [],
             'sortByDesc' => [],
             'sortByAsc' => [],
@@ -318,12 +390,14 @@ abstract class LaravelController extends Controller
         $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
         $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
-        $excludeGlobalScopes = $this->parseexcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
+        $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
         $scope = $request->get('scope', $this->defaults['scope']);
         $sort = $this->parseSort($request->get('sort', $this->defaults['sort']));
         $limit = $request->get('limit', $this->defaults['limit']);
         $page = $request->get('page', $this->defaults['page']);
         $filter_groups = $this->parseFilterGroups($request->get('filter_groups', $this->defaults['filter_groups']));
+        $filterByAnd = $this->parseFilters($request->get('filter', $this->defaults['filterByAnd']));
+        $filterByOr = $this->parseFilters($request->get('filterByOr', $this->defaults['filterByOr']), true);
         $append = $request->get('append', $this->defaults['append']);
         $sortByDesc = $this->parseSortByDesc($request->get('sortByDesc', $this->defaults['sortByDesc']));
         $sortByAsc = $this->parseSortByAsc($request->get('sortByAsc', $this->defaults['sortByAsc']));
@@ -344,6 +418,8 @@ abstract class LaravelController extends Controller
             'limit' => $limit,
             'page' => $page,
             'filter_groups' => $filter_groups,
+            'filterByAnd' => $filterByAnd,
+            'filterByOr' => $filterByOr,
             'append' => $append,
             'sortByDesc' => $sortByDesc,
             'sortByAsc' => $sortByAsc
