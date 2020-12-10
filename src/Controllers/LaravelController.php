@@ -241,7 +241,7 @@ abstract class LaravelController extends Controller
      * @param  bool  $or
      * @return array
      */
-    protected function parseFilters(array $filters, $or = false)
+    protected function parseFilters(array $filters, $or = false, $defaultOperator = 'eq')
     {
         if (!count($filters)) {
             return [];
@@ -263,11 +263,11 @@ abstract class LaravelController extends Controller
 
         foreach ($filters as $column => $part) {
             $arrayCountValues = is_array($part) ? count($part, COUNT_RECURSIVE) : 0;
-            $operator = 'eq';
+            $operator = $defaultOperator;
             $not = false;
             $value = (is_array($part)) ? null : $part;
             if (is_array($part)) {
-                $operator = key($part) ?? 'eq';
+                $operator = key($part) ?? $defaultOperator;
             }
             
             if ($arrayCountValues > 2) {
@@ -400,8 +400,8 @@ abstract class LaravelController extends Controller
         $filter_groups = $this->parseFilterGroups($request->get('filter_groups', $this->defaults['filter_groups']));
         $filterByAnd = $this->parseFilters($request->get('filter', $this->defaults['filterByAnd']));
         $filterByOr = $this->parseFilters($request->get('filterByOr', $this->defaults['filterByOr']), true);
-        $searchByAnd = $this->parseFilters($request->get('search', $this->defaults['searchByAnd']));
-        $searchByOr = $this->parseFilters($request->get('searchByOr', $this->defaults['searchByOr']), true);
+        $searchByAnd = $this->parseFilters($request->get('search', $this->defaults['searchByAnd']), false, 'ct');
+        $searchByOr = $this->parseFilters($request->get('searchByOr', $this->defaults['searchByOr']), true, 'ct');
         $append = $request->get('append', $this->defaults['append']);
         $sortByDesc = $this->parseSortByDesc($request->get('sortByDesc', $this->defaults['sortByDesc']));
         $sortByAsc = $this->parseSortByAsc($request->get('sortByAsc', $this->defaults['sortByAsc']));
