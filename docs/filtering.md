@@ -28,6 +28,9 @@ The way a filter should be formed is:
 ```url
 {base_url}/users?filter[columnName][operator][not]=value
 ```
+
+Another available parameter is `filterByOr`, `search` and `searchByOr`. 
+
 * **columnName** -  (Required) - Name of column you want to filter, for relationships use `dots`.
 * **operator** - (Optional | Default: `eq`) Type of operator you want to use.
 * **not** - (Optional | Default: `false`) Negate the filter (Accepted values: yes|true|1).
