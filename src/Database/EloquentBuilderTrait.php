@@ -97,6 +97,14 @@ trait EloquentBuilderTrait
             $this->applyFilterGroups($queryBuilder, $filterByOr);
         }
 
+        if (isset($searchByAnd)) {
+            $this->applyFilterGroups($queryBuilder, $searchByAnd);
+        }
+
+        if (isset($searchByOr)) {
+            $this->applyFilterGroups($queryBuilder, $searchByOr);
+        }
+
         if (isset($sort)) {
             if (!is_array($sort)) {
                 throw new InvalidArgumentException('Sort should be an array.');

@@ -376,6 +376,8 @@ abstract class LaravelController extends Controller
             'filter_groups' => [],
             'filterByAnd' => [],
             'filterByOr' => [],
+            'searchByAnd' => [],
+            'searchByOr' => [],
             'append' => [],
             'sortByDesc' => [],
             'sortByAsc' => [],
@@ -398,6 +400,8 @@ abstract class LaravelController extends Controller
         $filter_groups = $this->parseFilterGroups($request->get('filter_groups', $this->defaults['filter_groups']));
         $filterByAnd = $this->parseFilters($request->get('filter', $this->defaults['filterByAnd']));
         $filterByOr = $this->parseFilters($request->get('filterByOr', $this->defaults['filterByOr']), true);
+        $searchByAnd = $this->parseFilters($request->get('search', $this->defaults['searchByAnd']));
+        $searchByOr = $this->parseFilters($request->get('searchByOr', $this->defaults['searchByOr']), true);
         $append = $request->get('append', $this->defaults['append']);
         $sortByDesc = $this->parseSortByDesc($request->get('sortByDesc', $this->defaults['sortByDesc']));
         $sortByAsc = $this->parseSortByAsc($request->get('sortByAsc', $this->defaults['sortByAsc']));
@@ -420,6 +424,8 @@ abstract class LaravelController extends Controller
             'filter_groups' => $filter_groups,
             'filterByAnd' => $filterByAnd,
             'filterByOr' => $filterByOr,
+            'searchByAnd' => $searchByAnd,
+            'searchByOr' => $searchByOr,
             'append' => $append,
             'sortByDesc' => $sortByDesc,
             'sortByAsc' => $sortByAsc
