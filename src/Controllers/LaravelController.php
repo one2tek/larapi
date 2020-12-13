@@ -4,11 +4,11 @@ namespace one2tek\larapi\Controllers;
 
 use JsonSerializable;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use one2tek\larapi\Core\Architect;
 use Illuminate\Contracts\Support\Arrayable;
+use one2tek\larapi\Exceptions\LarapiException;
 
 abstract class LaravelController extends Controller
 {
@@ -271,11 +271,11 @@ abstract class LaravelController extends Controller
             }
             
             if ($arrayCountValues > 2) {
-                throw new InvalidArgumentException('Filter is not well formed.');
+                throw new LarapiException('Filter is not well formed.');
             }
 
             if (!in_array($operator, $allowedOperators, )) {
-                throw new InvalidArgumentException('Operator '. $operator. ' is not supported.');
+                throw new LarapiException('Operator '. $operator. ' is not supported.');
             }
 
             if (is_array($part)) {
@@ -317,19 +317,19 @@ abstract class LaravelController extends Controller
         $keysNeeded = ['column', 'operator', 'value'];
         foreach ($filter_groups as $group) {
             if (!array_key_exists('filters', $group)) {
-                throw new InvalidArgumentException('Filter group does not have the \'filters\' key.');
+                throw new LarapiException('Filter group does not have the \'filters\' key.');
             }
             $filters = array_map(function ($filter) use ($keysNeeded) {
                 if (count(array_intersect_key(array_flip($keysNeeded), $filter)) != count($keysNeeded)) {
-                    throw new InvalidArgumentException('You need to pass column, operator and value in filters.');
+                    throw new LarapiException('You need to pass column, operator and value in filters.');
                 }
                 
                 if (($filter['operator'] == 'in') && (!is_array($filter['value']))) {
-                    throw new InvalidArgumentException('You need to make value as array because you are using \'in\' operator.');
+                    throw new LarapiException('You need to make value as array because you are using \'in\' operator.');
                 }
 
                 if (($filter['operator'] == 'bt') && (!is_array($filter['value']))) {
-                    throw new InvalidArgumentException('You need to make value as array because you are using \'bt\' operator.');
+                    throw new LarapiException('You need to make value as array because you are using \'bt\' operator.');
                 }
 
                 if (!isset($filter['not'])) {
@@ -442,7 +442,7 @@ abstract class LaravelController extends Controller
     private function validateResourceOptions(array $data)
     {
         if ($data['page'] !== null && $data['limit'] === null) {
-            throw new InvalidArgumentException('Cannot use page option without limit option.');
+            throw new LarapiException('Cannot use page option without limit option.');
         }
     }
 }

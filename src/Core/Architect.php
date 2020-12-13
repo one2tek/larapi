@@ -4,6 +4,7 @@ namespace one2tek\larapi\Core;
 
 use InvalidArgumentException;
 use Illuminate\Support\Collection;
+use one2tek\larapi\Exceptions\LarapiException;
 
 class Architect
 {
@@ -27,7 +28,7 @@ class Architect
             $return[$key] = $parsed;
         } else {
             if (in_array('sideload', $modes)) {
-                throw new InvalidArgumentException('$key cannot be null when ' .
+                throw new LarapiException('$key cannot be null when ' .
                                     'resources are transformed using sideload.');
             }
 
