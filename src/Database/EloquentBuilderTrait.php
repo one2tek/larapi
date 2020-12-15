@@ -2,9 +2,9 @@
 
 namespace one2tek\larapi\Database;
 
-use InvalidArgumentException;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
+use one2tek\larapi\Exceptions\LarapiException;
 
 trait EloquentBuilderTrait
 {
@@ -24,10 +24,6 @@ trait EloquentBuilderTrait
         }
 
         if (isset($includes)) {
-            if (!is_array($includes)) {
-                throw new InvalidArgumentException('Includes should be an array.');
-            }
-
             $queryBuilder->with($includes);
         }
 
@@ -38,10 +34,6 @@ trait EloquentBuilderTrait
         }
         
         if (isset($withCount)) {
-            if (!is_array($withCount)) {
-                throw new InvalidArgumentException('withCount should be an array.');
-            }
-
             $queryBuilder->withCount($withCount);
         }
         
@@ -78,10 +70,6 @@ trait EloquentBuilderTrait
         }
         
         if (isset($excludeGlobalScopes)) {
-            if (!is_array($excludeGlobalScopes)) {
-                throw new InvalidArgumentException('excludeGlobalScopes should be an array.');
-            }
-
             $this->applyWithouGlobalScopes($queryBuilder, $excludeGlobalScopes);
         }
 
@@ -106,10 +94,6 @@ trait EloquentBuilderTrait
         }
 
         if (isset($sort)) {
-            if (!is_array($sort)) {
-                throw new InvalidArgumentException('Sort should be an array.');
-            }
-
             $this->applySorting($queryBuilder, $sort);
         }
 
@@ -196,7 +180,7 @@ trait EloquentBuilderTrait
 
         // Check if column can filered.
         if (!in_array($column, $whiteListFilter)) {
-            throw new InvalidArgumentException('Oops! You cannot filter column '. $column. '.');
+            throw new LarapiException('Oops! You cannot filter column '. $column. '.');
         }
 
         // Check operator.
