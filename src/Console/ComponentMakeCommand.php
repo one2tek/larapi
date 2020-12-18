@@ -77,10 +77,10 @@ class ComponentMakeCommand extends Command
      */
     public function fire()
     {
-        $this->makeDirectory(base_path(). '/api/'. $this->argument('parent'));
+        $this->makeDirectory(base_path(). '/'. $this->getModulesFolder(). '/'. $this->argument('parent'));
 
         foreach ($this->fileTypes as $key => $fileType) {
-            $this->makeSubDirectories(base_path(). '/api/'. $this->argument('parent'), $key);
+            $this->makeSubDirectories(base_path(). '/'. $this->getModulesFolder(). '/'. $this->argument('parent'), $key);
            
             foreach ($fileType as $file) {
                 $this->makeFile($key, $file);
@@ -99,7 +99,7 @@ class ComponentMakeCommand extends Command
         if ($myFileName == 'model') {
             $myFileName = '';
         }
-        $filePath = base_path(). '/api/'. $this->argument('parent'). '/' . $dir. '/'. $name. ucfirst($myFileName). '.php';
+        $filePath = base_path(). '/'. $this->getModulesFolder(). '/'. $this->argument('parent'). '/' . $dir. '/'. $name. ucfirst($myFileName). '.php';
 
         if (!$this->files->exists($filePath)) {
             $class = $this->buildFile($name, $stubFile, $dir. '/'. $fileName, $dir, $fileName);
@@ -227,5 +227,10 @@ class ComponentMakeCommand extends Command
             "$". "router->put('/". $routePath. "/{id}', '". $controllerName. "Controller@update');". PHP_EOL.
             "$". "router->delete('/". $routePath. "/{id}', '". $controllerName. "Controller@delete');". PHP_EOL
         );
+    }
+
+    private function getModulesFolder()
+    {
+        return config('larapi.modules_folder');
     }
 }
