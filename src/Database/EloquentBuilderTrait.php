@@ -17,10 +17,11 @@ trait EloquentBuilderTrait
         extract($options);
 
         if (isset($selects) && $selects) {
-            $queryBuilder->select($selects);
+            $this->applySelects($queryBuilder, $selects);
         }
+        
         if (isset($select) && $select) {
-            $queryBuilder->select($select);
+            $this->applySelects($queryBuilder, $select);
         }
 
         if (isset($includes)) {
@@ -156,6 +157,11 @@ trait EloquentBuilderTrait
                 $queryBuilder->orderByDesc($sortByDescKey);
             }
         }
+    }
+
+    protected function applySelects(Builder $queryBuilder, array $fields = [])
+    {
+        $queryBuilder->select($fields);
     }
 
     protected function applyWithouGlobalScopes(Builder $queryBuilder, array $excludeGlobalScopes = [])
