@@ -114,13 +114,26 @@ abstract class LaravelController extends Controller
     /**
      * Parse selects.
      *
-     * @param  string  $selects
+     * @param  string|array  $selects
      * @return array
      */
     protected function parseSelects($selects)
     {
         if (is_null($selects)) {
-            return [];
+            return null;
+        }
+
+        $return = [];
+        
+        if (is_array($selects)) {
+            foreach ($selects as $select) {
+                $allSelects = explode(',', $select);
+                foreach ($allSelects as $select) {
+                    $return[] = $select;
+                }
+            }
+
+            return $return;
         }
         
         return explode(',', $selects);
@@ -261,7 +274,7 @@ abstract class LaravelController extends Controller
                 throw new LarapiException('Filter is not well formed.');
             }
 
-            if (!in_array($operator, $allowedOperators, )) {
+            if (!in_array($operator, $allowedOperators)) {
                 throw new LarapiException('Operator '. $operator. ' is not supported.');
             }
 
@@ -346,8 +359,8 @@ abstract class LaravelController extends Controller
         }
 
         $this->defaults = array_merge([
-            'selects' => null,
-            'select' => null,
+            'selects' => [],
+            'select' => [],
             'includes' => [],
             'include' => [],
             'withCount' => [],
