@@ -17,10 +17,11 @@ trait EloquentBuilderTrait
         extract($options);
 
         if (isset($selects) && $selects) {
-            $queryBuilder->select($selects);
+            $this->applySelects($queryBuilder, $selects);
         }
+        
         if (isset($select) && $select) {
-            $queryBuilder->select($select);
+            $this->applySelects($queryBuilder, $select);
         }
 
         if (isset($includes)) {
@@ -35,6 +36,26 @@ trait EloquentBuilderTrait
         
         if (isset($withCount)) {
             $queryBuilder->withCount($withCount);
+        }
+        
+        if (isset($withs)) {
+            foreach ($withs as $with) {
+                $queryBuilder->with([$with['name'] => function ($query) use ($with) {
+                    if (count($with['select'] ?? [])) {
+                        $query->select($with['select']);
+                    }
+
+                    if (count($with['group_by'] ?? [])) {
+                        $query->groupBy($with['group_by']);
+                    }
+
+                    if (count($with['sort'] ?? [])) {
+                        foreach ($with['sort'] as $sort) {
+                            $query->orderBy($sort['key'], $sort['direction']);
+                        }
+                    }
+                }]);
+            }
         }
         
         if (isset($has)) {
@@ -136,6 +157,11 @@ trait EloquentBuilderTrait
                 $queryBuilder->orderByDesc($sortByDescKey);
             }
         }
+    }
+
+    protected function applySelects(Builder $queryBuilder, array $fields = [])
+    {
+        $queryBuilder->select($fields);
     }
 
     protected function applyWithouGlobalScopes(Builder $queryBuilder, array $excludeGlobalScopes = [])
