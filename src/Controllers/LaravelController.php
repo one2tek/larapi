@@ -351,7 +351,6 @@ abstract class LaravelController extends Controller
             'includes' => [],
             'include' => [],
             'withCount' => [],
-            'withs' => [],
             'has' => [],
             'doesntHave' => [],
             'excludeGlobalScopes' => [],
@@ -376,7 +375,6 @@ abstract class LaravelController extends Controller
         $include = $this->parseInclude($request->get('include', $this->defaults['include']));
         $modes = $this->parseModes($request->get('modeIds', []), $request->get('modeSideload', []));
         $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
-        $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
         $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
         $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
@@ -399,7 +397,6 @@ abstract class LaravelController extends Controller
             'includes' => $includes,
             'include' => $include,
             'withCount' => $withCount,
-            'withs' => $withs,
             'has' => $has,
             'doesntHave' => $doesntHave,
             'excludeGlobalScopes' => $excludeGlobalScopes,
