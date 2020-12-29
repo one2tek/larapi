@@ -114,13 +114,26 @@ abstract class LaravelController extends Controller
     /**
      * Parse selects.
      *
-     * @param  string  $selects
+     * @param  string|array  $selects
      * @return array
      */
     protected function parseSelects($selects)
     {
         if (is_null($selects)) {
-            return [];
+            return null;
+        }
+
+        $return = [];
+        
+        if (is_array($selects)) {
+            foreach ($selects as $select) {
+                $allSelects = explode(',', $select);
+                foreach ($allSelects as $select) {
+                    $return[] = $select;
+                }
+            }
+
+            return $return;
         }
         
         return explode(',', $selects);
@@ -291,21 +304,6 @@ abstract class LaravelController extends Controller
     }
 
     /**
-     * Parse appends.
-     *
-     * @param  string  $appends
-     * @return array
-     */
-    protected function parseAppends($appends)
-    {
-        if (is_null($appends)) {
-            return [];
-        }
-        
-        return explode(',', $appends);
-    }
-
-    /**
      * Parse filter group strings into filters.
      *
      * @param  array  $filter_groups
@@ -361,8 +359,8 @@ abstract class LaravelController extends Controller
         }
 
         $this->defaults = array_merge([
-            'selects' => null,
-            'select' => null,
+            'selects' => [],
+            'select' => [],
             'includes' => [],
             'include' => [],
             'withCount' => [],
@@ -380,7 +378,7 @@ abstract class LaravelController extends Controller
             'filterByOr' => [],
             'searchByAnd' => [],
             'searchByOr' => [],
-            'append' => null,
+            'append' => [],
             'sortByDesc' => [],
             'sortByAsc' => [],
         ], $this->defaults);
@@ -404,7 +402,7 @@ abstract class LaravelController extends Controller
         $filterByOr = $this->parseFilters($request->get('filterByOr', $this->defaults['filterByOr']), true);
         $searchByAnd = $this->parseFilters($request->get('search', $this->defaults['searchByAnd']), false, 'ct');
         $searchByOr = $this->parseFilters($request->get('searchByOr', $this->defaults['searchByOr']), true, 'ct');
-        $append = $this->parseAppends($request->get('append', $this->defaults['append']));
+        $append = $request->get('append', $this->defaults['append']);
         $sortByDesc = $this->parseSortByDesc($request->get('sortByDesc', $this->defaults['sortByDesc']));
         $sortByAsc = $this->parseSortByAsc($request->get('sortByAsc', $this->defaults['sortByAsc']));
 
@@ -428,7 +426,7 @@ abstract class LaravelController extends Controller
             'filterByOr' => $filterByOr,
             'searchByAnd' => $searchByAnd,
             'searchByOr' => $searchByOr,
-            'append' => ($append) ? $append : [],
+            'append' => $append,
             'sortByDesc' => $sortByDesc,
             'sortByAsc' => $sortByAsc
         ];
