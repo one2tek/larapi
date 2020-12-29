@@ -114,29 +114,31 @@ abstract class LaravelController extends Controller
     /**
      * Parse selects.
      *
-     * @param  string|array  $selects
+     * @param  string  $selects
      * @return array
      */
     protected function parseSelects($selects)
     {
         if (is_null($selects)) {
-            return null;
-        }
-
-        $return = [];
-        
-        if (is_array($selects)) {
-            foreach ($selects as $select) {
-                $allSelects = explode(',', $select);
-                foreach ($allSelects as $select) {
-                    $return[] = $select;
-                }
-            }
-
-            return $return;
+            return [];
         }
         
         return explode(',', $selects);
+    }
+
+    /**
+     * Parse appends.
+     *
+     * @param  string  $appends
+     * @return array
+     */
+    protected function parseAppends($appends)
+    {
+        if (is_null($appends)) {
+            return [];
+        }
+        
+        return explode(',', $appends);
     }
 
     /**
@@ -359,11 +361,12 @@ abstract class LaravelController extends Controller
         }
 
         $this->defaults = array_merge([
-            'selects' => [],
-            'select' => [],
+            'selects' => null,
+            'select' => null,
             'includes' => [],
             'include' => [],
             'withCount' => [],
+            'withs' => [],
             'has' => [],
             'doesntHave' => [],
             'excludeGlobalScopes' => [],
@@ -377,7 +380,7 @@ abstract class LaravelController extends Controller
             'filterByOr' => [],
             'searchByAnd' => [],
             'searchByOr' => [],
-            'append' => [],
+            'append' => null,
             'sortByDesc' => [],
             'sortByAsc' => [],
         ], $this->defaults);
@@ -388,6 +391,7 @@ abstract class LaravelController extends Controller
         $include = $this->parseInclude($request->get('include', $this->defaults['include']));
         $modes = $this->parseModes($request->get('modeIds', []), $request->get('modeSideload', []));
         $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
+        $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
         $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
         $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
@@ -400,7 +404,7 @@ abstract class LaravelController extends Controller
         $filterByOr = $this->parseFilters($request->get('filterByOr', $this->defaults['filterByOr']), true);
         $searchByAnd = $this->parseFilters($request->get('search', $this->defaults['searchByAnd']), false, 'ct');
         $searchByOr = $this->parseFilters($request->get('searchByOr', $this->defaults['searchByOr']), true, 'ct');
-        $append = $request->get('append', $this->defaults['append']);
+        $append = $this->parseAppends($request->get('append', $this->defaults['append']));
         $sortByDesc = $this->parseSortByDesc($request->get('sortByDesc', $this->defaults['sortByDesc']));
         $sortByAsc = $this->parseSortByAsc($request->get('sortByAsc', $this->defaults['sortByAsc']));
 
@@ -410,6 +414,7 @@ abstract class LaravelController extends Controller
             'includes' => $includes,
             'include' => $include,
             'withCount' => $withCount,
+            'withs' => $withs,
             'has' => $has,
             'doesntHave' => $doesntHave,
             'excludeGlobalScopes' => $excludeGlobalScopes,
@@ -442,20 +447,24 @@ abstract class LaravelController extends Controller
             throw new LarapiException('Cannot use page option without limit option.');
         }
 
-        if (!is_int((int)$data['page'])) {
-            throw new LarapiException('Page need to be int.');
+        if (!is_null($data['page'])) {
+            if (!is_int((int)$data['page'])) {
+                throw new LarapiException('Page need to be int.');
+            }
+
+            if ($data['page'] == 0) {
+                throw new LarapiException('Page need to start from 1.');
+            }
         }
 
-        if ($data['page'] == 0) {
-            throw new LarapiException('Page need to start from 1.');
-        }
+        if (!is_null($data['limit'])) {
+            if (!is_int((int)$data['limit'])) {
+                throw new LarapiException('Limit need to be int.');
+            }
 
-        if (!is_int((int)$data['limit'])) {
-            throw new LarapiException('Limit need to be int.');
-        }
-
-        if ($data['limit'] == 0) {
-            throw new LarapiException('Limit need to start from 1.');
+            if ($data['limit'] == 0) {
+                throw new LarapiException('Limit need to start from 1.');
+            }
         }
     }
 }
