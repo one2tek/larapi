@@ -37,26 +37,6 @@ trait EloquentBuilderTrait
             $queryBuilder->withCount($withCount);
         }
         
-        if (isset($withs)) {
-            foreach ($withs as $with) {
-                $queryBuilder->with([$with['name'] => function ($query) use ($with) {
-                    if (count($with['select'] ?? [])) {
-                        $query->select($with['select']);
-                    }
-
-                    if (count($with['group_by'] ?? [])) {
-                        $query->groupBy($with['group_by']);
-                    }
-
-                    if (count($with['sort'] ?? [])) {
-                        foreach ($with['sort'] as $sort) {
-                            $query->orderBy($sort['key'], $sort['direction']);
-                        }
-                    }
-                }]);
-            }
-        }
-        
         if (isset($has)) {
             foreach ($has as $relation) {
                 $queryBuilder->has($relation);
