@@ -444,5 +444,21 @@ abstract class LaravelController extends Controller
         if ($data['page'] !== null && $data['limit'] === null) {
             throw new LarapiException('Cannot use page option without limit option.');
         }
+
+        if (!is_int((int)$data['page'])) {
+            throw new LarapiException('Page need to be int.');
+        }
+
+        if ($data['page'] == 0) {
+            throw new LarapiException('Page need to start from 1.');
+        }
+
+        if (!is_int((int)$data['limit'])) {
+            throw new LarapiException('Limit need to be int.');
+        }
+
+        if ($data['limit'] == 0) {
+            throw new LarapiException('Limit need to start from 1.');
+        }
     }
 }
