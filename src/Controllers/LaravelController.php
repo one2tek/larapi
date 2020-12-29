@@ -114,26 +114,13 @@ abstract class LaravelController extends Controller
     /**
      * Parse selects.
      *
-     * @param  string|array  $selects
+     * @param  string  $selects
      * @return array
      */
     protected function parseSelects($selects)
     {
         if (is_null($selects)) {
-            return null;
-        }
-
-        $return = [];
-        
-        if (is_array($selects)) {
-            foreach ($selects as $select) {
-                $allSelects = explode(',', $select);
-                foreach ($allSelects as $select) {
-                    $return[] = $select;
-                }
-            }
-
-            return $return;
+            return [];
         }
         
         return explode(',', $selects);
@@ -359,8 +346,8 @@ abstract class LaravelController extends Controller
         }
 
         $this->defaults = array_merge([
-            'selects' => [],
-            'select' => [],
+            'selects' => null,
+            'select' => null,
             'includes' => [],
             'include' => [],
             'withCount' => [],
