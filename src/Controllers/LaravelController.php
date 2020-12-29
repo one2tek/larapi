@@ -261,7 +261,7 @@ abstract class LaravelController extends Controller
                 throw new LarapiException('Filter is not well formed.');
             }
 
-            if (!in_array($operator, $allowedOperators, )) {
+            if (!in_array($operator, $allowedOperators)) {
                 throw new LarapiException('Operator '. $operator. ' is not supported.');
             }
 
