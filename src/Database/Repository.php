@@ -351,7 +351,7 @@ abstract class Repository
     {
         $query = $this->createQueryBuilder();
         
-        if ($options['scope'] ?? false) {
+        if (!empty($options['scope'])) {
             foreach ($options['scope'] as $scope) {
                 $query = $query->$scope();
             }

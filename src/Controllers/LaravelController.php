@@ -219,21 +219,35 @@ abstract class LaravelController extends Controller
     }
     
     /**
-    * Parse excludeGlobalScopes into resource.
-    *
-    * @param  array  $excludeGlobalScopes
-    *
-    * @return array
-    */
-    protected function parseExcludeGlobalScopes(array $excludeGlobalScopes)
+     * Parse exclude global scopes into resource.
+     *
+     * @param  string  $excludeGlobalScopes
+     *
+     * @return array
+     */
+    protected function parseExcludeGlobalScopes($excludeGlobalScopes)
     {
-        $return = [];
-
-        foreach ($excludeGlobalScopes as $exludeGlobalScope) {
-            $return[] = $exludeGlobalScope;
+        if (is_null($excludeGlobalScopes)) {
+            return [];
         }
+        
+        return explode(',', $excludeGlobalScopes);
+    }
 
-        return $return;
+    /**
+     * Parse scopes into resource.
+     *
+     * @param  string  $scopes
+     *
+     * @return array
+     */
+    protected function parseScopes($scopes)
+    {
+        if (is_null($scopes)) {
+            return [];
+        }
+        
+        return explode(',', $scopes);
     }
 
     /**
@@ -369,8 +383,8 @@ abstract class LaravelController extends Controller
             'withs' => [],
             'has' => [],
             'doesntHave' => [],
-            'excludeGlobalScopes' => [],
-            'scope' => [],
+            'excludeGlobalScopes' => null,
+            'scope' => null,
             'sort' => [],
             'limit' => null,
             'page' => null,
@@ -395,7 +409,7 @@ abstract class LaravelController extends Controller
         $has = $request->get('has', $this->defaults['has']);
         $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
         $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
-        $scope = $request->get('scope', $this->defaults['scope']);
+        $scope = $request->parseScopes($request->get('scope', $this->defaults['scope']));
         $sort = $this->parseSort($request->get('sort', $this->defaults['sort']));
         $limit = $request->get('limit', $this->defaults['limit']);
         $page = $request->get('page', $this->defaults['page']);
