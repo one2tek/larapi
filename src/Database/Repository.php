@@ -15,8 +15,7 @@ abstract class Repository
 
     protected $sortProperty = null;
 
-    // 0 = ASC, 1 = DESC
-    protected $sortDirection = 0;
+    protected $sortDirection = 'DESC'; // DESC OR ASC
 
     abstract protected function getModel();
 
@@ -359,7 +358,7 @@ abstract class Repository
 
         $this->applyResourceOptions($query, $options);
 
-        if (empty($options['sort'])) {
+        if (empty($options['sortByDesc']) && empty($options['sortByAsc'])) {
             $this->defaultSort($query, $options);
         }
 
@@ -398,9 +397,8 @@ abstract class Repository
      */
     protected function defaultSort($query, array $options = [])
     {
-        if (isset($this->sortProperty)) {
-            $direction = $this->sortDirection === 1 ? 'DESC' : 'ASC';
-            $query->orderBy($this->sortProperty, $direction);
+        if (isset($this->sortProperty)) {            
+            $query->orderBy($this->sortProperty, $this->sortDirection);
         }
     }
 
