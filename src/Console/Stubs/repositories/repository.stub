@@ -7,6 +7,8 @@ use Infrastructure\Database\Eloquent\Repository;
 
 class DummyClass extends Repository
 {
+    protected $sortProperty = 'id';
+
     public function getModel()
     {
         return new DummyVariable();

@@ -27,8 +27,7 @@ class UserRepository extends Repository
 {
     protected $sortProperty = 'id';
 
-    // 0 = ASC, 1 = DESC
-    protected $sortDirection = 1;
+    protected $sortDirection = 'DESC'; // DESC OR ASC
 
     public function getModel()
     {
