@@ -6,7 +6,6 @@ use JsonSerializable;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use one2tek\larapi\Core\Architect;
 use Illuminate\Contracts\Support\Arrayable;
 use one2tek\larapi\Exceptions\LarapiException;
 
@@ -35,22 +34,6 @@ abstract class LaravelController extends Controller
         }
 
         return new JsonResponse($data, $statusCode, $headers);
-    }
-
-    /**
-     * Parse data using architect.
-     *
-     * @param  mixed  $data
-     * @param  array  $options
-     * @param  string  $key
-     *
-     * @return mixed
-     */
-    protected function parseData($data, array $options, $key = null)
-    {
-        $architect = new Architect();
-
-        return $architect->parseData($data, $options['modes'], $key);
     }
 
     /**
@@ -173,28 +156,6 @@ abstract class LaravelController extends Controller
 
         foreach ($includes as $include) {
             $return[] = $include;
-        }
-
-        return $return;
-    }
-
-    /**
-     * Parse modes.
-     *
-     * @param  array  $modeIds
-     * @param  array  $modeSideload
-     * @return array
-     */
-    protected function parseModes(array $modeIds, array $modeSideload)
-    {
-        $return = [];
-
-        foreach ($modeIds as $mode1) {
-            $return[$mode1] = 'ids';
-        }
-
-        foreach ($modeSideload as $mode2) {
-            $return[$mode2] = 'sideload';
         }
 
         return $return;
@@ -388,7 +349,6 @@ abstract class LaravelController extends Controller
             'sort' => [],
             'limit' => null,
             'page' => null,
-            'mode' => 'embed',
             'filter_groups' => [],
             'filterByAnd' => [],
             'filterByOr' => [],
@@ -403,7 +363,6 @@ abstract class LaravelController extends Controller
         $select = $this->parseSelects($request->get('select', $this->defaults['select']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
         $include = $this->parseInclude($request->get('include', $this->defaults['include']));
-        $modes = $this->parseModes($request->get('modeIds', []), $request->get('modeSideload', []));
         $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
         $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
@@ -432,7 +391,6 @@ abstract class LaravelController extends Controller
             'has' => $has,
             'doesntHave' => $doesntHave,
             'excludeGlobalScopes' => $excludeGlobalScopes,
-            'modes' => $modes,
             'scope' => $scope,
             'sort' => $sort,
             'limit' => $limit,

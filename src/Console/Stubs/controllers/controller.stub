@@ -21,8 +21,6 @@ class DummyClass extends Controller
         $resourceOptions = $this->parseResourceOptions();
     
         $data = $this->dummyVariableService->getAll($resourceOptions, true);
-        $parsedData = $this->parseData($data['rows'], $resourceOptions, 'Plural_Dummy_Variable');
-        $parsedData['total_data'] = $data['total_data'];
     
         return $this->response($parsedData);
     }
@@ -32,7 +30,6 @@ class DummyClass extends Controller
         $resourceOptions = $this->parseResourceOptions();
     
         $data = $this->dummyVariableService->getById($dummyVariableId, $resourceOptions);
-        $parsedData = $this->parseData($data, $resourceOptions, 'Singular_Dummy_Variable');
     
         return $this->response($parsedData);
     }

@@ -58,23 +58,3 @@ When accessing the records for a model, you may wish to limit your results based
 ```url
 {base_url}/posts?doesntHave[]=comments
 ```
-
-# Modes
-
-With the `Larapi` package you have the opportunity to return the relations in `IDs` mode and `Sideload` mode.
-
-# IDs mode
-
-```url
-{base_url}/books?modeIds[]=author
-```
-
-Will return a collection of Books eager loaded with the ID of their Author.
-
-# Sideload mode
-
-```url
-{base_url}/books?modeSideload[]=author
-```
-
-Will return a collection of Books and a eager loaded collection of their Authors in the root scope.
