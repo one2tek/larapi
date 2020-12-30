@@ -403,10 +403,6 @@ abstract class LaravelController extends Controller
             if (!is_int((int)$data['limit'])) {
                 throw new LarapiException('Limit need to be int.');
             }
-
-            if ($data['limit'] == 0) {
-                throw new LarapiException('Limit need to start from 1.');
-            }
         }
     }
 }
