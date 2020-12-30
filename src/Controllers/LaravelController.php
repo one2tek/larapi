@@ -338,7 +338,7 @@ abstract class LaravelController extends Controller
         $has = $this->parseHas($request->get('has', $this->defaults['has']));
         $doesntHave = $this->parseDoesntHave($request->get('doesntHave', $this->defaults['doesntHave']));
         $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
-        $scope = $request->parseScopes($request->get('scope', $this->defaults['scope']));
+        $scope = $this->parseScopes($request->get('scope', $this->defaults['scope']));
         $limit = $request->get('limit', $this->defaults['limit']);
         $page = $request->get('page', $this->defaults['page']);
         $filter_groups = $this->parseFilterGroups($request->get('filter_groups', $this->defaults['filter_groups']));
@@ -360,7 +360,6 @@ abstract class LaravelController extends Controller
             'doesntHave' => $doesntHave,
             'excludeGlobalScopes' => $excludeGlobalScopes,
             'scope' => $scope,
-            'sort' => $sort,
             'limit' => $limit,
             'page' => $page,
             'filter_groups' => $filter_groups,

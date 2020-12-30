@@ -16,20 +16,20 @@ trait EloquentBuilderTrait
 
         extract($options);
 
-        if (isset($selects)) {
+        if (isset($selects) && $selects) {
             $this->applySelects($queryBuilder, $selects);
         }
         
-        if (isset($select)) {
+        if (isset($select) && $select) {
             $this->applySelects($queryBuilder, $select);
         }
 
         if (isset($includes)) {
-            $this->applyWith($includes);
+            $this->applyWith($queryBuilder, $includes);
         }
 
         if (isset($include)) {
-            $this->applyWith($include);
+            $this->applyWith($queryBuilder, $include);
         }
         
         if (isset($withCount)) {

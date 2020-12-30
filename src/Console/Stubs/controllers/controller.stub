@@ -22,7 +22,7 @@ class DummyClass extends Controller
     
         $data = $this->dummyVariableService->getAll($resourceOptions, true);
     
-        return $this->response($parsedData);
+        return $this->response($data);
     }
     
     public function getById($dummyVariableId)
@@ -31,7 +31,7 @@ class DummyClass extends Controller
     
         $data = $this->dummyVariableService->getById($dummyVariableId, $resourceOptions);
     
-        return $this->response($parsedData);
+        return $this->response($data);
     }
     
     public function create(Request $request)
