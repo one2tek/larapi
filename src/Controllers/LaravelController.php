@@ -124,6 +124,36 @@ abstract class LaravelController extends Controller
         
         return explode(',', $withCounts);
     }
+
+    /**
+     * Parse has into resource.
+     *
+     * @param  string  $has
+     * @return array
+     */
+    protected function parseHas($has)
+    {
+        if (is_null($has)) {
+            return [];
+        }
+        
+        return explode(',', $has);
+    }
+
+    /**
+     * Parse doesnt have into resource.
+     *
+     * @param  string  $has
+     * @return array
+     */
+    protected function parseDoesntHave($doesntHave)
+    {
+        if (is_null($doesntHave)) {
+            return [];
+        }
+        
+        return explode(',', $doesntHave);
+    }
     
     /**
      * Parse exclude global scopes into resource.
@@ -284,8 +314,8 @@ abstract class LaravelController extends Controller
             'includes' => null,
             'include' => null,
             'withCount' => null,
-            'has' => [],
-            'doesntHave' => [],
+            'has' => null,
+            'doesntHave' => null,
             'excludeGlobalScopes' => null,
             'scope' => null,
             'limit' => null,
@@ -305,8 +335,8 @@ abstract class LaravelController extends Controller
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
         $include = $this->parseIncludes($request->get('include', $this->defaults['include']));
         $withCount = $this->parseWithCounts($request->get('withCount', $this->defaults['withCount']));
-        $has = $request->get('has', $this->defaults['has']);
-        $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
+        $has = $this->parseHas($request->get('has', $this->defaults['has']));
+        $doesntHave = $this->parseDoesntHave($request->get('doesntHave', $this->defaults['doesntHave']));
         $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
         $scope = $request->parseScopes($request->get('scope', $this->defaults['scope']));
         $limit = $request->get('limit', $this->defaults['limit']);
