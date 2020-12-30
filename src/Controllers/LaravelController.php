@@ -24,7 +24,6 @@ abstract class LaravelController extends Controller
      * @param  mixed  $data
      * @param  integer  $statusCode
      * @param  array  $headers
-     *
      * @return Illuminate\Http\JsonResponse
      */
     protected function response($data, $statusCode = 200, array $headers = [])
@@ -40,7 +39,6 @@ abstract class LaravelController extends Controller
      * Parse sort by asc.
      *
      * @param  string  $sortByAsc
-     *
      * @return array
      */
     protected function parseSortByAsc($sortByAsc)
@@ -56,7 +54,6 @@ abstract class LaravelController extends Controller
      * Parse sort by desc.
      *
      * @param  string  $sortByDesc
-     *
      * @return array
      */
     protected function parseSortByDesc($sortByDesc)
@@ -99,47 +96,24 @@ abstract class LaravelController extends Controller
     }
 
     /**
-     * Parse include.
+     * Parse includes.
      *
-     * @param  string|array  $include
-     *
+     * @param  string  $includes
      * @return array
      */
-    protected function parseInclude($include)
+    protected function parseIncludes($includes)
     {
-        if (is_string($include) && is_null($include)) {
-            return [];
-        }
-
-        if (is_array($include) && !count($include)) {
+        if (is_null($includes)) {
             return [];
         }
         
-        return explode(';', $include);
-    }
-
-    /**
-     * Parse includes.
-     *
-     * @param  array  $includes
-     * @return array
-     */
-    protected function parseIncludes(array $includes)
-    {
-        $return = [];
-
-        foreach ($includes as $include) {
-            $return[] = $include;
-        }
-
-        return $return;
+        return explode(';', $includes);
     }
 
     /**
      * Parse with counts into resource.
      *
      * @param  string  $withCounts
-     *
      * @return array
      */
     protected function parseWithCounts($withCounts)
@@ -155,7 +129,6 @@ abstract class LaravelController extends Controller
      * Parse exclude global scopes into resource.
      *
      * @param  string  $excludeGlobalScopes
-     *
      * @return array
      */
     protected function parseExcludeGlobalScopes($excludeGlobalScopes)
@@ -171,7 +144,6 @@ abstract class LaravelController extends Controller
      * Parse scopes into resource.
      *
      * @param  string  $scopes
-     *
      * @return array
      */
     protected function parseScopes($scopes)
@@ -256,7 +228,6 @@ abstract class LaravelController extends Controller
      * Parse filter group strings into filters.
      *
      * @param  array  $filter_groups
-     *
      * @return array
      */
     protected function parseFilterGroups(array $filter_groups)
@@ -310,10 +281,9 @@ abstract class LaravelController extends Controller
         $this->defaults = array_merge([
             'selects' => null,
             'select' => null,
-            'includes' => [],
-            'include' => [],
+            'includes' => null,
+            'include' => null,
             'withCount' => null,
-            'withs' => [],
             'has' => [],
             'doesntHave' => [],
             'excludeGlobalScopes' => null,
@@ -333,9 +303,8 @@ abstract class LaravelController extends Controller
         $selects = $this->parseSelects($request->get('selects', $this->defaults['selects']));
         $select = $this->parseSelects($request->get('select', $this->defaults['select']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
-        $include = $this->parseInclude($request->get('include', $this->defaults['include']));
+        $include = $this->parseIncludes($request->get('include', $this->defaults['include']));
         $withCount = $this->parseWithCounts($request->get('withCount', $this->defaults['withCount']));
-        $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
         $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
         $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
@@ -357,7 +326,6 @@ abstract class LaravelController extends Controller
             'includes' => $includes,
             'include' => $include,
             'withCount' => $withCount,
-            'withs' => $withs,
             'has' => $has,
             'doesntHave' => $doesntHave,
             'excludeGlobalScopes' => $excludeGlobalScopes,
