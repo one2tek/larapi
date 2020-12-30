@@ -16,22 +16,20 @@ trait EloquentBuilderTrait
 
         extract($options);
 
-        if (isset($selects) && $selects) {
+        if (isset($selects)) {
             $this->applySelects($queryBuilder, $selects);
         }
         
-        if (isset($select) && $select) {
+        if (isset($select)) {
             $this->applySelects($queryBuilder, $select);
         }
 
         if (isset($includes)) {
-            $queryBuilder->with($includes);
+            $this->applyWith($includes);
         }
 
         if (isset($include)) {
-            if (count($include)) {
-                $queryBuilder->with($include);
-            }
+            $this->applyWith($include);
         }
         
         if (isset($withCount)) {
@@ -39,15 +37,11 @@ trait EloquentBuilderTrait
         }
         
         if (isset($has)) {
-            foreach ($has as $relation) {
-                $queryBuilder->has($relation);
-            }
+            $this->applyHas($queryBuilder, $has);
         }
 
         if (isset($doesntHave)) {
-            foreach ($doesntHave as $relation) {
-                $queryBuilder->doesntHave($relation);
-            }
+            $this->applyDoesntHave($queryBuilder, $doesntHave);
         }
         
         if (isset($excludeGlobalScopes)) {
@@ -136,9 +130,28 @@ trait EloquentBuilderTrait
         $queryBuilder->select($fields);
     }
 
+    protected function applyWith(Builder $queryBuilder, array $withs = [])
+    {
+        $queryBuilder->with($withs);
+    }
+
     protected function applyWithCount(Builder $queryBuilder, array $withCount = [])
     {
         $queryBuilder->withCount($withCount);
+    }
+
+    protected function applyHas(Builder $queryBuilder, array $relations = [])
+    {
+        foreach ($relations as $relation) {
+            $queryBuilder->has($relation);
+        }
+    }
+
+    protected function applyDoesntHave(Builder $queryBuilder, array $relations = [])
+    {
+        foreach ($relations as $relation) {
+            $queryBuilder->doesntHave($relation);
+        }
     }
 
     protected function applyWithouGlobalScopes(Builder $queryBuilder, array $excludeGlobalScopes = [])
