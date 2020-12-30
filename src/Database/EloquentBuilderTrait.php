@@ -74,10 +74,6 @@ trait EloquentBuilderTrait
             $this->applyFilterGroups($queryBuilder, $searchByOr);
         }
 
-        if (isset($sort)) {
-            $this->applySorting($queryBuilder, $sort);
-        }
-
         if (isset($limit)) {
             $queryBuilder->limit($limit);
         }
@@ -86,15 +82,11 @@ trait EloquentBuilderTrait
             $queryBuilder->offset(($page > 0 ? $page - 1 : 0) * $limit);
         }
 
-        if (isset($distinct)) {
-            $queryBuilder->distinct();
-        }
-
-        if (isset($sortByAsc) && $sortByAsc) {
+        if (isset($sortByAsc)) {
             $this->applySortByAsc($queryBuilder, $sortByAsc);
         }
 
-        if (isset($sortByDesc) && $sortByDesc) {
+        if (isset($sortByDesc)) {
             $this->applySortByDesc($queryBuilder, $sortByDesc);
         }
 
@@ -266,26 +258,6 @@ trait EloquentBuilderTrait
                 $queryBuilder->$method($column, $value);
             } else {
                 $queryBuilder->$method($column, $operator, $value);
-            }
-        }
-    }
-
-    protected function applySorting(Builder $queryBuilder, array $sorting)
-    {
-        foreach ($sorting as $sortRule) {
-            if (is_array($sortRule)) {
-                $key = $sortRule['key'];
-                $direction = mb_strtolower($sortRule['direction']) === 'asc' ? 'ASC' : 'DESC';
-            } else {
-                $key = $sortRule;
-                $direction = 'ASC';
-            }
-
-            $customSortMethod = $this->hasCustomMethod('sort', $key);
-            if ($customSortMethod) {
-                call_user_func([$this, $customSortMethod], $queryBuilder, $direction);
-            } else {
-                $queryBuilder->orderBy($key, $direction);
             }
         }
     }

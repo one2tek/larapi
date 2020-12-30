@@ -37,37 +37,15 @@ abstract class LaravelController extends Controller
     }
 
     /**
-     * Parse sort.
-     *
-     * @param  array  $sort
-     *
-     * @return array
-     */
-    protected function parseSort(array $sort)
-    {
-        return array_map(function ($sort) {
-            if (!isset($sort['direction'])) {
-                $sort['direction'] = 'asc';
-            }
-
-            return $sort;
-        }, $sort);
-    }
-
-    /**
      * Parse sort by asc.
      *
-     * @param  array|string  $sortByAsc
+     * @param  string  $sortByAsc
      *
      * @return array
      */
     protected function parseSortByAsc($sortByAsc)
     {
         if (is_null($sortByAsc)) {
-            return [];
-        }
-
-        if (is_array($sortByAsc)) {
             return [];
         }
         
@@ -77,17 +55,13 @@ abstract class LaravelController extends Controller
     /**
      * Parse sort by desc.
      *
-     * @param  array|string  $sortByDesc
+     * @param  string  $sortByDesc
      *
      * @return array
      */
     protected function parseSortByDesc($sortByDesc)
     {
         if (is_null($sortByDesc)) {
-            return [];
-        }
-
-        if (is_array($sortByDesc)) {
             return [];
         }
         
@@ -344,7 +318,6 @@ abstract class LaravelController extends Controller
             'doesntHave' => [],
             'excludeGlobalScopes' => null,
             'scope' => null,
-            'sort' => [],
             'limit' => null,
             'page' => null,
             'filter_groups' => [],
@@ -353,8 +326,8 @@ abstract class LaravelController extends Controller
             'searchByAnd' => [],
             'searchByOr' => [],
             'append' => null,
-            'sortByDesc' => [],
-            'sortByAsc' => [],
+            'sortByDesc' => null,
+            'sortByAsc' => null,
         ], $this->defaults);
 
         $selects = $this->parseSelects($request->get('selects', $this->defaults['selects']));
@@ -367,7 +340,6 @@ abstract class LaravelController extends Controller
         $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
         $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
         $scope = $request->parseScopes($request->get('scope', $this->defaults['scope']));
-        $sort = $this->parseSort($request->get('sort', $this->defaults['sort']));
         $limit = $request->get('limit', $this->defaults['limit']);
         $page = $request->get('page', $this->defaults['page']);
         $filter_groups = $this->parseFilterGroups($request->get('filter_groups', $this->defaults['filter_groups']));
