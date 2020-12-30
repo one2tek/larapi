@@ -10,7 +10,7 @@ The following example appends `isAdmin` attribute:
 {base_url}/users?append=isAdmin
 ```
 
-# Appends multiple
+# Append multiple
 
 You can append multiple attributes separating them with a comma:
 
