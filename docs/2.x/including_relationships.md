@@ -42,13 +42,13 @@ Imagine you want to retrieve all blog posts that have at least one comment.
 You can do this by passing `has` paramter in query:
 
 ```url
-{base_url}/posts?has[]=comments
+{base_url}/posts?has=comments
 ```
 
 Nested `has` statements may also be constructed using "dot" notation. For example, you may retrieve all posts that have at least one `comment` and `vote`:
 
 ```url
-{base_url}/posts?has[]=comments.votes
+{base_url}/posts?has=comments.votes
 ```
 
 # Querying Relationship Absence
@@ -56,5 +56,5 @@ Nested `has` statements may also be constructed using "dot" notation. For exampl
 When accessing the records for a model, you may wish to limit your results based on the absence of a relationship. For example, imagine you want to retrieve all blog posts that don't have any `comments`. To do so, you may pass `doesntHave` paramter in query:
 
 ```url
-{base_url}/posts?doesntHave[]=comments
+{base_url}/posts?doesntHave=comments
 ```
