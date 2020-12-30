@@ -35,7 +35,7 @@ trait EloquentBuilderTrait
         }
         
         if (isset($withCount)) {
-            $queryBuilder->withCount($withCount);
+            $this->applyWithCount($queryBuilder, $withCount);
         }
         
         if (isset($has)) {
@@ -142,6 +142,11 @@ trait EloquentBuilderTrait
     protected function applySelects(Builder $queryBuilder, array $fields = [])
     {
         $queryBuilder->select($fields);
+    }
+
+    protected function applyWithCount(Builder $queryBuilder, array $withCount = [])
+    {
+        $queryBuilder->withCount($withCount);
     }
 
     protected function applyWithouGlobalScopes(Builder $queryBuilder, array $excludeGlobalScopes = [])

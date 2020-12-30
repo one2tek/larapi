@@ -33,7 +33,7 @@ You can load nested relationships using the dot `.` notation:
 If you want to count the number of results from a relationship without actually loading them you may use the `withCount` query parameter, which will place a {relation}_count column on your resulting models.
 
 ```url
-{base_url}/users?withCount[]=comments
+{base_url}/users?withCount=comments
 ```
 
 # Querying Relationship Existence

@@ -162,21 +162,19 @@ abstract class LaravelController extends Controller
     }
 
     /**
-     * Parse withCount into resource.
+     * Parse with counts into resource.
      *
-     * @param  array  $withCounts
+     * @param  string  $withCounts
      *
      * @return array
      */
-    protected function parseWithCount(array $withCounts)
+    protected function parseWithCounts($withCounts)
     {
-        $return = [];
-
-        foreach ($withCounts as $withCount) {
-            $return[] = $withCount;
+        if (is_null($withCounts)) {
+            return [];
         }
-
-        return $return;
+        
+        return explode(',', $withCounts);
     }
     
     /**
@@ -340,7 +338,7 @@ abstract class LaravelController extends Controller
             'select' => null,
             'includes' => [],
             'include' => [],
-            'withCount' => [],
+            'withCount' => null,
             'withs' => [],
             'has' => [],
             'doesntHave' => [],
@@ -363,7 +361,7 @@ abstract class LaravelController extends Controller
         $select = $this->parseSelects($request->get('select', $this->defaults['select']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
         $include = $this->parseInclude($request->get('include', $this->defaults['include']));
-        $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
+        $withCount = $this->parseWithCounts($request->get('withCount', $this->defaults['withCount']));
         $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
         $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
