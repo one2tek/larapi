@@ -6,7 +6,6 @@ use JsonSerializable;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use one2tek\larapi\Core\Architect;
 use Illuminate\Contracts\Support\Arrayable;
 use one2tek\larapi\Exceptions\LarapiException;
 
@@ -25,7 +24,6 @@ abstract class LaravelController extends Controller
      * @param  mixed  $data
      * @param  integer  $statusCode
      * @param  array  $headers
-     *
      * @return Illuminate\Http\JsonResponse
      */
     protected function response($data, $statusCode = 200, array $headers = [])
@@ -38,53 +36,14 @@ abstract class LaravelController extends Controller
     }
 
     /**
-     * Parse data using architect.
-     *
-     * @param  mixed  $data
-     * @param  array  $options
-     * @param  string  $key
-     *
-     * @return mixed
-     */
-    protected function parseData($data, array $options, $key = null)
-    {
-        $architect = new Architect();
-
-        return $architect->parseData($data, $options['modes'], $key);
-    }
-
-    /**
-     * Parse sort.
-     *
-     * @param  array  $sort
-     *
-     * @return array
-     */
-    protected function parseSort(array $sort)
-    {
-        return array_map(function ($sort) {
-            if (!isset($sort['direction'])) {
-                $sort['direction'] = 'asc';
-            }
-
-            return $sort;
-        }, $sort);
-    }
-
-    /**
      * Parse sort by asc.
      *
-     * @param  array|string  $sortByAsc
-     *
+     * @param  string  $sortByAsc
      * @return array
      */
     protected function parseSortByAsc($sortByAsc)
     {
         if (is_null($sortByAsc)) {
-            return [];
-        }
-
-        if (is_array($sortByAsc)) {
             return [];
         }
         
@@ -94,17 +53,12 @@ abstract class LaravelController extends Controller
     /**
      * Parse sort by desc.
      *
-     * @param  array|string  $sortByDesc
-     *
+     * @param  string  $sortByDesc
      * @return array
      */
     protected function parseSortByDesc($sortByDesc)
     {
         if (is_null($sortByDesc)) {
-            return [];
-        }
-
-        if (is_array($sortByDesc)) {
             return [];
         }
         
@@ -114,124 +68,121 @@ abstract class LaravelController extends Controller
     /**
      * Parse selects.
      *
-     * @param  string|array  $selects
+     * @param  string  $selects
      * @return array
      */
     protected function parseSelects($selects)
     {
         if (is_null($selects)) {
-            return null;
-        }
-
-        $return = [];
-        
-        if (is_array($selects)) {
-            foreach ($selects as $select) {
-                $allSelects = explode(',', $select);
-                foreach ($allSelects as $select) {
-                    $return[] = $select;
-                }
-            }
-
-            return $return;
+            return [];
         }
         
         return explode(',', $selects);
     }
 
     /**
-     * Parse include.
+     * Parse appends.
      *
-     * @param  string|array  $include
-     *
+     * @param  string  $appends
      * @return array
      */
-    protected function parseInclude($include)
+    protected function parseAppends($appends)
     {
-        if (is_string($include) && is_null($include)) {
-            return [];
-        }
-
-        if (is_array($include) && !count($include)) {
+        if (is_null($appends)) {
             return [];
         }
         
-        return explode(';', $include);
+        return explode(',', $appends);
     }
 
     /**
      * Parse includes.
      *
-     * @param  array  $includes
+     * @param  string  $includes
      * @return array
      */
-    protected function parseIncludes(array $includes)
+    protected function parseIncludes($includes)
     {
-        $return = [];
-
-        foreach ($includes as $include) {
-            $return[] = $include;
+        if (is_null($includes)) {
+            return [];
         }
-
-        return $return;
+        
+        return explode(';', $includes);
     }
 
     /**
-     * Parse modes.
+     * Parse with counts into resource.
      *
-     * @param  array  $modeIds
-     * @param  array  $modeSideload
+     * @param  string  $withCounts
      * @return array
      */
-    protected function parseModes(array $modeIds, array $modeSideload)
+    protected function parseWithCounts($withCounts)
     {
-        $return = [];
-
-        foreach ($modeIds as $mode1) {
-            $return[$mode1] = 'ids';
+        if (is_null($withCounts)) {
+            return [];
         }
-
-        foreach ($modeSideload as $mode2) {
-            $return[$mode2] = 'sideload';
-        }
-
-        return $return;
+        
+        return explode(',', $withCounts);
     }
 
     /**
-     * Parse withCount into resource.
+     * Parse has into resource.
      *
-     * @param  array  $withCounts
-     *
+     * @param  string  $has
      * @return array
      */
-    protected function parseWithCount(array $withCounts)
+    protected function parseHas($has)
     {
-        $return = [];
-
-        foreach ($withCounts as $withCount) {
-            $return[] = $withCount;
+        if (is_null($has)) {
+            return [];
         }
+        
+        return explode(',', $has);
+    }
 
-        return $return;
+    /**
+     * Parse doesnt have into resource.
+     *
+     * @param  string  $has
+     * @return array
+     */
+    protected function parseDoesntHave($doesntHave)
+    {
+        if (is_null($doesntHave)) {
+            return [];
+        }
+        
+        return explode(',', $doesntHave);
     }
     
     /**
-    * Parse excludeGlobalScopes into resource.
-    *
-    * @param  array  $excludeGlobalScopes
-    *
-    * @return array
-    */
-    protected function parseExcludeGlobalScopes(array $excludeGlobalScopes)
+     * Parse exclude global scopes into resource.
+     *
+     * @param  string  $excludeGlobalScopes
+     * @return array
+     */
+    protected function parseExcludeGlobalScopes($excludeGlobalScopes)
     {
-        $return = [];
-
-        foreach ($excludeGlobalScopes as $exludeGlobalScope) {
-            $return[] = $exludeGlobalScope;
+        if (is_null($excludeGlobalScopes)) {
+            return [];
         }
+        
+        return explode(',', $excludeGlobalScopes);
+    }
 
-        return $return;
+    /**
+     * Parse scopes into resource.
+     *
+     * @param  string  $scopes
+     * @return array
+     */
+    protected function parseScopes($scopes)
+    {
+        if (is_null($scopes)) {
+            return [];
+        }
+        
+        return explode(',', $scopes);
     }
 
     /**
@@ -307,7 +258,6 @@ abstract class LaravelController extends Controller
      * Parse filter group strings into filters.
      *
      * @param  array  $filter_groups
-     *
      * @return array
      */
     protected function parseFilterGroups(array $filter_groups)
@@ -359,42 +309,36 @@ abstract class LaravelController extends Controller
         }
 
         $this->defaults = array_merge([
-            'selects' => [],
-            'select' => [],
-            'includes' => [],
-            'include' => [],
-            'withCount' => [],
-            'withs' => [],
-            'has' => [],
-            'doesntHave' => [],
-            'excludeGlobalScopes' => [],
-            'scope' => [],
-            'sort' => [],
+            'selects' => null,
+            'select' => null,
+            'includes' => null,
+            'include' => null,
+            'withCount' => null,
+            'has' => null,
+            'doesntHave' => null,
+            'excludeGlobalScopes' => null,
+            'scope' => null,
             'limit' => null,
             'page' => null,
-            'mode' => 'embed',
             'filter_groups' => [],
             'filterByAnd' => [],
             'filterByOr' => [],
             'searchByAnd' => [],
             'searchByOr' => [],
-            'append' => [],
-            'sortByDesc' => [],
-            'sortByAsc' => [],
+            'append' => null,
+            'sortByDesc' => null,
+            'sortByAsc' => null,
         ], $this->defaults);
 
         $selects = $this->parseSelects($request->get('selects', $this->defaults['selects']));
         $select = $this->parseSelects($request->get('select', $this->defaults['select']));
         $includes = $this->parseIncludes($request->get('includes', $this->defaults['includes']));
-        $include = $this->parseInclude($request->get('include', $this->defaults['include']));
-        $modes = $this->parseModes($request->get('modeIds', []), $request->get('modeSideload', []));
-        $withCount = $this->parseWithCount($request->get('withCount', $this->defaults['withCount']));
-        $withs = $request->get('with', $this->defaults['withs']);
-        $has = $request->get('has', $this->defaults['has']);
-        $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
+        $include = $this->parseIncludes($request->get('include', $this->defaults['include']));
+        $withCount = $this->parseWithCounts($request->get('withCount', $this->defaults['withCount']));
+        $has = $this->parseHas($request->get('has', $this->defaults['has']));
+        $doesntHave = $this->parseDoesntHave($request->get('doesntHave', $this->defaults['doesntHave']));
         $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
-        $scope = $request->get('scope', $this->defaults['scope']);
-        $sort = $this->parseSort($request->get('sort', $this->defaults['sort']));
+        $scope = $this->parseScopes($request->get('scope', $this->defaults['scope']));
         $limit = $request->get('limit', $this->defaults['limit']);
         $page = $request->get('page', $this->defaults['page']);
         $filter_groups = $this->parseFilterGroups($request->get('filter_groups', $this->defaults['filter_groups']));
@@ -402,7 +346,7 @@ abstract class LaravelController extends Controller
         $filterByOr = $this->parseFilters($request->get('filterByOr', $this->defaults['filterByOr']), true);
         $searchByAnd = $this->parseFilters($request->get('search', $this->defaults['searchByAnd']), false, 'ct');
         $searchByOr = $this->parseFilters($request->get('searchByOr', $this->defaults['searchByOr']), true, 'ct');
-        $append = $request->get('append', $this->defaults['append']);
+        $append = $this->parseAppends($request->get('append', $this->defaults['append']));
         $sortByDesc = $this->parseSortByDesc($request->get('sortByDesc', $this->defaults['sortByDesc']));
         $sortByAsc = $this->parseSortByAsc($request->get('sortByAsc', $this->defaults['sortByAsc']));
 
@@ -412,13 +356,10 @@ abstract class LaravelController extends Controller
             'includes' => $includes,
             'include' => $include,
             'withCount' => $withCount,
-            'withs' => $withs,
             'has' => $has,
             'doesntHave' => $doesntHave,
             'excludeGlobalScopes' => $excludeGlobalScopes,
-            'modes' => $modes,
             'scope' => $scope,
-            'sort' => $sort,
             'limit' => $limit,
             'page' => $page,
             'filter_groups' => $filter_groups,
@@ -443,6 +384,22 @@ abstract class LaravelController extends Controller
     {
         if ($data['page'] !== null && $data['limit'] === null) {
             throw new LarapiException('Cannot use page option without limit option.');
+        }
+
+        if (!is_null($data['page'])) {
+            if (!is_int((int)$data['page'])) {
+                throw new LarapiException('Page need to be int.');
+            }
+
+            if ($data['page'] == 0) {
+                throw new LarapiException('Page need to start from 1.');
+            }
+        }
+
+        if (!is_null($data['limit'])) {
+            if (!is_int((int)$data['limit'])) {
+                throw new LarapiException('Limit need to be int.');
+            }
         }
     }
 }

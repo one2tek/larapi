@@ -17,56 +17,31 @@ trait EloquentBuilderTrait
         extract($options);
 
         if (isset($selects) && $selects) {
-            $queryBuilder->select($selects);
+            $this->applySelects($queryBuilder, $selects);
         }
+        
         if (isset($select) && $select) {
-            $queryBuilder->select($select);
+            $this->applySelects($queryBuilder, $select);
         }
 
         if (isset($includes)) {
-            $queryBuilder->with($includes);
+            $this->applyWith($queryBuilder, $includes);
         }
 
         if (isset($include)) {
-            if (count($include)) {
-                $queryBuilder->with($include);
-            }
+            $this->applyWith($queryBuilder, $include);
         }
         
         if (isset($withCount)) {
-            $queryBuilder->withCount($withCount);
-        }
-        
-        if (isset($withs)) {
-            foreach ($withs as $with) {
-                $queryBuilder->with([$with['name'] => function ($query) use ($with) {
-                    if (count($with['select'] ?? [])) {
-                        $query->select($with['select']);
-                    }
-
-                    if (count($with['group_by'] ?? [])) {
-                        $query->groupBy($with['group_by']);
-                    }
-
-                    if (count($with['sort'] ?? [])) {
-                        foreach ($with['sort'] as $sort) {
-                            $query->orderBy($sort['key'], $sort['direction']);
-                        }
-                    }
-                }]);
-            }
+            $this->applyWithCount($queryBuilder, $withCount);
         }
         
         if (isset($has)) {
-            foreach ($has as $relation) {
-                $queryBuilder->has($relation);
-            }
+            $this->applyHas($queryBuilder, $has);
         }
 
         if (isset($doesntHave)) {
-            foreach ($doesntHave as $relation) {
-                $queryBuilder->doesntHave($relation);
-            }
+            $this->applyDoesntHave($queryBuilder, $doesntHave);
         }
         
         if (isset($excludeGlobalScopes)) {
@@ -93,27 +68,19 @@ trait EloquentBuilderTrait
             $this->applyFilterGroups($queryBuilder, $searchByOr);
         }
 
-        if (isset($sort)) {
-            $this->applySorting($queryBuilder, $sort);
-        }
-
         if (isset($limit)) {
             $queryBuilder->limit($limit);
         }
 
         if (isset($page)) {
-            $queryBuilder->offset($page * $limit);
+            $queryBuilder->offset(($page > 0 ? $page - 1 : 0) * $limit);
         }
 
-        if (isset($distinct)) {
-            $queryBuilder->distinct();
-        }
-
-        if (isset($sortByAsc) && $sortByAsc) {
+        if (isset($sortByAsc)) {
             $this->applySortByAsc($queryBuilder, $sortByAsc);
         }
 
-        if (isset($sortByDesc) && $sortByDesc) {
+        if (isset($sortByDesc)) {
             $this->applySortByDesc($queryBuilder, $sortByDesc);
         }
 
@@ -155,6 +122,35 @@ trait EloquentBuilderTrait
             } else {
                 $queryBuilder->orderByDesc($sortByDescKey);
             }
+        }
+    }
+
+    protected function applySelects(Builder $queryBuilder, array $fields = [])
+    {
+        $queryBuilder->select($fields);
+    }
+
+    protected function applyWith(Builder $queryBuilder, array $withs = [])
+    {
+        $queryBuilder->with($withs);
+    }
+
+    protected function applyWithCount(Builder $queryBuilder, array $withCount = [])
+    {
+        $queryBuilder->withCount($withCount);
+    }
+
+    protected function applyHas(Builder $queryBuilder, array $relations = [])
+    {
+        foreach ($relations as $relation) {
+            $queryBuilder->has($relation);
+        }
+    }
+
+    protected function applyDoesntHave(Builder $queryBuilder, array $relations = [])
+    {
+        foreach ($relations as $relation) {
+            $queryBuilder->doesntHave($relation);
         }
     }
 
@@ -275,26 +271,6 @@ trait EloquentBuilderTrait
                 $queryBuilder->$method($column, $value);
             } else {
                 $queryBuilder->$method($column, $operator, $value);
-            }
-        }
-    }
-
-    protected function applySorting(Builder $queryBuilder, array $sorting)
-    {
-        foreach ($sorting as $sortRule) {
-            if (is_array($sortRule)) {
-                $key = $sortRule['key'];
-                $direction = mb_strtolower($sortRule['direction']) === 'asc' ? 'ASC' : 'DESC';
-            } else {
-                $key = $sortRule;
-                $direction = 'ASC';
-            }
-
-            $customSortMethod = $this->hasCustomMethod('sort', $key);
-            if ($customSortMethod) {
-                call_user_func([$this, $customSortMethod], $queryBuilder, $direction);
-            } else {
-                $queryBuilder->orderBy($key, $direction);
             }
         }
     }

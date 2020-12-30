@@ -7,7 +7,7 @@ Sometimes more advanced filtering options are necessary. This is where scope fil
 The following query parameter will add the `popular` scope:
 
 ```url
-{base_url}/users?scope[]=popular
+{base_url}/users?scope=popular
 ```
 
 # Remove Global Scopes
@@ -18,5 +18,13 @@ What if we want to remove it ?
 The following query parameter will remove the `delivered` global scope:
 
 ```url
-{base_url}/books?excludeGlobalScopes[]=delivered
+{base_url}/books?excludeGlobalScopes=delivered
+```
+
+# Select multiple
+
+You can select multiple scopes separating them with a comma:
+
+```url
+{base_url}/users?scope=popular,famous
 ```
