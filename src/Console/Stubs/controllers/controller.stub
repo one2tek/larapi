@@ -29,27 +29,33 @@ class DummyClass extends Controller
     {
         $resourceOptions = $this->parseResourceOptions();
     
-        $data = $this->dummyVariableService->getById($dummyVariableId, $resourceOptions);
+        $sendData['dummyvariable'] = $this->dummyVariableService->getById($dummyVariableId, $resourceOptions);
     
-        return $this->response($data);
+        return $this->response($sendData);
     }
     
     public function create(Request $request)
     {
         $data = $request->all();
 
-        return $this->response($this->dummyVariableService->create($data), 201);
+        $sendData['dummyvariable'] = $this->dummyVariableService->create($data);
+
+        return $this->response($sendData, 201);
     }
     
     public function update($dummyVariableId, Request $request)
     {
         $data = $request->all();
 
-        return $this->response($this->dummyVariableService->update($dummyVariableId, $data));
+        $sendData['dummyvariable'] = $this->dummyVariableService->update($dummyVariableId, $data);
+
+        return $this->response($sendData);
     }
     
     public function delete($dummyVariableId)
     {
-        return $this->response($this->dummyVariableService->delete($dummyVariableId));
+        $sendData = $this->dummyVariableService->delete($dummyVariableId);
+
+        return $this->response($sendData, 204);
     }
 }
