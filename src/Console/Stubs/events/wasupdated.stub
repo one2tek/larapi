@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use Infrastructure\Events\Event;
+use Infrastructure\Abstracts\Event;
 use DummyPath\Models\DummyVariable;
 
 class DummyClass extends Event

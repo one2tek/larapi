@@ -4,7 +4,7 @@ namespace DummyNamespace;
 
 use DummyPath\Services\DummyVariableService;
 use Illuminate\Http\Request;
-use Infrastructure\Http\Controller;
+use Infrastructure\Abstracts\Controller;
 
 class DummyClass extends Controller
 {

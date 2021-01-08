@@ -3,7 +3,7 @@
 namespace DummyNamespace;
 
 use DummyPath\Models\DummyVariable;
-use Infrastructure\Database\Eloquent\Repository;
+use Infrastructure\Abstracts\Repository;
 
 class DummyClass extends Repository
 {
