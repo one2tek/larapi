@@ -28,7 +28,7 @@ You can sort multiple columns separating them with a comma:
 
 # Order by random
 
-You can also order sort randomly:
+You can also sort data randomly:
 
 ```url
 {base_url}/books?orderByRandom=1
