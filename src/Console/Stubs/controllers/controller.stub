@@ -20,7 +20,7 @@ class DummyClass extends Controller
     {
         $resourceOptions = $this->parseResourceOptions();
     
-        $data = $this->dummyVariableService->getAll($resourceOptions, true);
+        $data = $this->dummyVariableService->getAll($resourceOptions);
     
         return $this->response($data);
     }
