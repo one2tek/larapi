@@ -84,6 +84,10 @@ trait EloquentBuilderTrait
             $this->applySortByDesc($queryBuilder, $sortByDesc);
         }
 
+        if (isset($orderByRandom) && $orderByRandom) {
+            $this->applyOrderByRandom($queryBuilder, $orderByRandom);
+        }
+
         return $queryBuilder;
     }
 
@@ -138,6 +142,11 @@ trait EloquentBuilderTrait
     protected function applyWithCount(Builder $queryBuilder, array $withCount = [])
     {
         $queryBuilder->withCount($withCount);
+    }
+
+    protected function applyOrderByRandom(Builder $queryBuilder, bool $orderByRaw)
+    {
+        $queryBuilder->orderByRaw('RAND()');
     }
 
     protected function applyHas(Builder $queryBuilder, array $relations = [])

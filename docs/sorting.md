@@ -25,3 +25,11 @@ You can sort multiple columns separating them with a comma:
 ```url
 {base_url}/books?sortByDesc=id,name
 ```
+
+# Order by random
+
+You can also order sort randomly:
+
+```url
+{base_url}/books?orderByRandom=1
+```
