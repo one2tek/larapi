@@ -186,6 +186,19 @@ abstract class LaravelController extends Controller
     }
 
     /**
+     * Parse order by random.
+     *
+     * @param  string  $value
+     * @return bool
+     */
+    protected function parseOrderByRandom($value)
+    {
+        $value = $value ? filter_var($value, FILTER_VALIDATE_BOOLEAN) : false;
+
+        return $value;
+    }
+
+    /**
      * Parse filters.
      *
      * @param  array  $filter
@@ -328,6 +341,7 @@ abstract class LaravelController extends Controller
             'append' => null,
             'sortByDesc' => null,
             'sortByAsc' => null,
+            'orderByRandom' => false
         ], $this->defaults);
 
         $selects = $this->parseSelects($request->get('selects', $this->defaults['selects']));
@@ -349,6 +363,7 @@ abstract class LaravelController extends Controller
         $append = $this->parseAppends($request->get('append', $this->defaults['append']));
         $sortByDesc = $this->parseSortByDesc($request->get('sortByDesc', $this->defaults['sortByDesc']));
         $sortByAsc = $this->parseSortByAsc($request->get('sortByAsc', $this->defaults['sortByAsc']));
+        $orderByRandom = $this->parseOrderByRandom($request->get('orderByRandom', $this->defaults['orderByRandom']));
 
         $data = [
             'select' => $select,
@@ -369,7 +384,8 @@ abstract class LaravelController extends Controller
             'searchByOr' => $searchByOr,
             'append' => $append,
             'sortByDesc' => $sortByDesc,
-            'sortByAsc' => $sortByAsc
+            'sortByAsc' => $sortByAsc,
+            'orderByRandom' => $orderByRandom
         ];
 
         $this->validateResourceOptions($data);
