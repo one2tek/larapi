@@ -52,6 +52,10 @@
   - [Configure](exception_handler.md?id=configure)
   - [Formatters](exception_handler.md?id=formatters)
 
+- Api Consumer
+  - [Quick start](api_consumer.md?api-consumer)
+  - [Usage Example](api_consumer.md?usage-example)
+
 - Advanced Usage
   - [Quick start](advanced_usage.md?id=avanced_usage)
   - [Custom Sort](advanced_usage.md?id=custom-sort)
