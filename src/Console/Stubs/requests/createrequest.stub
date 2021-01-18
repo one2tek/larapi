@@ -1,0 +1,16 @@
+<?php
+
+namespace DummyNamespace;
+
+use Infrastructure\Abstracts\ApiRequest;
+
+class DummyClass extends ApiRequest
+{
+    public function rules()
+    {
+        return [
+            'field1' => 'required',
+            'field2' => 'required'
+        ];
+    }
+}

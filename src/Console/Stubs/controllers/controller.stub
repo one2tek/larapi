@@ -3,8 +3,9 @@
 namespace DummyNamespace;
 
 use DummyPath\Services\DummyVariableService;
-use Illuminate\Http\Request;
 use Infrastructure\Abstracts\Controller;
+use DummyPath\Requests\DummyVariableCreateRequest;
+use DummyPath\Requests\DummyVariableUpdateRequest;
 
 class DummyClass extends Controller
 {
@@ -34,18 +35,18 @@ class DummyClass extends Controller
         return $this->response($sendData);
     }
     
-    public function create(Request $request)
+    public function create(DummyVariableCreateRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
         $sendData['dummyvariable'] = $this->dummyVariableService->create($data);
 
         return $this->response($sendData, 201);
     }
     
-    public function update($dummyVariableId, Request $request)
+    public function update($dummyVariableId, DummyVariableUpdateRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
         $sendData['dummyvariable'] = $this->dummyVariableService->update($dummyVariableId, $data);
 

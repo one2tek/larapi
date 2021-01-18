@@ -3,10 +3,10 @@
 namespace one2tek\larapi\Providers;
 
 use one2tek\larapi\Routes\ApiConsumerRouter;
-use Illuminate\Support\ServiceProvider as BaseProvider;
+use Illuminate\Support\ServiceProvider;
 use one2tek\larapi\Console\ComponentMakeCommand;
 
-class LaravelServiceProvider extends BaseProvider
+class LarapiServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
