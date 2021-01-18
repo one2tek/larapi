@@ -27,7 +27,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "one2tek\\larapi\\Providers\\LaravelServiceProvider"
+                "one2tek\\larapi\\Providers\\LarapiServiceProvider"
             ]
         }
     },
