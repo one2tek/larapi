@@ -54,6 +54,10 @@ class ComponentMakeCommand extends Command
         ],
         'Exceptions' => [
             'NotFoundException'
+        ],
+        'Requests' => [
+            'CreateRequest',
+            'UpdateRequest'
         ]
     ];
 
