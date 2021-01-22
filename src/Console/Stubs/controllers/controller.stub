@@ -21,9 +21,9 @@ class DummyClass extends Controller
     {
         $resourceOptions = $this->parseResourceOptions();
     
-        $data = $this->dummyVariableService->getAll($resourceOptions, true);
+        $sendData = $this->dummyVariableService->getAll($resourceOptions);
     
-        return $this->response($data);
+        return $this->response($sendData);
     }
     
     public function getById($dummyVariableId)
@@ -55,8 +55,8 @@ class DummyClass extends Controller
     
     public function delete($dummyVariableId)
     {
-        $sendData = $this->dummyVariableService->delete($dummyVariableId);
+        $this->dummyVariableService->delete($dummyVariableId);
 
-        return $this->response($sendData, 204);
+        return $this->response(null, 204);
     }
 }
