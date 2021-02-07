@@ -23,4 +23,3 @@ Larapi is a package thats offers you to do modern API development in Laravel wit
 ## Authors
 
 - Gentrit Abazi (https://github.com/gentritabazi01)
-- Veton Muhaxhiri (https://github.com/VetonMuhaxhiri)
