@@ -359,8 +359,8 @@ abstract class LaravelController extends Controller
         }
 
         $this->defaults = array_merge([
-            'selects' => [],
-            'select' => [],
+            'selects' => ['*'],
+            'select' => ['*'],
             'includes' => [],
             'include' => [],
             'withCount' => [],
