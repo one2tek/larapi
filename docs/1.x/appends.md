@@ -6,7 +6,7 @@ With Laravel you can add attributes that do not have a corresponding column in y
 
 The following example appends `isAdmin` attribute:
 
-```url
+```console
 {base_url}/users?append[]=isAdmin
 ```
 
@@ -14,6 +14,6 @@ The following example appends `isAdmin` attribute:
 
 You can append multiple attributes separating them with a comma:
 
-```url
+```console
 {base_url}/users?append[]=isAdmin,isDriver
 ```

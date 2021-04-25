@@ -8,13 +8,13 @@ For more advanced use cases, [custom sorts](advanced_usage?id=custom-sort) can b
 
 The following query parameter `sortByAsc` will sort results by  from the lowest value to the highest value:
 
-```url
+```console
 {base_url}/books?sortByAsc=id
 ```
 
 The following query parameter `sortByDesc` will sort results by  from the highest value to the lowest value:
 
-```url
+```console
 {base_url}/books?sortByDesc=id
 ```
 
@@ -22,6 +22,6 @@ The following query parameter `sortByDesc` will sort results by  from the highes
 
 You can sort multiple columns separating them with a comma:
 
-```url
+```console
 {base_url}/books?sortByDesc=id,name
 ```
