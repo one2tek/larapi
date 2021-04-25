@@ -6,7 +6,7 @@ The `include` query parameter will load any Eloquent relation on the resulting m
 
 The following query parameter will include the `logs` relation:
 
-```url
+```console
 {base_url}/users?include=logs
 ```
 
@@ -16,7 +16,7 @@ Users will have all their their `logs` related models loaded.
 
 You can load multiple relationships by separating them with a semicolon:
 
-```url
+```console
 {base_url}/users?include=logs;tasks
 ```
 
@@ -24,7 +24,7 @@ You can load multiple relationships by separating them with a semicolon:
 
 You can load nested relationships using the dot `.` notation:
 
-```url
+```console
 {base_url}/users?include=logs.causer
 ```
 
@@ -32,7 +32,7 @@ You can load nested relationships using the dot `.` notation:
 
 If you want to count the number of results from a relationship without actually loading them you may use the `withCount` query parameter, which will place a {relation}_count column on your resulting models.
 
-```url
+```console
 {base_url}/users?withCount[]=comments
 ```
 
@@ -41,13 +41,13 @@ If you want to count the number of results from a relationship without actually 
 Imagine you want to retrieve all blog posts that have at least one comment.
 You can do this by passing `has` paramter in query:
 
-```url
+```console
 {base_url}/posts?has[]=comments
 ```
 
 Nested `has` statements may also be constructed using "dot" notation. For example, you may retrieve all posts that have at least one `comment` and `vote`:
 
-```url
+```console
 {base_url}/posts?has[]=comments.votes
 ```
 
@@ -55,7 +55,7 @@ Nested `has` statements may also be constructed using "dot" notation. For exampl
 
 When accessing the records for a model, you may wish to limit your results based on the absence of a relationship. For example, imagine you want to retrieve all blog posts that don't have any `comments`. To do so, you may pass `doesntHave` paramter in query:
 
-```url
+```console
 {base_url}/posts?doesntHave[]=comments
 ```
 
@@ -65,7 +65,7 @@ With the `Larapi` package you have the opportunity to return the relations in `I
 
 # IDs mode
 
-```url
+```console
 {base_url}/books?modeIds[]=author
 ```
 
@@ -73,7 +73,7 @@ Will return a collection of Books eager loaded with the ID of their Author.
 
 # Sideload mode
 
-```url
+```console
 {base_url}/books?modeSideload[]=author
 ```
 

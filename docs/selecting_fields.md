@@ -6,7 +6,7 @@ Sometimes you'll want to fetch only a couple fields to reduce the overall size o
 
 The following example fetches only the users' id and name:
 
-```url
+```console
 {base_url}/users?select=id,name
 ```
 
@@ -20,6 +20,6 @@ The SQL query will look like this:
 
 The following example fetches only the authors' id and name:
 
-```url
+```console
 {base_url}/books?include=author:id,name.
 ```

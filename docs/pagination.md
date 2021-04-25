@@ -4,7 +4,7 @@ Two parameters are available: `limit` and `page`. limit will determine the numbe
 
 # Usage
 
-```url
+```console
 {base_url}/books?limit=10&page=3
 ```
 
