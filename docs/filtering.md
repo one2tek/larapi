@@ -25,7 +25,7 @@ bt | Between
 
 The way a filter should be formed is:
 
-```url
+```console
 {base_url}/users?filter[columnName][operator][not]=value
 ```
 
@@ -39,19 +39,19 @@ Another available parameter is `filterByOr`, `search` and `searchByOr`.
 
 Filter all users whose id start with `1000`.
 
-```url
+```console
 {base_url}/users?filter[name][sw]=1000
 ```
 
 Filter all books whose author is `Gentrit`.
 
-```url
-{base_url}/users?filter[name]=author.name
+```console
+{base_url}/users?filter[author.name]=Gentrit
 ```
 
 Filter all users whose name start with `Gentrit` or ends with `Abazi`.
 
-```url
+```console
 {base_url}/users?filterByOr[name][sw]=Gentrit&filterByOr[name][ew]=Abazi
 ```
 
