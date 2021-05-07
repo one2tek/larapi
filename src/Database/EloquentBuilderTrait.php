@@ -182,7 +182,7 @@ trait EloquentBuilderTrait
         $relationName = str_replace('.'. $lastColumn, '', $column);
         $filterRawJoinColumns = isset($this->filterRawJoinColumns) ? $this->filterRawJoinColumns : [];
 
-        $this->checkFilterColumn($column, $queryBuilder, get_class($queryBuilder->getModel()));
+        $this->checkFilterColumn($column, get_class($queryBuilder->getModel()));
 
         // Check operator.
         switch ($operator) {
@@ -280,29 +280,32 @@ trait EloquentBuilderTrait
         }
     }
 
-    private function checkFilterColumn($column, $queryBuilder, $baseClassName)
+    private function checkFilterColumn($column, $baseClassName)
     {
         if(empty($column) || empty($baseClassName)) {
             return;
         }
 
-        $parts = explode('.', $column);
-        $firstPart = $parts[0];
-
         $whiteListFilter = (get_class_vars($baseClassName)['whiteListFilter']) ?? [];
-               
-        // Check if column can filered.
-        if (!in_array($firstPart, $whiteListFilter)) {
-            throw new LarapiException('Oops! You cannot filter column '. $column. '.');
+
+        // Check if full column can filered.
+        if (in_array($column, $whiteListFilter)) {
+            return;
         }
 
-        $whiteListFilterPos = array_search($firstPart, $whiteListFilter);
-        $whiteListFilterType = (get_class_vars($baseClassName)['whiteListFilteType']) ?? [];
+        $parts = explode('.', $column);
+        $firstPart = $parts[0];
+    
+        // Check if splitted column can filered.
+        if (!in_array($firstPart, $whiteListFilter)) {
+            throw new LarapiException('Oops! You cannot filter column '. $column . ' on ' .  $baseClassName . ' class.' );
+        }
 
         $nextColums = join('.', array_slice($parts, 1));
-        $nextClass = $whiteListFilterType[$whiteListFilterPos] ?? '';
+        $baseClass = new $baseClassName();
+        $nextClass = method_exists($baseClass, $firstPart) ? get_class($baseClass->$firstPart()->getRelated()) : '';
         
-        $this->checkFilterColumn($nextColums, $queryBuilder, $nextClass);
+        $this->checkFilterColumn($nextColums, $nextClass);
     }
 
     private function hasCustomMethod($type, $key)
