@@ -244,6 +244,7 @@ abstract class LaravelController extends Controller
 
             if (is_array($part)) {
                 $not = ($arrayCountValues == 2) ? key($part[$operator]) : false;
+                $not = $not == 'not' ? true : $not;
                 $not = $not ? filter_var($not, FILTER_VALIDATE_BOOLEAN) : false;
             
                 $value = $part[(string)key($part)];
