@@ -175,7 +175,6 @@ trait EloquentBuilderTrait
         $operator = $filter['operator'] ?? 'eq';
         $value = $filter['value'];
         $not = $filter['not'] ?? false;
-        $whiteListFilter = (get_class_vars(get_class($queryBuilder->getModel()))['whiteListFilter']) ?? [];
         $wantsRelationship = stripos($column, '.');
         $clauseOperator = true;
         $lastColumn = explode('.', $column);
@@ -183,10 +182,7 @@ trait EloquentBuilderTrait
         $relationName = str_replace('.'. $lastColumn, '', $column);
         $filterRawJoinColumns = isset($this->filterRawJoinColumns) ? $this->filterRawJoinColumns : [];
 
-        // Check if column can filered.
-        if (!in_array($column, $whiteListFilter)) {
-            throw new LarapiException('Oops! You cannot filter column '. $column. '.');
-        }
+        $this->checkFilterColumn($column, $queryBuilder, get_class($queryBuilder->getModel()));
 
         // Check operator.
         switch ($operator) {
@@ -282,6 +278,31 @@ trait EloquentBuilderTrait
                 $queryBuilder->$method($column, $operator, $value);
             }
         }
+    }
+
+    private function checkFilterColumn($column, $queryBuilder, $baseClassName)
+    {
+        if(empty($column) || empty($baseClassName)) {
+            return;
+        }
+
+        $parts = explode('.', $column);
+        $firstPart = $parts[0];
+
+        $whiteListFilter = (get_class_vars($baseClassName)['whiteListFilter']) ?? [];
+               
+        // Check if column can filered.
+        if (!in_array($firstPart, $whiteListFilter)) {
+            throw new LarapiException('Oops! You cannot filter column '. $column. '.');
+        }
+
+        $whiteListFilterPos = array_search($firstPart, $whiteListFilter);
+        $whiteListFilterType = (get_class_vars($baseClassName)['whiteListFilteType']) ?? [];
+
+        $nextColums = join('.', array_slice($parts, 1));
+        $nextClass = $whiteListFilterType[$whiteListFilterPos] ?? '';
+        
+        $this->checkFilterColumn($nextColums, $queryBuilder, $nextClass);
     }
 
     private function hasCustomMethod($type, $key)
