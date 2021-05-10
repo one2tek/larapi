@@ -33,7 +33,7 @@ Another available parameter is `filterByOr`, `search` and `searchByOr`.
 
 * **columnName** -  (Required) - Name of column you want to filter, for relationships use `dots`.
 * **operator** - (Optional | Default: `eq`) Type of operator you want to use.
-* **not** - (Optional | Default: `false`) Negate the filter (Accepted values: yes|true|1).
+* **not** - (Optional | Default: `false`) Negate the filter (Accepted values: not|yes|true|1).
 
 #### Example filters
 
