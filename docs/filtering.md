@@ -4,6 +4,36 @@ Data filtering is very easy with at `Larapi` see the examples below.
 
 By default, all filters have to be explicitly allowed using `$whiteListFilter` property in specified Model. 
 
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    use HasFactory;
+
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
+    }
+
+    // List of all valid syntax for $whiteListFilter
+    //public static $whiteListFilter = ['*'];
+    //public static $whiteListFilter = ['id', 'title', 'author'];
+    //public static $whiteListFilter = ['id', 'title', 'author.*'];
+    
+}
+```
+
+If the filter is `['*']` then all properties and sub-properties can be used for filtering.
+If the filter is `a list of model properties` then only the selected properties can be filtered.
+If some of the filter are a relationship then only the `$whiteListFilter` properties of the sub-property's model can be filtered.
+If some of the filter contains a `.*` the all sub-properties of the relationship model can be filtered (the `$whiteListFilter` is not used).
+
 For more advanced use cases, [custom filter](advanced_usage?id=custom-filter) can be used.
 
 #### Operators
