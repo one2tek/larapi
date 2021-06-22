@@ -175,7 +175,6 @@ trait EloquentBuilderTrait
         $operator = $filter['operator'] ?? 'eq';
         $value = $filter['value'];
         $not = $filter['not'] ?? false;
-        $whiteListFilter = (get_class_vars(get_class($queryBuilder->getModel()))['whiteListFilter']) ?? [];
         $wantsRelationship = stripos($column, '.');
         $clauseOperator = true;
         $lastColumn = explode('.', $column);
@@ -183,10 +182,7 @@ trait EloquentBuilderTrait
         $relationName = str_replace('.'. $lastColumn, '', $column);
         $filterRawJoinColumns = isset($this->filterRawJoinColumns) ? $this->filterRawJoinColumns : [];
 
-        // Check if column can filered.
-        if (!in_array($column, $whiteListFilter)) {
-            throw new LarapiException('Oops! You cannot filter column '. $column. '.');
-        }
+        $this->checkFilterColumn($column, get_class($queryBuilder->getModel()));
 
         // Check operator.
         switch ($operator) {
@@ -282,6 +278,51 @@ trait EloquentBuilderTrait
                 $queryBuilder->$method($column, $operator, $value);
             }
         }
+    }
+
+    private function checkFilterColumn(String $column, String $baseClassName, array $overrideWhiteListFilter = null)
+    {
+        if (empty($column) || empty($baseClassName)) {
+            return;
+        }
+
+        // Retrieve the whiteListFilter
+        $whiteListFilter = $overrideWhiteListFilter ?? ((array)(get_class_vars($baseClassName)['whiteListFilter']) ?? []);
+
+        // Check if the whitelist filter is a star
+        if (in_array('*', $whiteListFilter)) {
+            if (count($whiteListFilter) > 1) {
+                throw new LarapiException('Oops! If you use "*" for the whiteListFilter, you cannot specify another column on ' .  $baseClassName . ' class.');
+            }
+            return;
+        }
+
+        // Check if full column can filered.
+        if (in_array($column, $whiteListFilter)) {
+            return;
+        }
+
+        $parts = explode('.', $column);
+        $firstPart = $parts[0];
+
+        $simpleColumnCheckInListFilter = in_array($firstPart, $whiteListFilter);
+        $complexColumnCheckInListFilter = in_array($firstPart . '.*', $whiteListFilter);
+
+        // Check if splitted column can filered.
+        if (!$simpleColumnCheckInListFilter && !$complexColumnCheckInListFilter) {
+            throw new LarapiException('Oops! You cannot filter column ' . $column . ' on ' .  $baseClassName . ' class.');
+        }
+
+        // Get next part and next class
+        $nextColums = join('.', array_slice($parts, 1));
+        $baseClass = new $baseClassName();
+        $nextClass = method_exists($baseClass, $firstPart) ? get_class($baseClass->$firstPart()->getRelated()) : '';
+        
+        // If the whiteListFilter contains a column with a star we want to bypass the check for the next part
+        $nextOverrideWhiteListFilter = $complexColumnCheckInListFilter ? ['*'] : null;
+
+        // Recursive call to check sub parts
+        $this->checkFilterColumn($nextColums, $nextClass, $nextOverrideWhiteListFilter);
     }
 
     private function hasCustomMethod($type, $key)
