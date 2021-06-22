@@ -317,6 +317,7 @@ trait EloquentBuilderTrait
         $nextColums = join('.', array_slice($parts, 1));
         $baseClass = new $baseClassName();
         $nextClass = method_exists($baseClass, $firstPart) ? get_class($baseClass->$firstPart()->getRelated()) : '';
+        
         // If the whiteListFilter contains a column with a star we want to bypass the check for the next part
         $nextOverrideWhiteListFilter = $complexColumnCheckInListFilter ? ['*'] : null;
 
