@@ -6,11 +6,11 @@ By default, all filters have to be explicitly allowed using `$whiteListFilter` p
 
 List of all valid syntax for $whiteListFilter:
 
-'''php
+```php
 public static $whiteListFilter = ['*'];
 public static $whiteListFilter = ['id', 'title', 'author'];
 public static $whiteListFilter = ['id', 'title', 'author.*'];  
-'''
+```
 
 If the filter is ['*'] then all properties and sub-properties can be used for filtering.
 If the filter is a list of model properties then only the selected properties can be filtered.
