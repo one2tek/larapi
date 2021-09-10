@@ -88,6 +88,10 @@ trait EloquentBuilderTrait
             $this->applyOrderByRandom($queryBuilder, $orderByRandom);
         }
 
+        if( (isset($withTrashed) && $withTrashed)) {
+            $this->applyWithTrashed($queryBuilder);
+        }
+
         return $queryBuilder;
     }
 
@@ -147,6 +151,11 @@ trait EloquentBuilderTrait
     protected function applyOrderByRandom(Builder $queryBuilder, bool $orderByRaw)
     {
         $queryBuilder->orderByRaw('RAND()');
+    }
+
+    protected function applyWithTrashed(Builder $queryBuilder)
+    {
+        $queryBuilder->withTrashed();
     }
 
     protected function applyHas(Builder $queryBuilder, array $relations = [])
