@@ -199,6 +199,19 @@ abstract class LaravelController extends Controller
     }
 
     /**
+     * Parse with trashed.
+     *
+     * @param  string  $value
+     * @return bool
+     */
+    protected function parseWithTrashed($value)
+    {
+        $value = $value ? filter_var($value, FILTER_VALIDATE_BOOLEAN) : false;
+
+        return $value;
+    }
+
+    /**
      * Parse filters.
      *
      * @param  array  $filter
@@ -342,7 +355,8 @@ abstract class LaravelController extends Controller
             'append' => null,
             'sortByDesc' => null,
             'sortByAsc' => null,
-            'orderByRandom' => false
+            'orderByRandom' => false,
+            'withTrashed' => false
         ], $this->defaults);
 
         $selects = $this->parseSelects($request->get('selects', $this->defaults['selects']));
@@ -365,6 +379,7 @@ abstract class LaravelController extends Controller
         $sortByDesc = $this->parseSortByDesc($request->get('sortByDesc', $this->defaults['sortByDesc']));
         $sortByAsc = $this->parseSortByAsc($request->get('sortByAsc', $this->defaults['sortByAsc']));
         $orderByRandom = $this->parseOrderByRandom($request->get('orderByRandom', $this->defaults['orderByRandom']));
+        $withTrashed = $this->parseWithTrashed($request->get('withTrashed', $this->defaults['withTrashed']));
 
         $data = [
             'select' => $select,
@@ -386,7 +401,8 @@ abstract class LaravelController extends Controller
             'append' => $append,
             'sortByDesc' => $sortByDesc,
             'sortByAsc' => $sortByAsc,
-            'orderByRandom' => $orderByRandom
+            'orderByRandom' => $orderByRandom,
+            'withTrashed' => $withTrashed
         ];
 
         $this->validateResourceOptions($data);
