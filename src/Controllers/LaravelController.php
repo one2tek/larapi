@@ -217,24 +217,6 @@ abstract class LaravelController extends Controller
     }
     
     /**
-    * Parse excludeGlobalScopes into resource.
-    *
-    * @param  array  $excludeGlobalScopes
-    *
-    * @return array
-    */
-    protected function parseExcludeGlobalScopes(array $excludeGlobalScopes)
-    {
-        $return = [];
-
-        foreach ($excludeGlobalScopes as $exludeGlobalScope) {
-            $return[] = $exludeGlobalScope;
-        }
-
-        return $return;
-    }
-
-    /**
      * Parse filters.
      *
      * @param  array  $filter
@@ -367,7 +349,6 @@ abstract class LaravelController extends Controller
             'withs' => [],
             'has' => [],
             'doesntHave' => [],
-            'excludeGlobalScopes' => [],
             'scope' => [],
             'sort' => [],
             'limit' => null,
@@ -392,7 +373,6 @@ abstract class LaravelController extends Controller
         $withs = $request->get('with', $this->defaults['withs']);
         $has = $request->get('has', $this->defaults['has']);
         $doesntHave = $request->get('doesntHave', $this->defaults['doesntHave']);
-        $excludeGlobalScopes = $this->parseExcludeGlobalScopes($request->get('excludeGlobalScopes', $this->defaults['excludeGlobalScopes']));
         $scope = $request->get('scope', $this->defaults['scope']);
         $sort = $this->parseSort($request->get('sort', $this->defaults['sort']));
         $limit = $request->get('limit', $this->defaults['limit']);
@@ -415,7 +395,6 @@ abstract class LaravelController extends Controller
             'withs' => $withs,
             'has' => $has,
             'doesntHave' => $doesntHave,
-            'excludeGlobalScopes' => $excludeGlobalScopes,
             'modes' => $modes,
             'scope' => $scope,
             'sort' => $sort,

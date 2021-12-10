@@ -11,7 +11,6 @@
 - Scopes
   - [Quick start](scopes.md?id=scopes)
   - [Usage](scopes.md?id=usage)
-  - [Remove Global Scopes](scopes.md?id=remove-global-scopes)
 
 - Appends
   - [Quick start](appends.md?id=appends)

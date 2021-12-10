@@ -69,10 +69,6 @@ trait EloquentBuilderTrait
             }
         }
         
-        if (isset($excludeGlobalScopes)) {
-            $this->applyWithouGlobalScopes($queryBuilder, $excludeGlobalScopes);
-        }
-
         if (isset($filter_groups)) {
             $this->applyFilterGroups($queryBuilder, $filter_groups);
         }
@@ -158,11 +154,6 @@ trait EloquentBuilderTrait
         }
     }
 
-    protected function applyWithouGlobalScopes(Builder $queryBuilder, array $excludeGlobalScopes = [])
-    {
-        $queryBuilder->withoutGlobalScopes($excludeGlobalScopes);
-    }
-    
     protected function applyFilter(Builder $queryBuilder, array $filter, $or = false)
     {
         $column = $filter['column'];
