@@ -238,7 +238,14 @@ abstract class LaravelController extends Controller
             'bt',
         ];
 
-        foreach ($filters as $column => $part) {
+        foreach ($filters as $indexOrColumn => $part) {
+            if (is_numeric($indexOrColumn)) {
+                $column = array_key_first($part);
+                $part = $part[$column];
+            } else {
+                $column = $indexOrColumn;
+            }
+
             $arrayCountValues = is_array($part) ? count($part, COUNT_RECURSIVE) : 0;
             $operator = $defaultOperator;
             $not = false;
