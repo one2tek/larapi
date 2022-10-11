@@ -47,6 +47,7 @@ The way a filter should be formed is:
 
 Another available parameter is `filterByOr`, `search` and `searchByOr`. 
 
+* [] - (Optional) In case of using multiple `filterBy` or `filterByOr` on the same property.
 * **columnName** -  (Required) - Name of column you want to filter, for relationships use `dots`.
 * **operator** - (Optional | Default: `eq`) Type of operator you want to use.
 * **not** - (Optional | Default: `false`) Negate the filter (Accepted values: not|yes|true|1).
@@ -68,7 +69,7 @@ Filter all books whose author is `Gentrit`.
 Filter all users whose name start with `Gentrit` or ends with `Abazi`.
 
 ```console
-{base_url}/users?filterByOr[name][sw]=Gentrit&filterByOr[name][ew]=Abazi
+{base_url}/users?filterByOr[][name][sw]=Gentrit&filterByOr[][name][ew]=Abazi
 ```
 
 [See other ways for filtering](filters_old.md)
